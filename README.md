@@ -7,11 +7,11 @@ This project contains specifications and documentation for the canonical web API
 
 ### Next Steps
 
-- Take the Pseudo-API tutorial
+- Learn [_Taranos:CSF_ concepts](https://github.com/taranos/taranoscsf/wiki/Domain-Model-Concepts)
 
-- Learn Taranos concepts
+- Take the [Pseudo-API tutorial](https://github.com/taranos/taranoscsf/wiki/PAPI-Tutorial)
 
-- Read FAQs
+- Read [FAQs](https://github.com/taranos/taranoscsf/wiki/FAQ)
 
 - Go to the [Taranos Project](https://github.com/taranos/taranoscsf) main project 
  
