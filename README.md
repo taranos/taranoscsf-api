@@ -8,6 +8,12 @@ This project contains specifications and documentation for the canonical web API
 > primitives, which the Swagger standard appears to allow.  At best this is disappointing, at its most annoying it
 > questions the entire reason for Swagger's existence.  The author is currently exploring alternative methods for
 > expressing the Taranos API in a technically rigorous form.
+>
+> In the meantime, the best ways to become familiar with the guts of the Taranos API are:
+>
+> - If you're familiar with Python, check out the internals of the [Pseudo-API](https://github.com/taranos/taranoscsf-papi) package.
+>
+> - If you're familiar with Play Framework, check out the routes config file of the [reference server](https://github.com/taranos/taranoscsf-refserver).
 
 ### Next Steps
 
