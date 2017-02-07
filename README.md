@@ -11,7 +11,7 @@ This project contains specifications and documentation for the canonical web API
 >
 > In the meantime, the best ways to become familiar with the guts of the Taranos API are:
 >
-> - If you're familiar with Python, check out the internals of the [Pseudo-API](https://github.com/taranos/taranoscsf-papi) package.
+> - If you're familiar with Python, check out the [tutorials](https://github.com/taranos/taranoscsf/wiki/PAPI-Tutorials) along with the internals of the [Pseudo-API](https://github.com/taranos/taranoscsf-papi) package.
 >
 > - If you're familiar with Play Framework, check out the routes config file of the [reference server](https://github.com/taranos/taranoscsf-refserver).
 
@@ -19,7 +19,7 @@ This project contains specifications and documentation for the canonical web API
 
 - Learn [_Taranos:CSF_ concepts](https://github.com/taranos/taranoscsf/wiki/Domain-Model-Concepts)
 
-- Take the [Pseudo-API tutorial](https://github.com/taranos/taranoscsf/wiki/PAPI-Tutorial)
+- Work with the [Pseudo-API tutorials](https://github.com/taranos/taranoscsf/wiki/PAPI-Tutorials)
 
 - Read [FAQs](https://github.com/taranos/taranoscsf/wiki/FAQ)
 
