@@ -1,3 +1,5 @@
+![logo](http://netrogenblue.com/taranos/taranos-logo1-p.png)
+
 # *Taranos Web APIs* #
 
 ### What are Taranos Web APIs?
