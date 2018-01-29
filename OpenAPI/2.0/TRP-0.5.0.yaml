@@ -1,0 +1,2028 @@
+# Taranos Cloud Sonification Framework:  Taranos Rendering Protocol OpenAPI 2.0 Specification
+# Copyright (C) 2018 David Hinson, Netrogen Blue LLC (dhinson@netrogenblue.com)
+
+swagger: '2.0'
+
+info:
+  title: Taranos Rendering Protocol
+
+  description: Wavefield rendering API for Taranos servers.
+
+  termsOfService: Proprietary
+
+  contact:
+    name: dhinson@netrogenblue.com
+
+  license:
+    name: Non-proprietary.
+
+  version: 0.5.0
+
+host: 'localhost:9000'
+
+basePath: /trp
+
+schemes:
+  - http
+
+consumes:
+  - application/json
+  - application/x-www-form-urlencoded
+
+produces:
+  - application/json
+
+#
+# Models
+#
+definitions:
+
+  #
+  # Common
+  #
+
+  mServiceResult:
+    title: Service Result
+    type: object
+    properties:
+      k:
+        title: Kind
+        type: string
+      s:
+        title: Status
+        type: integer
+        format: int32
+      r:
+        title: Result Code
+        type: integer
+      e:
+        title: Error Descriptor
+        type: string
+    required:
+      - k
+      - s
+      - r
+      - e
+
+  mCommonConstructorMetas:
+    title: Common Constructor Metas
+    type: object
+    properties:
+      b:
+        title: Badge
+        type: string
+      d:
+        title: Description
+        type: string
+      n:
+        title: Name
+        type: string
+      t:
+        title: Tag
+        type: string
+    required:
+      - t
+
+  mCommonUpdateMetas:
+    title: Common Update Metas
+    type: object
+    properties:
+      k:
+        title: Key
+        type: string
+      n:
+        title: Name
+        type: string
+      d:
+        title: Description
+        type: string
+    required:
+      - k
+
+  mCommonDestructorMetas:
+    title: Common Destructor Metas
+    type: object
+    properties:
+      k:
+        title: Key
+        type: string
+      s:
+        title: Scope
+        type: string
+        enum: [d, s]
+    required:
+      - k
+
+  mPosition:
+    title: Position
+    type: array
+    items:
+      type: string
+      minItems: 3
+      maxItems: 3
+
+  mRotation:
+    title: Rotation
+    type: array
+    items:
+      type: string
+      minItems: 4
+      maxItems: 4
+
+  mPoleDefinition:
+    title: Pole Definition
+    type: object
+    properties:
+      x:
+        title: X
+        type: string
+      y:
+        title: Y
+        type: string
+    required:
+      - x
+      - y
+
+  mPoleDefinitions:
+    title: Poles Definition
+    type: array
+    items:
+      $ref: '#/definitions/mPoleDefinition'
+    minItems: 1
+    maxItems: 5
+
+  mEnvelopeDefinition:
+    title: Envelope Definition
+    type: object
+    properties:
+      c:
+        title: Ceiling
+        type: string
+      f:
+        title: Floor
+        type: string
+      dp:
+        $ref: '#/definitions/mPoleDefinitions'
+      dpp:
+        title: Packed Poles Definition
+        type: string
+
+  mQualityEnvelopeDefinitions:
+    title: Quality Envelope Definitions
+    type: object
+    properties:
+      l:
+        $ref: '#/definitions/mEnvelopeDefinition'
+      p:
+        $ref: '#/definitions/mEnvelopeDefinition'
+      r:
+        $ref: '#/definitions/mEnvelopeDefinition'
+      s:
+        $ref: '#/definitions/mEnvelopeDefinition'
+      t:
+        $ref: '#/definitions/mEnvelopeDefinition'
+    required:
+      - l
+      - p
+      - r
+      - s
+      - t
+
+  mOscillatorPatchDefinition:
+    title: Oscillator Patch Definition
+    type: object
+    properties:
+      w:
+        title: Waveset ID
+        type: string
+      de:
+        $ref: '#/definitions/mQualityEnvelopeDefinitions'
+    required:
+      - w
+      - de
+
+  mChannelDefinition:
+    title: Channel Definition
+    type: object
+    properties:
+      de:
+        $ref: '#/definitions/mEnvelopeDefinition'
+      dpo:
+        $ref: '#/definitions/mOscillatorPatchDefinition'
+    required:
+      - de
+      - dpo
+
+  mEmitterPatchDefinition:
+    title: Emitter Patch Definition
+    type: object
+    properties:
+      dc:
+        $ref: '#/definitions/mChannelDefinition'
+    required:
+      - dc
+
+  #
+  # Fields
+  #
+
+  # Constructors
+
+  mFieldConstructorAttrs:
+    title: Field Constructor Attributes
+    type: object
+    properties:
+      ac:
+        title: Acoustic_c
+        type: string
+      ar:
+        title: Acoustic_r
+        type: string
+      ad:
+        title: Antipode Distance
+        type: string
+      fg:
+        title: Field Geometry
+        type: string
+      dpe:
+        $ref: '#/definitions/mEmitterPatchDefinition'
+
+  mFieldConstructor:
+    title: Field Constructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonConstructorMetas'
+      a:
+        $ref: '#/definitions/mFieldConstructorAttrs'
+    required:
+      - m
+
+  mFieldConstructorsPayload:
+    title: Field Constructors Payload
+    type: object
+    properties:
+      cf:
+        title: Field Constructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mFieldConstructor'
+
+  # Updates
+
+  mFieldUpdate:
+    title: Field Update
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonUpdateMetas'
+    required:
+      - m
+
+  mFieldUpdatesPayload:
+    title: Field Updates Payload
+    type: object
+    properties:
+      uf:
+        title: Field Updates Array
+        type: array
+        items:
+          $ref: '#/definitions/mFieldUpdate'
+
+  # Destructors
+
+  mFieldDestructor:
+    title: Field Destructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonDestructorMetas'
+
+  mFieldDestructorsPayload:
+    title: Field Destructors Payload
+    type: object
+    properties:
+      df:
+        title: Field Destructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mFieldDestructor'
+
+  #
+  # Field Emitters
+  #
+
+  # Constructors
+
+  mFieldEmitterConstructorAttrs:
+    title: Field Emitter Constructor Attributes
+    type: object
+    properties:
+      dpe:
+        $ref: '#/definitions/mEmitterPatchDefinition'
+
+  mFieldEmitterConstructorRefs:
+    title: Field Emitter Constructor References
+    type: object
+    properties:
+      sm:
+        title: Signal Modulator Key
+        type: string
+
+  mFieldEmitterConstructor:
+    title: Field Emitter Constructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonConstructorMetas'
+      a:
+        $ref: '#/definitions/mFieldEmitterConstructorAttrs'
+      r:
+        $ref: '#/definitions/mFieldEmitterConstructorRefs'
+    required:
+      - m
+
+  mFieldEmitterConstructorsPayload:
+    title: Field Emitter Constructors Payload
+    type: object
+    properties:
+      cfe:
+        title: Field Emitter Constructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mFieldEmitterConstructor'
+
+  # Updates
+
+  mFieldEmitterUpdate:
+    title: Field Emitter Update
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonUpdateMetas'
+    required:
+      - m
+
+  mFieldEmitterUpdatesPayload:
+    title: Field Emitter Updates Payload
+    type: object
+    properties:
+      ufe:
+        title: Field Emitter Updates Array
+        type: array
+        items:
+          $ref: '#/definitions/mFieldEmitterUpdate'
+
+  # Destructors
+
+  mFieldEmitterDestructor:
+    title: Field Emitter Destructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonDestructorMetas'
+
+  mFieldEmitterDestructorsPayload:
+    title: Field Emitter Destructors Payload
+    type: object
+    properties:
+      dfe:
+        title: Field Emitter Destructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mFieldEmitterDestructor'
+
+  #
+  # Field Oscillators
+  #
+
+  # Constructors
+
+  mFieldOscillatorConstructorAttrs:
+    title: Field Oscillator Constructor Attributes
+    type: object
+    properties:
+      dc:
+        title: Channel Definition
+        type: object
+
+  mFieldOscillatorConstructor:
+    title: Field Oscillator Constructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonConstructorMetas'
+      a:
+        $ref: '#/definitions/mFieldOscillatorConstructorAttrs'
+    required:
+      - m
+
+  mFieldOscillatorConstructorsPayload:
+    title: Field Oscillator Constructors Payload
+    type: object
+    properties:
+      cfo:
+        title: Field Oscillator Constructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mFieldOscillatorConstructor'
+
+  # Updates
+
+  mFieldOscillatorUpdate:
+    title: Field Oscillator Update
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonUpdateMetas'
+    required:
+      - m
+
+  mFieldOscillatorUpdatesPayload:
+    title: Field Oscillator Updates Payload
+    type: object
+    properties:
+      ufo:
+        title: Field Oscillator Updates Array
+        type: array
+        items:
+          $ref: '#/definitions/mFieldOscillatorUpdate'
+
+  # Destructors
+
+  mFieldOscillatorDestructor:
+    title: Field Oscillator Destructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonDestructorMetas'
+
+  mFieldOscillatorDestructorsPayload:
+    title: Field Oscillator Destructors Payload
+    type: object
+    properties:
+      dfo:
+        title: Field Oscillator Destructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mFieldOscillatorDestructor'
+
+  #
+  # Subjects
+  #
+
+  # Constructors
+
+  mSubjectConstructorAttrs:
+    title: Subject Constructor Attributes
+    type: object
+    properties:
+      dpe:
+        $ref: '#/definitions/mEmitterPatchDefinition'
+
+  mSubjectConstructorRefs:
+    title: Subject Constructor References
+    type: object
+    properties:
+      sm:
+        title: Signal Modulator Key
+        type: string
+
+  mSubjectConstructorStates:
+    title: Subject Constructor States
+    type: object
+    properties:
+      p:
+        $ref: '#/definitions/mPosition'
+      r:
+        $ref: '#/definitions/mRotation'
+
+  mSubjectConstructor:
+    title: Subject Constructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonConstructorMetas'
+      a:
+        $ref: '#/definitions/mSubjectConstructorAttrs'
+      r:
+        $ref: '#/definitions/mSubjectConstructorRefs'
+      s:
+        $ref: '#/definitions/mSubjectConstructorStates'
+    required:
+      - m
+
+  mSubjectConstructorsPayload:
+    title: Subject Constructors Payload
+    type: object
+    properties:
+      cs:
+        title: Subject Constructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mSubjectConstructor'
+
+  # Updates
+
+  mSubjectUpdate:
+    title: Subject Update
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonUpdateMetas'
+      s:
+        $ref: '#/definitions/mSubjectConstructorStates'
+    required:
+      - m
+
+  mSubjectUpdatesPayload:
+    title: Subject Updates Payload
+    type: object
+    properties:
+      us:
+        title: Subject Updates Array
+        type: array
+        items:
+          $ref: '#/definitions/mSubjectUpdate'
+
+  # Destructors
+
+  mSubjectDestructor:
+    title: Subject Destructor
+    type: object
+    properties:
+      m:
+          $ref: '#/definitions/mCommonDestructorMetas'
+
+  mSubjectDestructorsPayload:
+    title: Subject Destructors Payload
+    type: object
+    properties:
+      ds:
+        title: Subject Destructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mSubjectDestructor'
+
+  #
+  # Subject Emitters
+  #
+
+  # Constructors
+
+  mSubjectEmitterConstructorAttrs:
+    title: Subject Emitter Constructor Attributes
+    type: object
+    properties:
+      dpe:
+        $ref: '#/definitions/mEmitterPatchDefinition'
+
+  mSubjectEmitterConstructorRefs:
+    title: Subject Emitter Constructor References
+    type: object
+    properties:
+      sm:
+        title: Signal Modulator Key
+        type: string
+
+  mSubjectEmitterConstructor:
+    title: Subject Emitter Constructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonConstructorMetas'
+      a:
+        $ref: '#/definitions/mSubjectEmitterConstructorAttrs'
+      r:
+        $ref: '#/definitions/mSubjectEmitterConstructorRefs'
+    required:
+      - m
+
+  mSubjectEmitterConstructorsPayload:
+    title: Subject Emitter Constructors Payload
+    type: object
+    properties:
+      cse:
+        title: Subject Emitter Constructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mSubjectEmitterConstructor'
+
+  # Updates
+
+  mSubjectEmitterUpdate:
+    title: Subject Emitter Update
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonUpdateMetas'
+    required:
+      - m
+
+  mSubjectEmitterUpdatesPayload:
+    title: Subject Emitter Updates Payload
+    type: object
+    properties:
+      use:
+        title: Subject Emitter Updates Array
+        type: array
+        items:
+          $ref: '#/definitions/mSubjectEmitterUpdate'
+
+  # Destructors
+
+  mSubjectEmitterDestructor:
+    title: Subject Emitter Destructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonDestructorMetas'
+
+  mSubjectEmitterDestructorsPayload:
+    title: Subject Emitter Destructors Payload
+    type: object
+    properties:
+      dse:
+        title: Subject Emitter Destructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mSubjectEmitterDestructor'
+
+  #
+  # Subject Oscillators
+  #
+
+  # Constructors
+
+  mSubjectOscillatorConstructorAttrs:
+    title: Subject Oscillator Constructor Attributes
+    type: object
+    properties:
+      dc:
+        title: Channel Definition
+        type: object
+
+  mSubjectOscillatorConstructor:
+    title: Subject Oscillator Constructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonConstructorMetas'
+      a:
+        $ref: '#/definitions/mSubjectOscillatorConstructorAttrs'
+    required:
+      - m
+
+  mSubjectOscillatorConstructorsPayload:
+    title: Subject Oscillator Constructors Payload
+    type: object
+    properties:
+      cso:
+        title: Subject Oscillator Constructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mSubjectOscillatorConstructor'
+
+  # Updates
+
+  mSubjectOscillatorUpdate:
+    title: Subject Oscillator Update
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonUpdateMetas'
+    required:
+      - m
+
+  mSubjectOscillatorUpdatesPayload:
+    title: Subject Oscillator Updates Payload
+    type: object
+    properties:
+      uso:
+        title: Subject Oscillator Updates Array
+        type: array
+        items:
+          $ref: '#/definitions/mSubjectOscillatorUpdate'
+
+  # Destructors
+
+  mSubjectOscillatorDestructor:
+    title: Subject Oscillator Destructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonDestructorMetas'
+
+  mSubjectOscillatorDestructorsPayload:
+    title: Subject Oscillator Destructors Payload
+    type: object
+    properties:
+      dso:
+        title: Subject Oscillator Destructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mSubjectOscillatorDestructor'
+
+  #
+  # Probes
+  #
+
+  # Constructors
+
+  mProbeConstructorAttrs:
+    title: Probe Constructor Attributes
+    type: object
+    properties:
+      dpe:
+        $ref: '#/definitions/mEmitterPatchDefinition'
+
+  mProbeConstructorRefs:
+    title: Probe Constructor References
+    type: object
+    properties:
+      sm:
+        title: Signal Modulator Key
+        type: string
+
+  mProbeConstructorStates:
+    title: Probe Constructor States
+    type: object
+    properties:
+      p:
+        $ref: '#/definitions/mPosition'
+      r:
+        $ref: '#/definitions/mRotation'
+
+  mProbeConstructor:
+    title: Probe Constructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonConstructorMetas'
+      a:
+        $ref: '#/definitions/mProbeConstructorAttrs'
+      r:
+        $ref: '#/definitions/mProbeConstructorRefs'
+      s:
+        $ref: '#/definitions/mProbeConstructorStates'
+    required:
+      - m
+
+  mProbeConstructorsPayload:
+    title: Probe Constructors Payload
+    type: object
+    properties:
+      cp:
+        title: Probe Constructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mProbeConstructor'
+
+  # Updates
+
+  mProbeUpdate:
+    title: Probe Update
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonUpdateMetas'
+      s:
+        $ref: '#/definitions/mProbeConstructorStates'
+    required:
+      - m
+
+  mProbeUpdatesPayload:
+    title: Probe Updates Payload
+    type: object
+    properties:
+      up:
+        title: Probe Updates Array
+        type: array
+        items:
+          $ref: '#/definitions/mProbeUpdate'
+
+  # Destructors
+
+  mProbeDestructor:
+    title: Probe Destructor
+    type: object
+    properties:
+      m:
+          $ref: '#/definitions/mCommonDestructorMetas'
+
+  mProbeDestructorsPayload:
+    title: Probe Destructors Payload
+    type: object
+    properties:
+      dp:
+        title: Probe Destructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mProbeDestructor'
+
+  #
+  # Probe Emitters
+  #
+
+  # Constructors
+
+  mProbeEmitterConstructorAttrs:
+    title: Probe Emitter Constructor Attributes
+    type: object
+    properties:
+      dpe:
+        $ref: '#/definitions/mEmitterPatchDefinition'
+
+  mProbeEmitterConstructorRefs:
+    title: Probe Emitter Constructor References
+    type: object
+    properties:
+      sm:
+        title: Signal Modulator Key
+        type: string
+
+  mProbeEmitterConstructor:
+    title: Probe Emitter Constructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonConstructorMetas'
+      a:
+        $ref: '#/definitions/mProbeEmitterConstructorAttrs'
+      r:
+        $ref: '#/definitions/mProbeEmitterConstructorRefs'
+    required:
+      - m
+
+  mProbeEmitterConstructorsPayload:
+    title: Probe Emitter Constructors Payload
+    type: object
+    properties:
+      cpe:
+        title: Probe Emitter Constructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mProbeEmitterConstructor'
+
+  # Updates
+
+  mProbeEmitterUpdate:
+    title: Probe Emitter Update
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonUpdateMetas'
+    required:
+      - m
+
+  mProbeEmitterUpdatesPayload:
+    title: Probe Emitter Updates Payload
+    type: object
+    properties:
+      upe:
+        title: Probe Emitter Updates Array
+        type: array
+        items:
+          $ref: '#/definitions/mProbeEmitterUpdate'
+
+  # Destructors
+
+  mProbeEmitterDestructor:
+    title: Probe Emitter Destructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonDestructorMetas'
+
+  mProbeEmitterDestructorsPayload:
+    title: Probe Emitter Destructors Payload
+    type: object
+    properties:
+      dpe:
+        title: Probe Emitter Destructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mProbeEmitterDestructor'
+
+  #
+  # Probe Oscillators
+  #
+
+  # Constructors
+
+  mProbeOscillatorConstructorAttrs:
+    title: Probe Oscillator Constructor Attributes
+    type: object
+    properties:
+      dc:
+        title: Channel Definition
+        type: object
+
+  mProbeOscillatorConstructor:
+    title: Probe Oscillator Constructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonConstructorMetas'
+      a:
+        $ref: '#/definitions/mProbeOscillatorConstructorAttrs'
+    required:
+      - m
+
+  mProbeOscillatorConstructorsPayload:
+    title: Probe Oscillator Constructors Payload
+    type: object
+    properties:
+      cpo:
+        title: Probe Oscillator Constructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mProbeOscillatorConstructor'
+
+  # Updates
+
+  mProbeOscillatorUpdate:
+    title: Probe Oscillator Update
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonUpdateMetas'
+    required:
+      - m
+
+  mProbeOscillatorUpdatesPayload:
+    title: Probe Oscillator Updates Payload
+    type: object
+    properties:
+      upo:
+        title: Probe Oscillator Updates Array
+        type: array
+        items:
+          $ref: '#/definitions/mProbeOscillatorUpdate'
+
+  # Destructors
+
+  mProbeOscillatorDestructor:
+    title: Probe Oscillator Destructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonDestructorMetas'
+
+  mProbeOscillatorDestructorsPayload:
+    title: Probe Oscillator Destructors Payload
+    type: object
+    properties:
+      dpo:
+        title: Probe Oscillator Destructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mProbeOscillatorDestructor'
+
+  #
+  # Probe Collectors
+  #
+
+  # Constructors
+
+  mProbeCollectorConstructorAttrs:
+    title: Probe Collector Constructor Attributes
+    type: object
+    properties:
+      xxx:
+        title: Collector Patch Definition
+        type: object
+
+  mProbeCollectorConstructorRefs:
+    title: Probe Collector Constructor References
+    type: object
+    properties:
+      sm:
+        title: Signal Modulator Key
+        type: string
+
+  mProbeCollectorConstructor:
+    title: Probe Collector Constructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonConstructorMetas'
+      a:
+        $ref: '#/definitions/mProbeCollectorConstructorAttrs'
+      r:
+        $ref: '#/definitions/mProbeCollectorConstructorRefs'
+    required:
+      - m
+
+  mProbeCollectorConstructorsPayload:
+    title: Probe Collector Constructors Payload
+    type: object
+    properties:
+      cpc:
+        title: Probe Collector Constructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mProbeCollectorConstructor'
+
+  # Updates
+
+  mProbeCollectorUpdate:
+    title: Probe Collector Update
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonUpdateMetas'
+    required:
+      - m
+
+  mProbeCollectorUpdatesPayload:
+    title: Probe Collector Updates Payload
+    type: object
+    properties:
+      upc:
+        title: Probe Collector Updates Array
+        type: array
+        items:
+          $ref: '#/definitions/mProbeCollectorUpdate'
+
+  # Destructors
+
+  mProbeCollectorDestructor:
+    title: Probe Collector Destructor
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonDestructorMetas'
+
+  mProbeCollectorDestructorsPayload:
+    title: Probe Collector Destructors Payload
+    type: object
+    properties:
+      dpc:
+        title: Probe Collector Destructors Array
+        type: array
+        items:
+          $ref: '#/definitions/mProbeCollectorDestructor'
+
+#
+# Parameters
+#
+parameters:
+
+  # Common
+
+  pCommonQuerySections:
+    name: s
+    in: query
+    description: Report sections.
+    required: false
+    type: string
+
+  # Fields
+
+  pFieldKey:
+    name: fieldKey
+    in: path
+    description: Field key.
+    required: true
+    type: string
+
+  pFieldQueryKey:
+    name: k
+    in: query
+    description: Field key.
+    required: false
+    collectionFormat: multi
+    type: array
+    items:
+      type: string
+
+  pFieldConstructorsPayload:
+    name: fieldConstructors
+    in: body
+    description: Field constructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mFieldConstructorsPayload'
+
+  pFieldUpdatesPayload:
+    name: fieldUpdates
+    in: body
+    description: Field updates payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mFieldUpdatesPayload'
+
+  pFieldDestructorsPayload:
+    name: fieldDestructors
+    in: body
+    description: Field destructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mFieldDestructorsPayload'
+
+  # Field Emitters
+
+  pFieldEmitterKey:
+    name: fieldEmitterKey
+    in: path
+    description: Field emitter key.
+    required: true
+    type: string
+
+  pFieldEmitterQueryKey:
+    name: k
+    in: query
+    description: Field emitter key.
+    required: false
+    collectionFormat: multi
+    type: array
+    items:
+      type: string
+
+  pFieldEmitterConstructorsPayload:
+    name: fieldEmitterConstructors
+    in: body
+    description: Field emitter constructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mFieldEmitterConstructorsPayload'
+
+  pFieldEmitterUpdatesPayload:
+    name: fieldEmitterUpdates
+    in: body
+    description: Field emitter updates payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mFieldEmitterUpdatesPayload'
+
+  pFieldEmitterDestructorsPayload:
+    name: fieldEmitterDestructors
+    in: body
+    description: Field emitter destructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mFieldEmitterDestructorsPayload'
+
+  # Field Oscillators
+
+  pFieldOscillatorKey:
+    name: fieldOscillatorKey
+    in: path
+    description: Field oscillator key.
+    required: true
+    type: string
+
+  pFieldOscillatorQueryKey:
+    name: k
+    in: query
+    description: Field oscillator key.
+    required: false
+    collectionFormat: multi
+    type: array
+    items:
+      type: string
+
+  pFieldOscillatorConstructorsPayload:
+    name: fieldOscillatorConstructors
+    in: body
+    description: Field oscillator constructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mFieldOscillatorConstructorsPayload'
+
+  pFieldOscillatorUpdatesPayload:
+    name: fieldOscillatorUpdates
+    in: body
+    description: Field oscillator updates payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mFieldOscillatorUpdatesPayload'
+
+  pFieldOscillatorDestructorsPayload:
+    name: fieldOscillatorDestructors
+    in: body
+    description: Field oscillator destructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mFieldOscillatorDestructorsPayload'
+
+  # Subjects
+
+  pSubjectKey:
+    name: subjectKey
+    in: path
+    description: Subject key.
+    required: true
+    type: string
+
+  pSubjectQueryKey:
+    name: k
+    in: query
+    description: Subject key.
+    required: false
+    collectionFormat: multi
+    type: array
+    items:
+      type: string
+
+  pSubjectConstructorsPayload:
+    name: subjectConstructors
+    in: body
+    description: Subject constructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mSubjectConstructorsPayload'
+
+  pSubjectUpdatesPayload:
+    name: subjectUpdates
+    in: body
+    description: Subject updates payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mSubjectUpdatesPayload'
+
+  pSubjectDestructorsPayload:
+    name: subjectDestructors
+    in: body
+    description: Subject destructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mSubjectDestructorsPayload'
+
+  # Subject Emitters
+
+  pSubjectEmitterKey:
+    name: subjectEmitterKey
+    in: path
+    description: Subject emitter key.
+    required: true
+    type: string
+
+  pSubjectEmitterQueryKey:
+    name: k
+    in: query
+    description: Subject emitter key.
+    required: false
+    collectionFormat: multi
+    type: array
+    items:
+      type: string
+
+  pSubjectEmitterConstructorsPayload:
+    name: subjectEmitterConstructors
+    in: body
+    description: Subject emitter constructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mSubjectEmitterConstructorsPayload'
+
+  pSubjectEmitterUpdatesPayload:
+    name: subjectEmitterUpdates
+    in: body
+    description: Subject emitter updates payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mSubjectEmitterUpdatesPayload'
+
+  pSubjectEmitterDestructorsPayload:
+    name: subjectEmitterDestructors
+    in: body
+    description: Subject emitter destructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mSubjectEmitterDestructorsPayload'
+
+  # Subject Oscillators
+
+  pSubjectOscillatorKey:
+    name: subjectOscillatorKey
+    in: path
+    description: Subject oscillator key.
+    required: true
+    type: string
+
+  pSubjectOscillatorQueryKey:
+    name: k
+    in: query
+    description: Subject oscillator key.
+    required: false
+    collectionFormat: multi
+    type: array
+    items:
+      type: string
+
+  pSubjectOscillatorConstructorsPayload:
+    name: subjectOscillatorConstructors
+    in: body
+    description: Subject oscillator constructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mSubjectOscillatorConstructorsPayload'
+
+  pSubjectOscillatorUpdatesPayload:
+    name: subjectOscillatorUpdates
+    in: body
+    description: Subject oscillator updates payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mSubjectOscillatorUpdatesPayload'
+
+  pSubjectOscillatorDestructorsPayload:
+    name: subjectOscillatorDestructors
+    in: body
+    description: Subject oscillator destructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mSubjectOscillatorDestructorsPayload'
+
+  # Probes
+
+  pProbeKey:
+    name: probeKey
+    in: path
+    description: Probe key.
+    required: true
+    type: string
+
+  pProbeQueryKey:
+    name: k
+    in: query
+    description: Probe key.
+    required: false
+    collectionFormat: multi
+    type: array
+    items:
+      type: string
+
+  pProbeConstructorsPayload:
+    name: probeConstructors
+    in: body
+    description: Probe constructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeConstructorsPayload'
+
+  pProbeUpdatesPayload:
+    name: probeUpdates
+    in: body
+    description: Probe updates payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeUpdatesPayload'
+
+  pProbeDestructorsPayload:
+    name: probeDestructors
+    in: body
+    description: Probe destructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeDestructorsPayload'
+
+  # Probe Emitters
+
+  pProbeEmitterKey:
+    name: probeEmitterKey
+    in: path
+    description: Probe emitter key.
+    required: true
+    type: string
+
+  pProbeEmitterQueryKey:
+    name: k
+    in: query
+    description: Probe emitter key.
+    required: false
+    collectionFormat: multi
+    type: array
+    items:
+      type: string
+
+  pProbeEmitterConstructorsPayload:
+    name: probeEmitterConstructors
+    in: body
+    description: Probe emitter constructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeEmitterConstructorsPayload'
+
+  pProbeEmitterUpdatesPayload:
+    name: probeEmitterUpdates
+    in: body
+    description: Probe emitter updates payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeEmitterUpdatesPayload'
+
+  pProbeEmitterDestructorsPayload:
+    name: probeEmitterDestructors
+    in: body
+    description: Probe emitter destructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeEmitterDestructorsPayload'
+
+  # Probe Oscillators
+
+  pProbeOscillatorKey:
+    name: probeOscillatorKey
+    in: path
+    description: Probe oscillator key.
+    required: true
+    type: string
+
+  pProbeOscillatorQueryKey:
+    name: k
+    in: query
+    description: Probe oscillator key.
+    required: false
+    collectionFormat: multi
+    type: array
+    items:
+      type: string
+
+  pProbeOscillatorConstructorsPayload:
+    name: probeOscillatorConstructors
+    in: body
+    description: Probe oscillator constructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeOscillatorConstructorsPayload'
+
+  pProbeOscillatorUpdatesPayload:
+    name: probeOscillatorUpdates
+    in: body
+    description: Probe oscillator updates payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeOscillatorUpdatesPayload'
+
+  pProbeOscillatorDestructorsPayload:
+    name: probeOscillatorDestructors
+    in: body
+    description: Probe oscillator destructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeOscillatorDestructorsPayload'
+
+  # Probe Collectors
+
+  pProbeCollectorKey:
+    name: probeCollectorKey
+    in: path
+    description: Probe collector key.
+    required: true
+    type: string
+
+  pProbeCollectorQueryKey:
+    name: k
+    in: query
+    description: Probe collector key.
+    required: false
+    collectionFormat: multi
+    type: array
+    items:
+      type: string
+
+  pProbeCollectorAlias:
+    name: probeCollectorAlias
+    in: path
+    description: Probe collector alias.
+    required: true
+    type: string
+
+  pProbeCollectorConstructorsPayload:
+    name: probeCollectorConstructors
+    in: body
+    description: Probe collector constructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeCollectorConstructorsPayload'
+
+  pProbeCollectorUpdatesPayload:
+    name: probeCollectorUpdates
+    in: body
+    description: Probe collector updates payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeCollectorUpdatesPayload'
+
+  pProbeCollectorDestructorsPayload:
+    name: probeCollectorDestructors
+    in: body
+    description: Probe collector destructors payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeCollectorDestructorsPayload'
+
+#
+# Responses
+#
+responses:
+
+  # Success
+  rSuccess:
+    description: Success
+    schema:
+      $ref: '#/definitions/mServiceResult'
+
+#
+# Paths
+#
+paths:
+
+  # Fields
+  /f:
+
+    # ReportFields:
+    get:
+      parameters:
+        - $ref: '#/parameters/pFieldQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # CreateFields:
+    post:
+      parameters:
+        - $ref: '#/parameters/pFieldConstructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # UpdateFields:
+    put:
+      parameters:
+        - $ref: '#/parameters/pFieldUpdatesPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # DeleteFields:
+    delete:
+      parameters:
+        - $ref: '#/parameters/pFieldDestructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+  # Field Emitters
+  /f/{fieldKey}/fe:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # ReportFieldEmitters:
+    get:
+      parameters:
+        - $ref: '#/parameters/pFieldEmitterQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # CreateFieldEmitters:
+    post:
+      parameters:
+        - $ref: '#/parameters/pFieldEmitterConstructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # UpdateFieldEmitters:
+    put:
+      parameters:
+        - $ref: '#/parameters/pFieldEmitterUpdatesPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # DeleteFieldEmitters:
+    delete:
+      parameters:
+        - $ref: '#/parameters/pFieldEmitterDestructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+  # Field Oscillators
+  /f/{fieldKey}/fo:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # ReportFieldOscillators:
+    get:
+      parameters:
+        - $ref: '#/parameters/pFieldOscillatorQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # UpdateFieldOscillators:
+    put:
+      parameters:
+        - $ref: '#/parameters/pFieldOscillatorUpdatesPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+#    # DeleteFieldOscillators:
+#    delete:
+#      parameters:
+#        - $ref: '#/parameters/pFieldOscillatorDestructorsPayload'
+#      responses:
+#        200:
+#          $ref: '#/responses/rSuccess'
+
+  /f/{fieldKey}/fe/{fieldEmitterKey}/fo:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pFieldEmitterKey'
+
+    # ReportOscillatorsOfFieldEmitter:
+    get:
+      parameters:
+        - $ref: '#/parameters/pFieldOscillatorQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+#    # CreateFieldOscillators:
+#    post:
+#      parameters:
+#        - $ref: '#/parameters/pFieldOscillatorConstructorsPayload'
+#      responses:
+#        200:
+#          $ref: '#/responses/rSuccess'
+
+  # Subjects
+  /f/{fieldKey}/s:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # ReportSubjects:
+    get:
+      parameters:
+        - $ref: '#/parameters/pSubjectQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # CreateSubjects:
+    post:
+      parameters:
+        - $ref: '#/parameters/pSubjectConstructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # UpdateSubjects:
+    put:
+      parameters:
+        - $ref: '#/parameters/pSubjectUpdatesPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # DeleteSubjects:
+    delete:
+      parameters:
+        - $ref: '#/parameters/pSubjectDestructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+  # Subject Emitters
+  /f/{fieldKey}/se:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # ReportSubjectEmitters:
+    get:
+      parameters:
+        - $ref: '#/parameters/pSubjectEmitterQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # UpdateSubjectEmitters:
+    put:
+      parameters:
+        - $ref: '#/parameters/pSubjectEmitterUpdatesPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # DeleteSubjectsEmitters:
+    delete:
+      parameters:
+        - $ref: '#/parameters/pSubjectEmitterDestructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+  /f/{fieldKey}/s/{subjectKey}/se:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pSubjectKey'
+
+    # ReportEmittersOfSubject:
+    get:
+      parameters:
+        - $ref: '#/parameters/pSubjectEmitterQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # CreateSubjectEmitters:
+    post:
+      parameters:
+        - $ref: '#/parameters/pSubjectEmitterConstructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+  # Subject Oscillators
+  /f/{fieldKey}/so:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # ReportSubjectOscillators:
+    get:
+      parameters:
+        - $ref: '#/parameters/pSubjectOscillatorQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # UpdateSubjectOscillators:
+    put:
+      parameters:
+        - $ref: '#/parameters/pSubjectOscillatorUpdatesPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+#    # DeleteSubjectOscillators:
+#    delete:
+#      parameters:
+#        - $ref: '#/parameters/pSubjectOscillatorDestructorsPayload'
+#      responses:
+#        200:
+#          $ref: '#/responses/rSuccess'
+
+  /f/{fieldKey}/se/{subjectEmitterKey}/so:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pSubjectEmitterKey'
+
+    # ReportOscillatorsOfSubjectEmitter:
+    get:
+      parameters:
+        - $ref: '#/parameters/pSubjectOscillatorQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+#    # CreateSubjectOscillators:
+#    post:
+#      parameters:
+#        - $ref: '#/parameters/pSubjectOscillatorConstructorsPayload'
+#      responses:
+#        200:
+#          $ref: '#/responses/rSuccess'
+
+  # Probes
+  /f/{fieldKey}/p:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # ReportProbes:
+    get:
+      parameters:
+        - $ref: '#/parameters/pProbeQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # CreateProbes:
+    post:
+      parameters:
+        - $ref: '#/parameters/pProbeConstructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # UpdateProbes:
+    put:
+      parameters:
+        - $ref: '#/parameters/pProbeUpdatesPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # DeleteProbes:
+    delete:
+      parameters:
+        - $ref: '#/parameters/pProbeDestructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+  # Probe Emitters
+  /f/{fieldKey}/pe:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # ReportProbeEmitters:
+    get:
+      parameters:
+        - $ref: '#/parameters/pProbeEmitterQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # UpdateProbeEmitters:
+    put:
+      parameters:
+        - $ref: '#/parameters/pProbeEmitterUpdatesPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # DeleteProbesEmitters:
+    delete:
+      parameters:
+        - $ref: '#/parameters/pProbeEmitterDestructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+  /f/{fieldKey}/p/{probeKey}/pe:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pProbeKey'
+
+    # ReportEmittersOfProbe:
+    get:
+      parameters:
+        - $ref: '#/parameters/pProbeEmitterQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # CreateProbeEmitters:
+    post:
+      parameters:
+        - $ref: '#/parameters/pProbeEmitterConstructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+  # Probe Oscillators
+  /f/{fieldKey}/po:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # ReportProbeOscillators:
+    get:
+      parameters:
+        - $ref: '#/parameters/pProbeOscillatorQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # UpdateProbeOscillators:
+    put:
+      parameters:
+        - $ref: '#/parameters/pProbeOscillatorUpdatesPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+#    # DeleteProbeOscillators:
+#    delete:
+#      parameters:
+#        - $ref: '#/parameters/pProbeOscillatorDestructorsPayload'
+#      responses:
+#        200:
+#          $ref: '#/responses/rSuccess'
+
+  /f/{fieldKey}/pe/{probeEmitterKey}/po:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pProbeEmitterKey'
+
+    # ReportOscillatorsOfProbeEmitter:
+    get:
+      parameters:
+        - $ref: '#/parameters/pProbeOscillatorQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+#    # CreateProbeOscillators:
+#    post:
+#      parameters:
+#        - $ref: '#/parameters/pProbeOscillatorConstructorsPayload'
+#      responses:
+#        200:
+#          $ref: '#/responses/rSuccess'
+
+  # Probe Collectors
+  /f/{fieldKey}/pc:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # ReportProbeCollectors:
+    get:
+      parameters:
+        - $ref: '#/parameters/pProbeCollectorQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # UpdateProbeCollectors:
+    put:
+      parameters:
+        - $ref: '#/parameters/pProbeCollectorUpdatesPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # DeleteProbesCollectors:
+    delete:
+      parameters:
+        - $ref: '#/parameters/pProbeCollectorDestructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+  /f/{fieldKey}/p/{probeKey}/pc:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pProbeKey'
+
+    # ReportCollectorsOfProbe:
+    get:
+      parameters:
+        - $ref: '#/parameters/pProbeCollectorQueryKey'
+        - $ref: '#/parameters/pCommonQuerySections'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+    # CreateProbeCollectors:
+    post:
+      parameters:
+        - $ref: '#/parameters/pProbeCollectorConstructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+  /f/{fieldKey}/pca/{probeCollectorAlias}:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pProbeCollectorAlias'
+
+    # LookupProbeCollector:
+    get:
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+
+  # Waveforms:
+  /f/{fieldKey}/pc/{probeCollectorKey}/w:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pProbeCollectorKey'
+
+    # ReportWaveformsAtProbeCollector:
+    get:
+      responses:
+        200:
+          description: Success
+
+  /f/{fieldKey}/w:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # ReportWaveformsAtSampler:
+    get:
+      responses:
+        200:
+          description: Success
+
