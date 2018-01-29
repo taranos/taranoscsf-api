@@ -6,9 +6,7 @@ swagger: '2.0'
 info:
   title: Taranos Rendering Protocol
 
-  description: Wavefield rendering API for Taranos servers.
-
-  termsOfService: Proprietary
+  description: Wavefield rendering API for Taranos Cloud Sonification Framework clients.
 
   contact:
     name: dhinson@netrogenblue.com
@@ -33,12 +31,12 @@ produces:
   - application/json
 
 #
-# Models
+# Models:
 #
 definitions:
 
   #
-  # Common
+  # Common:
   #
 
   mServiceResult:
@@ -64,22 +62,78 @@ definitions:
       - r
       - e
 
+  mMetaKey:
+    title: Key
+    type: string
+    minLength: 3
+    maxLength: 50
+
+  mMetaTag:
+    title: Tag
+    type: string
+    minLength: 1
+    maxLength: 40
+
+  mMetaBadge:
+    title: Badge
+    type: string
+    minLength: 1
+    maxLength: 128
+
+  mMetaName:
+    title: Name
+    type: string
+    minLength: 1
+    maxLength: 40
+
+  mMetaDescription:
+    title: Description
+    type: string
+    minLength: 1
+    maxLength: 256
+
+  mMetaAlias:
+    title: Alias
+    type: string
+    minLength: 1
+    maxLength: 40
+
+  mDestructorScope:
+    title: Destructor Scope
+    type: string
+    minLength: 1
+    maxLength: 1
+    enum: [d, s]
+
   mCommonConstructorMetas:
     title: Common Constructor Metas
     type: object
     properties:
       b:
-        title: Badge
-        type: string
+        $ref: '#/definitions/mMetaBadge'
       d:
-        title: Description
-        type: string
+        $ref: '#/definitions/mMetaDescription'
       n:
-        title: Name
-        type: string
+        $ref: '#/definitions/mMetaName'
       t:
-        title: Tag
-        type: string
+        $ref: '#/definitions/mMetaTag'
+    required:
+      - t
+
+  mCommonConstructorMetasAliasable:
+    title: Common Constructor Metas Aliasable
+    type: object
+    properties:
+      a:
+        $ref: '#/definitions/mMetaAlias'
+      b:
+        $ref: '#/definitions/mMetaBadge'
+      d:
+        $ref: '#/definitions/mMetaDescription'
+      n:
+        $ref: '#/definitions/mMetaName'
+      t:
+        $ref: '#/definitions/mMetaTag'
     required:
       - t
 
@@ -88,14 +142,11 @@ definitions:
     type: object
     properties:
       k:
-        title: Key
-        type: string
+        $ref: '#/definitions/mMetaKey'
       n:
-        title: Name
-        type: string
+        $ref: '#/definitions/mMetaName'
       d:
-        title: Description
-        type: string
+        $ref: '#/definitions/mMetaDescription'
     required:
       - k
 
@@ -104,12 +155,9 @@ definitions:
     type: object
     properties:
       k:
-        title: Key
-        type: string
+        $ref: '#/definitions/mMetaKey'
       s:
-        title: Scope
-        type: string
-        enum: [d, s]
+        $ref: '#/definitions/mDestructorScope'
     required:
       - k
 
@@ -129,19 +177,29 @@ definitions:
       minItems: 4
       maxItems: 4
 
+  mPoleAxisOffset:
+    title: Pole Axis Offset
+    type: string
+
   mPoleDefinition:
     title: Pole Definition
     type: object
     properties:
       x:
-        title: X
-        type: string
+        $ref: '#/definitions/mPoleAxisOffset'
       y:
-        title: Y
-        type: string
+        $ref: '#/definitions/mPoleAxisOffset'
     required:
       - x
       - y
+
+  mEnvelopeCeiling:
+    title: Envelope Ceiling
+    type: string
+
+  mEnvelopeFloor:
+    title: Envelope Floor
+    type: string
 
   mPoleDefinitions:
     title: Poles Definition
@@ -151,21 +209,26 @@ definitions:
     minItems: 1
     maxItems: 5
 
+  mPackedPoleDefinitions:
+    title: Packed Pole Definitions
+    type: string
+
   mEnvelopeDefinition:
     title: Envelope Definition
     type: object
     properties:
       c:
-        title: Ceiling
-        type: string
+        $ref: '#/definitions/mEnvelopeCeiling'
       f:
-        title: Floor
-        type: string
+        $ref: '#/definitions/mEnvelopeFloor'
       dp:
         $ref: '#/definitions/mPoleDefinitions'
       dpp:
-        title: Packed Poles Definition
-        type: string
+        $ref: '#/definitions/mPackedPoleDefinitions'
+
+  mWavesetIdentifier:
+    title: Waveset Identifier
+    type: string
 
   mQualityEnvelopeDefinitions:
     title: Quality Envelope Definitions
@@ -193,8 +256,7 @@ definitions:
     type: object
     properties:
       w:
-        title: Waveset ID
-        type: string
+        $ref: '#/definitions/mWavesetIdentifier'
       de:
         $ref: '#/definitions/mQualityEnvelopeDefinitions'
     required:
@@ -223,20 +285,20 @@ definitions:
       - dc
 
   #
-  # Fields
+  # Fields:
   #
 
-  # Constructors
+  # Constructors:
 
   mFieldConstructorAttrs:
     title: Field Constructor Attributes
     type: object
     properties:
       ac:
-        title: Acoustic_c
+        title: Acoustic Velocity (c)
         type: string
       ar:
-        title: Acoustic_r
+        title: Acoustic Density (rho)
         type: string
       ad:
         title: Antipode Distance
@@ -247,6 +309,15 @@ definitions:
       dpe:
         $ref: '#/definitions/mEmitterPatchDefinition'
 
+  mFieldConstructorRefs:
+    title: Field Constructor References
+    type: object
+    properties:
+      sm:
+        $ref: '#/definitions/mMetaKey'
+      t:
+        $ref: '#/definitions/mMetaKey'
+
   mFieldConstructor:
     title: Field Constructor
     type: object
@@ -255,20 +326,27 @@ definitions:
         $ref: '#/definitions/mCommonConstructorMetas'
       a:
         $ref: '#/definitions/mFieldConstructorAttrs'
+      r:
+        $ref: '#/definitions/mFieldConstructorRefs'
     required:
       - m
 
+  mFieldConstructorsSet:
+    title: Field Constructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mFieldConstructor'
+  
   mFieldConstructorsPayload:
     title: Field Constructors Payload
     type: object
     properties:
       cf:
-        title: Field Constructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mFieldConstructor'
+        $ref: '#/definitions/mFieldConstructorsSet'
+    required:
+      - cf
 
-  # Updates
+  # Updates:
 
   mFieldUpdate:
     title: Field Update
@@ -276,20 +354,29 @@ definitions:
     properties:
       m:
         $ref: '#/definitions/mCommonUpdateMetas'
+      p:
+        $ref: '#/definitions/mProbeUpdatesSet'
+      s:
+        $ref: '#/definitions/mSubjectUpdatesSet'
     required:
       - m
 
+  mFieldUpdatesSet:
+    title: Field Updates Set
+    type: array
+    items:
+      $ref: '#/definitions/mFieldUpdate'
+  
   mFieldUpdatesPayload:
     title: Field Updates Payload
     type: object
     properties:
       uf:
-        title: Field Updates Array
-        type: array
-        items:
-          $ref: '#/definitions/mFieldUpdate'
+        $ref: '#/definitions/mFieldUpdatesSet'
+    required:
+      - uf
 
-  # Destructors
+  # Destructors:
 
   mFieldDestructor:
     title: Field Destructor
@@ -298,21 +385,26 @@ definitions:
       m:
         $ref: '#/definitions/mCommonDestructorMetas'
 
+  mFieldDestructorsSet:
+    title: Field Destructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mFieldDestructor'
+  
   mFieldDestructorsPayload:
     title: Field Destructors Payload
     type: object
     properties:
       df:
-        title: Field Destructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mFieldDestructor'
+        $ref: '#/definitions/mFieldDestructorsSet'
+    required:
+      - df
 
   #
-  # Field Emitters
+  # Field Emitters:
   #
 
-  # Constructors
+  # Constructors:
 
   mFieldEmitterConstructorAttrs:
     title: Field Emitter Constructor Attributes
@@ -326,8 +418,7 @@ definitions:
     type: object
     properties:
       sm:
-        title: Signal Modulator Key
-        type: string
+        $ref: '#/definitions/mMetaKey'
 
   mFieldEmitterConstructor:
     title: Field Emitter Constructor
@@ -342,17 +433,22 @@ definitions:
     required:
       - m
 
+  mFieldEmitterConstructorsSet:
+    title: Field Emitter Constructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mFieldEmitterConstructor'
+  
   mFieldEmitterConstructorsPayload:
     title: Field Emitter Constructors Payload
     type: object
     properties:
       cfe:
-        title: Field Emitter Constructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mFieldEmitterConstructor'
+        $ref: '#/definitions/mFieldEmitterConstructorsSet'
+    required:
+      - cfe
 
-  # Updates
+  # Updates:
 
   mFieldEmitterUpdate:
     title: Field Emitter Update
@@ -363,17 +459,22 @@ definitions:
     required:
       - m
 
+  mFieldEmitterUpdatesSet:
+    title: Field Emitter Updates Set
+    type: array
+    items:
+      $ref: '#/definitions/mFieldEmitterUpdate'
+  
   mFieldEmitterUpdatesPayload:
     title: Field Emitter Updates Payload
     type: object
     properties:
       ufe:
-        title: Field Emitter Updates Array
-        type: array
-        items:
-          $ref: '#/definitions/mFieldEmitterUpdate'
+        $ref: '#/definitions/mFieldEmitterUpdatesSet'
+    required:
+      - ufe
 
-  # Destructors
+  # Destructors:
 
   mFieldEmitterDestructor:
     title: Field Emitter Destructor
@@ -382,29 +483,33 @@ definitions:
       m:
         $ref: '#/definitions/mCommonDestructorMetas'
 
+  mFieldEmitterDestructorsSet:
+    title: Field Emitter Destructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mFieldEmitterDestructor'
+
   mFieldEmitterDestructorsPayload:
     title: Field Emitter Destructors Payload
     type: object
     properties:
       dfe:
-        title: Field Emitter Destructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mFieldEmitterDestructor'
+        $ref: '#/definitions/mFieldEmitterDestructorsSet'
+    required:
+      - dfe
 
   #
-  # Field Oscillators
+  # Field Oscillators:
   #
 
-  # Constructors
+  # Constructors:
 
   mFieldOscillatorConstructorAttrs:
     title: Field Oscillator Constructor Attributes
     type: object
     properties:
       dc:
-        title: Channel Definition
-        type: object
+        $ref: '#/definitions/mChannelDefinition'
 
   mFieldOscillatorConstructor:
     title: Field Oscillator Constructor
@@ -417,17 +522,22 @@ definitions:
     required:
       - m
 
+  mFieldOscillatorConstructorsSet:
+    title: Field Oscillator Constructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mFieldOscillatorConstructor'
+  
   mFieldOscillatorConstructorsPayload:
     title: Field Oscillator Constructors Payload
     type: object
     properties:
       cfo:
-        title: Field Oscillator Constructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mFieldOscillatorConstructor'
+        $ref: '#/definitions/mFieldOscillatorConstructorsSet'
+    required:
+      - cfo
 
-  # Updates
+  # Updates:
 
   mFieldOscillatorUpdate:
     title: Field Oscillator Update
@@ -438,17 +548,22 @@ definitions:
     required:
       - m
 
+  mFieldOscillatorUpdatesSet:
+    title: Field Oscillator Updates Set
+    type: array
+    items:
+      $ref: '#/definitions/mFieldOscillatorUpdate'
+  
   mFieldOscillatorUpdatesPayload:
     title: Field Oscillator Updates Payload
     type: object
     properties:
       ufo:
-        title: Field Oscillator Updates Array
-        type: array
-        items:
-          $ref: '#/definitions/mFieldOscillatorUpdate'
+        $ref: '#/definitions/mFieldOscillatorUpdatesSet'
+    required:
+      - ufo
 
-  # Destructors
+  # Destructors:
 
   mFieldOscillatorDestructor:
     title: Field Oscillator Destructor
@@ -457,21 +572,26 @@ definitions:
       m:
         $ref: '#/definitions/mCommonDestructorMetas'
 
+  mFieldOscillatorDestructorsSet:
+    title: Field Oscillator Destructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mFieldOscillatorDestructor'
+  
   mFieldOscillatorDestructorsPayload:
     title: Field Oscillator Destructors Payload
     type: object
     properties:
       dfo:
-        title: Field Oscillator Destructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mFieldOscillatorDestructor'
+        $ref: '#/definitions/mFieldOscillatorDestructorsSet'
+    required:
+      - dfo
 
   #
-  # Subjects
+  # Subjects:
   #
 
-  # Constructors
+  # Constructors:
 
   mSubjectConstructorAttrs:
     title: Subject Constructor Attributes
@@ -485,8 +605,7 @@ definitions:
     type: object
     properties:
       sm:
-        title: Signal Modulator Key
-        type: string
+        $ref: '#/definitions/mMetaKey'
 
   mSubjectConstructorStates:
     title: Subject Constructor States
@@ -512,17 +631,31 @@ definitions:
     required:
       - m
 
+  mSubjectConstructorsSet:
+    title: Subject Constructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mSubjectConstructor'
+  
   mSubjectConstructorsPayload:
     title: Subject Constructors Payload
     type: object
     properties:
       cs:
-        title: Subject Constructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mSubjectConstructor'
+        $ref: '#/definitions/mSubjectConstructorsSet'
+    required:
+      - cs
 
-  # Updates
+  # Updates:
+
+  mSubjectUpdateStates:
+    title: Subject Update States
+    type: object
+    properties:
+      p:
+        $ref: '#/definitions/mPosition'
+      r:
+        $ref: '#/definitions/mRotation'
 
   mSubjectUpdate:
     title: Subject Update
@@ -531,44 +664,54 @@ definitions:
       m:
         $ref: '#/definitions/mCommonUpdateMetas'
       s:
-        $ref: '#/definitions/mSubjectConstructorStates'
+        $ref: '#/definitions/mSubjectUpdateStates'
     required:
       - m
 
+  mSubjectUpdatesSet:
+    title: Subject Updates Set
+    type: array
+    items:
+      $ref: '#/definitions/mSubjectUpdate'
+  
   mSubjectUpdatesPayload:
     title: Subject Updates Payload
     type: object
     properties:
       us:
-        title: Subject Updates Array
-        type: array
-        items:
-          $ref: '#/definitions/mSubjectUpdate'
+        $ref: '#/definitions/mSubjectUpdatesSet'
+    required:
+      - us
 
-  # Destructors
+  # Destructors:
 
   mSubjectDestructor:
     title: Subject Destructor
     type: object
     properties:
       m:
-          $ref: '#/definitions/mCommonDestructorMetas'
+        $ref: '#/definitions/mCommonDestructorMetas'
 
+  mSubjectDestructorsSet:
+    title: Subject Destructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mSubjectDestructor'
+  
   mSubjectDestructorsPayload:
     title: Subject Destructors Payload
     type: object
     properties:
       ds:
-        title: Subject Destructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mSubjectDestructor'
+        $ref: '#/definitions/mSubjectDestructorsSet'
+    required:
+      - ds
 
   #
-  # Subject Emitters
+  # Subject Emitters:
   #
 
-  # Constructors
+  # Constructors:
 
   mSubjectEmitterConstructorAttrs:
     title: Subject Emitter Constructor Attributes
@@ -582,8 +725,7 @@ definitions:
     type: object
     properties:
       sm:
-        title: Signal Modulator Key
-        type: string
+        $ref: '#/definitions/mMetaKey'
 
   mSubjectEmitterConstructor:
     title: Subject Emitter Constructor
@@ -598,17 +740,22 @@ definitions:
     required:
       - m
 
+  mSubjectEmitterConstructorsSet:
+    title: Subject Emitter Constructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mSubjectEmitterConstructor'
+  
   mSubjectEmitterConstructorsPayload:
     title: Subject Emitter Constructors Payload
     type: object
     properties:
       cse:
-        title: Subject Emitter Constructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mSubjectEmitterConstructor'
+        $ref: '#/definitions/mSubjectEmitterConstructorsSet'
+    required:
+      - cse
 
-  # Updates
+  # Updates:
 
   mSubjectEmitterUpdate:
     title: Subject Emitter Update
@@ -619,17 +766,22 @@ definitions:
     required:
       - m
 
+  mSubjectEmitterUpdatesSet:
+    title: Subject Emitter Updates Set
+    type: array
+    items:
+      $ref: '#/definitions/mSubjectEmitterUpdate'
+  
   mSubjectEmitterUpdatesPayload:
     title: Subject Emitter Updates Payload
     type: object
     properties:
       use:
-        title: Subject Emitter Updates Array
-        type: array
-        items:
-          $ref: '#/definitions/mSubjectEmitterUpdate'
+        $ref: '#/definitions/mSubjectEmitterUpdatesSet'
+    required:
+      - use
 
-  # Destructors
+  # Destructors:
 
   mSubjectEmitterDestructor:
     title: Subject Emitter Destructor
@@ -638,29 +790,33 @@ definitions:
       m:
         $ref: '#/definitions/mCommonDestructorMetas'
 
+  mSubjectEmitterDestructorsSet:
+    title: Subject Emitter Destructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mSubjectEmitterDestructor'
+  
   mSubjectEmitterDestructorsPayload:
     title: Subject Emitter Destructors Payload
     type: object
     properties:
       dse:
-        title: Subject Emitter Destructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mSubjectEmitterDestructor'
+        $ref: '#/definitions/mSubjectEmitterDestructorsSet'
+    required:
+      - dse
 
   #
-  # Subject Oscillators
+  # Subject Oscillators:
   #
 
-  # Constructors
+  # Constructors:
 
   mSubjectOscillatorConstructorAttrs:
     title: Subject Oscillator Constructor Attributes
     type: object
     properties:
       dc:
-        title: Channel Definition
-        type: object
+        $ref: '#/definitions/mChannelDefinition'
 
   mSubjectOscillatorConstructor:
     title: Subject Oscillator Constructor
@@ -673,17 +829,22 @@ definitions:
     required:
       - m
 
+  mSubjectOscillatorConstructorsSet:
+    title: Subject Oscillator Constructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mSubjectOscillatorConstructor'
+  
   mSubjectOscillatorConstructorsPayload:
     title: Subject Oscillator Constructors Payload
     type: object
     properties:
       cso:
-        title: Subject Oscillator Constructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mSubjectOscillatorConstructor'
+        $ref: '#/definitions/mSubjectOscillatorConstructorsSet'
+    required:
+      - cso
 
-  # Updates
+  # Updates:
 
   mSubjectOscillatorUpdate:
     title: Subject Oscillator Update
@@ -694,17 +855,22 @@ definitions:
     required:
       - m
 
+  mSubjectOscillatorUpdatesSet:
+    title: Subject Oscillator Updates Set
+    type: array
+    items:
+      $ref: '#/definitions/mSubjectOscillatorUpdate'
+  
   mSubjectOscillatorUpdatesPayload:
     title: Subject Oscillator Updates Payload
     type: object
     properties:
       uso:
-        title: Subject Oscillator Updates Array
-        type: array
-        items:
-          $ref: '#/definitions/mSubjectOscillatorUpdate'
+        $ref: '#/definitions/mSubjectOscillatorUpdatesSet'
+    required:
+      - uso
 
-  # Destructors
+  # Destructors:
 
   mSubjectOscillatorDestructor:
     title: Subject Oscillator Destructor
@@ -713,36 +879,53 @@ definitions:
       m:
         $ref: '#/definitions/mCommonDestructorMetas'
 
+  mSubjectOscillatorDestructorsSet:
+    title: Subject Oscillator Destructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mSubjectOscillatorDestructor'
+  
   mSubjectOscillatorDestructorsPayload:
     title: Subject Oscillator Destructors Payload
     type: object
     properties:
       dso:
-        title: Subject Oscillator Destructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mSubjectOscillatorDestructor'
+        $ref: '#/definitions/mSubjectOscillatorDestructorsSet'
+    required:
+      - dso
 
   #
-  # Probes
+  # Probes:
   #
 
-  # Constructors
+  # Constructors:
 
   mProbeConstructorAttrs:
     title: Probe Constructor Attributes
     type: object
     properties:
-      dpe:
-        $ref: '#/definitions/mEmitterPatchDefinition'
+      aa:
+        title: Acoustic Area (a)
+        type: string
+      st:
+        title: Squelch Threshold
+        type: string
+      lr:
+        title: Lobe Range
+        type: string
+      lrp:
+        title: Lobe Range Poles
+        type: string
+      lbp:
+        title: Lobe Bearing Poles
+        type: string
 
   mProbeConstructorRefs:
     title: Probe Constructor References
     type: object
     properties:
       sm:
-        title: Signal Modulator Key
-        type: string
+        $ref: '#/definitions/mMetaKey'
 
   mProbeConstructorStates:
     title: Probe Constructor States
@@ -768,18 +951,32 @@ definitions:
     required:
       - m
 
+  mProbeConstructorsSet:
+    title: Probe Constructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mProbeConstructor'
+  
   mProbeConstructorsPayload:
     title: Probe Constructors Payload
     type: object
     properties:
       cp:
-        title: Probe Constructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mProbeConstructor'
+        $ref: '#/definitions/mProbeConstructorsSet'
+    required:
+      - cp
 
-  # Updates
+  # Updates:
 
+  mProbeUpdateStates:
+    title: Probe Update States
+    type: object
+    properties:
+      p:
+        $ref: '#/definitions/mPosition'
+      r:
+        $ref: '#/definitions/mRotation'
+        
   mProbeUpdate:
     title: Probe Update
     type: object
@@ -787,21 +984,26 @@ definitions:
       m:
         $ref: '#/definitions/mCommonUpdateMetas'
       s:
-        $ref: '#/definitions/mProbeConstructorStates'
+        $ref: '#/definitions/mProbeUpdateStates'
     required:
       - m
 
+  mProbeUpdatesSet:
+    title: Probe Updates Set
+    type: array
+    items:
+      $ref: '#/definitions/mProbeUpdate'
+  
   mProbeUpdatesPayload:
     title: Probe Updates Payload
     type: object
     properties:
       up:
-        title: Probe Updates Array
-        type: array
-        items:
-          $ref: '#/definitions/mProbeUpdate'
+        $ref: '#/definitions/mProbeUpdatesSet'
+    required:
+      - up
 
-  # Destructors
+  # Destructors:
 
   mProbeDestructor:
     title: Probe Destructor
@@ -810,21 +1012,26 @@ definitions:
       m:
           $ref: '#/definitions/mCommonDestructorMetas'
 
+  mProbeDestructorsSet:
+    title: Probe Destructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mProbeDestructor'
+  
   mProbeDestructorsPayload:
     title: Probe Destructors Payload
     type: object
     properties:
       dp:
-        title: Probe Destructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mProbeDestructor'
+        $ref: '#/definitions/mProbeDestructorsSet'
+    required:
+      - dp
 
   #
-  # Probe Emitters
+  # Probe Emitters:
   #
 
-  # Constructors
+  # Constructors:
 
   mProbeEmitterConstructorAttrs:
     title: Probe Emitter Constructor Attributes
@@ -838,8 +1045,7 @@ definitions:
     type: object
     properties:
       sm:
-        title: Signal Modulator Key
-        type: string
+        $ref: '#/definitions/mMetaKey'
 
   mProbeEmitterConstructor:
     title: Probe Emitter Constructor
@@ -854,17 +1060,22 @@ definitions:
     required:
       - m
 
+  mProbeEmitterConstructorsSet:
+    title: Probe Emitter Constructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mProbeEmitterConstructor'
+  
   mProbeEmitterConstructorsPayload:
     title: Probe Emitter Constructors Payload
     type: object
     properties:
       cpe:
-        title: Probe Emitter Constructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mProbeEmitterConstructor'
+        $ref: '#/definitions/mProbeEmitterConstructorsSet'
+    required:
+      - cpe
 
-  # Updates
+  # Updates:
 
   mProbeEmitterUpdate:
     title: Probe Emitter Update
@@ -875,17 +1086,22 @@ definitions:
     required:
       - m
 
+  mProbeEmitterUpdatesSet:
+    title: Probe Emitter Updates Set
+    type: array
+    items:
+      $ref: '#/definitions/mProbeEmitterUpdate'
+  
   mProbeEmitterUpdatesPayload:
     title: Probe Emitter Updates Payload
     type: object
     properties:
       upe:
-        title: Probe Emitter Updates Array
-        type: array
-        items:
-          $ref: '#/definitions/mProbeEmitterUpdate'
+          $ref: '#/definitions/mProbeEmitterUpdatesSet'
+    required:
+      - upe
 
-  # Destructors
+  # Destructors:
 
   mProbeEmitterDestructor:
     title: Probe Emitter Destructor
@@ -894,29 +1110,33 @@ definitions:
       m:
         $ref: '#/definitions/mCommonDestructorMetas'
 
+  mProbeEmitterDestructorsSet:
+    title: Probe Emitter Destructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mProbeEmitterDestructor'
+  
   mProbeEmitterDestructorsPayload:
     title: Probe Emitter Destructors Payload
     type: object
     properties:
       dpe:
-        title: Probe Emitter Destructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mProbeEmitterDestructor'
+        $ref: '#/definitions/mProbeEmitterDestructorsSet'
+    required:
+      - dpe
 
   #
-  # Probe Oscillators
+  # Probe Oscillators:
   #
 
-  # Constructors
+  # Constructors:
 
   mProbeOscillatorConstructorAttrs:
     title: Probe Oscillator Constructor Attributes
     type: object
     properties:
       dc:
-        title: Channel Definition
-        type: object
+        $ref: '#/definitions/mChannelDefinition'
 
   mProbeOscillatorConstructor:
     title: Probe Oscillator Constructor
@@ -929,17 +1149,22 @@ definitions:
     required:
       - m
 
+  mProbeOscillatorConstructorsSet:
+    title: Probe Oscillator Constructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mProbeOscillatorConstructor'
+  
   mProbeOscillatorConstructorsPayload:
     title: Probe Oscillator Constructors Payload
     type: object
     properties:
       cpo:
-        title: Probe Oscillator Constructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mProbeOscillatorConstructor'
+        $ref: '#/definitions/mProbeOscillatorConstructorsSet'
+    required:
+      - cpo
 
-  # Updates
+  # Updates:
 
   mProbeOscillatorUpdate:
     title: Probe Oscillator Update
@@ -950,17 +1175,22 @@ definitions:
     required:
       - m
 
+  mProbeOscillatorUpdatesSet:
+    title: Probe Oscillator Updates Set
+    type: array
+    items:
+      $ref: '#/definitions/mProbeOscillatorUpdate'
+  
   mProbeOscillatorUpdatesPayload:
     title: Probe Oscillator Updates Payload
     type: object
     properties:
       upo:
-        title: Probe Oscillator Updates Array
-        type: array
-        items:
-          $ref: '#/definitions/mProbeOscillatorUpdate'
+        $ref: '#/definitions/mProbeOscillatorUpdatesSet'
+    required:
+      - upo
 
-  # Destructors
+  # Destructors:
 
   mProbeOscillatorDestructor:
     title: Probe Oscillator Destructor
@@ -969,36 +1199,45 @@ definitions:
       m:
         $ref: '#/definitions/mCommonDestructorMetas'
 
+  mProbeOscillatorDestructorsSet:
+    title: Probe Oscillator Destructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mProbeOscillatorDestructor'
+  
   mProbeOscillatorDestructorsPayload:
     title: Probe Oscillator Destructors Payload
     type: object
     properties:
       dpo:
-        title: Probe Oscillator Destructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mProbeOscillatorDestructor'
+        $ref: '#/definitions/mProbeOscillatorDestructorsSet'
+    required:
+      - dpo
 
   #
-  # Probe Collectors
+  # Probe Collectors:
   #
 
-  # Constructors
+  # Constructors:
 
   mProbeCollectorConstructorAttrs:
     title: Probe Collector Constructor Attributes
     type: object
     properties:
-      xxx:
-        title: Collector Patch Definition
-        type: object
-
-  mProbeCollectorConstructorRefs:
-    title: Probe Collector Constructor References
-    type: object
-    properties:
-      sm:
-        title: Signal Modulator Key
+      aa:
+        title: Acoustic Area (a)
+        type: string
+      st:
+        title: Squelch Threshold
+        type: string
+      lr:
+        title: Lobe Range
+        type: string
+      lrp:
+        title: Lobe Range Poles
+        type: string
+      lbp:
+        title: Lobe Bearing Poles
         type: string
 
   mProbeCollectorConstructor:
@@ -1006,46 +1245,76 @@ definitions:
     type: object
     properties:
       m:
-        $ref: '#/definitions/mCommonConstructorMetas'
+        $ref: '#/definitions/mCommonConstructorMetasAliasable'
       a:
         $ref: '#/definitions/mProbeCollectorConstructorAttrs'
-      r:
-        $ref: '#/definitions/mProbeCollectorConstructorRefs'
     required:
       - m
 
+  mProbeCollectorConstructorsSet:
+    title: Probe Collector Constructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mProbeCollectorConstructor'
+  
   mProbeCollectorConstructorsPayload:
     title: Probe Collector Constructors Payload
     type: object
     properties:
       cpc:
-        title: Probe Collector Constructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mProbeCollectorConstructor'
+        $ref: '#/definitions/mProbeCollectorConstructorsSet'
+    required:
+      - cpc
 
-  # Updates
+  # Updates:
 
+  mProbeCollectorUpdateAttrs:
+    title: Probe Collector Update Attributes
+    type: object
+    properties:
+      aa:
+        title: Acoustic Area (a)
+        type: string
+      st:
+        title: Squelch Threshold
+        type: string
+      lr:
+        title: Lobe Range
+        type: string
+      lrp:
+        title: Lobe Range Poles
+        type: string
+      lbp:
+        title: Lobe Bearing Poles
+        type: string
+  
   mProbeCollectorUpdate:
     title: Probe Collector Update
     type: object
     properties:
       m:
         $ref: '#/definitions/mCommonUpdateMetas'
+      a:
+        $ref: '#/definitions/mProbeCollectorUpdateAttrs'
     required:
       - m
 
+  mProbeCollectorUpdatesSet:
+    title: Probe Collector Updates Set
+    type: array
+    items:
+      $ref: '#/definitions/mProbeCollectorUpdate'
+  
   mProbeCollectorUpdatesPayload:
     title: Probe Collector Updates Payload
     type: object
     properties:
       upc:
-        title: Probe Collector Updates Array
-        type: array
-        items:
-          $ref: '#/definitions/mProbeCollectorUpdate'
+        $ref: '#/definitions/mProbeCollectorUpdatesSet'
+    required:
+      - upc
 
-  # Destructors
+  # Destructors:
 
   mProbeCollectorDestructor:
     title: Probe Collector Destructor
@@ -1054,22 +1323,138 @@ definitions:
       m:
         $ref: '#/definitions/mCommonDestructorMetas'
 
+  mProbeCollectorDestructorsSet:
+    title: Probe Collector Destructors Set
+    type: array
+    items:
+      $ref: '#/definitions/mProbeCollectorDestructor'
+  
   mProbeCollectorDestructorsPayload:
     title: Probe Collector Destructors Payload
     type: object
     properties:
       dpc:
-        title: Probe Collector Destructors Array
-        type: array
-        items:
-          $ref: '#/definitions/mProbeCollectorDestructor'
+        $ref: '#/definitions/mProbeCollectorDestructorsSet'
+    required:
+      - dpc
+
+  #
+  # Emitter Patches:
+  #
+
+  # Updates:
+
+  mEmitterPatchUpdateAttrs:
+    title: Emitter Patch Update Attributes
+    type: object
+    properties:
+      dpe:
+        $ref: '#/definitions/mEmitterPatchDefinition'
+        
+  mEmitterPatchUpdate:
+    title: Emitter Patch Update
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonUpdateMetas'
+      a:
+        $ref: '#/definitions/mEmitterPatchUpdateAttrs'
+    required:
+      - m
+
+  mEmitterPatchUpdatesSet:
+    title: Emitter Patch Updates Set
+    type: array
+    items:
+      $ref: '#/definitions/mEmitterPatchUpdate'
+  
+  mEmitterPatchUpdatesPayload:
+    title: Emitter Patch Updates Payload
+    type: object
+    properties:
+      usmpe:
+        $ref: '#/definitions/mEmitterPatchUpdatesSet'
+    required:
+      - usmpe
+
+  #
+  # Oscillator Patches:
+  #
+
+  # Updates:
+
+  mOscillatorPatchUpdateAttrs:
+    title: Oscillator Patch Update Attributes
+    type: object
+    properties:
+      dpo:
+        $ref: '#/definitions/mOscillatorPatchDefinition'
+
+  mOscillatorPatchUpdate:
+    title: Oscillator Patch Update
+    type: object
+    properties:
+      m:
+        $ref: '#/definitions/mCommonUpdateMetas'
+      a:
+        $ref: '#/definitions/mOscillatorPatchUpdateAttrs'
+    required:
+      - m
+
+  mOscillatorPatchUpdatesSet:
+    title: Oscillator Patch Updates Set
+    type: array
+    items:
+      $ref: '#/definitions/mOscillatorPatchUpdate'
+
+  mOscillatorPatchUpdatesPayload:
+    title: Oscillator Patch Updates Payload
+    type: object
+    properties:
+      usmpo:
+        $ref: '#/definitions/mOscillatorPatchUpdatesSet'
+    required:
+      - usmpo
+
+  #
+  # Oscillator Patch Envelopes:
+  #
+
+  # Updates:
+
+  mOscillatorPatchEnvelopeUpdate:
+    title: Oscillator Patch Envelope Update
+    type: object
+    properties:
+      k:
+        $ref: '#/definitions/mMetaKey'
+      de:
+        $ref: '#/definitions/mEnvelopeDefinition'
+    required:
+      - k
+      - de
+
+  mOscillatorPatchEnvelopeUpdatesSet:
+    title: Oscillator Patch Envelope Updates Set
+    type: array
+    items:
+      $ref: '#/definitions/mOscillatorPatchEnvelopeUpdate'
+
+  mOscillatorPatchEnvelopeUpdatesPayload:
+    title: Oscillator Patch Envelope Updates Payload
+    type: object
+    properties:
+      usmpoe:
+        $ref: '#/definitions/mOscillatorPatchEnvelopeUpdatesSet'
+    required:
+      - usmpoe
 
 #
-# Parameters
+# Parameters:
 #
 parameters:
 
-  # Common
+  # Common:
 
   pCommonQuerySections:
     name: s
@@ -1078,7 +1463,7 @@ parameters:
     required: false
     type: string
 
-  # Fields
+  # Fields:
 
   pFieldKey:
     name: fieldKey
@@ -1098,7 +1483,7 @@ parameters:
       type: string
 
   pFieldConstructorsPayload:
-    name: fieldConstructors
+    name: fieldConstructorsPayload
     in: body
     description: Field constructors payload.
     required: true
@@ -1106,7 +1491,7 @@ parameters:
       $ref: '#/definitions/mFieldConstructorsPayload'
 
   pFieldUpdatesPayload:
-    name: fieldUpdates
+    name: fieldUpdatesPayload
     in: body
     description: Field updates payload.
     required: true
@@ -1114,14 +1499,14 @@ parameters:
       $ref: '#/definitions/mFieldUpdatesPayload'
 
   pFieldDestructorsPayload:
-    name: fieldDestructors
+    name: fieldDestructorsPayload
     in: body
     description: Field destructors payload.
     required: true
     schema:
       $ref: '#/definitions/mFieldDestructorsPayload'
 
-  # Field Emitters
+  # Field Emitters:
 
   pFieldEmitterKey:
     name: fieldEmitterKey
@@ -1141,7 +1526,7 @@ parameters:
       type: string
 
   pFieldEmitterConstructorsPayload:
-    name: fieldEmitterConstructors
+    name: fieldEmitterConstructorsPayload
     in: body
     description: Field emitter constructors payload.
     required: true
@@ -1149,7 +1534,7 @@ parameters:
       $ref: '#/definitions/mFieldEmitterConstructorsPayload'
 
   pFieldEmitterUpdatesPayload:
-    name: fieldEmitterUpdates
+    name: fieldEmitterUpdatesPayload
     in: body
     description: Field emitter updates payload.
     required: true
@@ -1157,14 +1542,14 @@ parameters:
       $ref: '#/definitions/mFieldEmitterUpdatesPayload'
 
   pFieldEmitterDestructorsPayload:
-    name: fieldEmitterDestructors
+    name: fieldEmitterDestructorsPayload
     in: body
     description: Field emitter destructors payload.
     required: true
     schema:
       $ref: '#/definitions/mFieldEmitterDestructorsPayload'
 
-  # Field Oscillators
+  # Field Oscillators:
 
   pFieldOscillatorKey:
     name: fieldOscillatorKey
@@ -1184,7 +1569,7 @@ parameters:
       type: string
 
   pFieldOscillatorConstructorsPayload:
-    name: fieldOscillatorConstructors
+    name: fieldOscillatorConstructorsPayload
     in: body
     description: Field oscillator constructors payload.
     required: true
@@ -1192,7 +1577,7 @@ parameters:
       $ref: '#/definitions/mFieldOscillatorConstructorsPayload'
 
   pFieldOscillatorUpdatesPayload:
-    name: fieldOscillatorUpdates
+    name: fieldOscillatorUpdatesPayload
     in: body
     description: Field oscillator updates payload.
     required: true
@@ -1200,14 +1585,14 @@ parameters:
       $ref: '#/definitions/mFieldOscillatorUpdatesPayload'
 
   pFieldOscillatorDestructorsPayload:
-    name: fieldOscillatorDestructors
+    name: fieldOscillatorDestructorsPayload
     in: body
     description: Field oscillator destructors payload.
     required: true
     schema:
       $ref: '#/definitions/mFieldOscillatorDestructorsPayload'
 
-  # Subjects
+  # Subjects:
 
   pSubjectKey:
     name: subjectKey
@@ -1227,7 +1612,7 @@ parameters:
       type: string
 
   pSubjectConstructorsPayload:
-    name: subjectConstructors
+    name: subjectConstructorsPayload
     in: body
     description: Subject constructors payload.
     required: true
@@ -1235,7 +1620,7 @@ parameters:
       $ref: '#/definitions/mSubjectConstructorsPayload'
 
   pSubjectUpdatesPayload:
-    name: subjectUpdates
+    name: subjectUpdatesPayload
     in: body
     description: Subject updates payload.
     required: true
@@ -1243,14 +1628,14 @@ parameters:
       $ref: '#/definitions/mSubjectUpdatesPayload'
 
   pSubjectDestructorsPayload:
-    name: subjectDestructors
+    name: subjectDestructorsPayload
     in: body
     description: Subject destructors payload.
     required: true
     schema:
       $ref: '#/definitions/mSubjectDestructorsPayload'
 
-  # Subject Emitters
+  # Subject Emitters:
 
   pSubjectEmitterKey:
     name: subjectEmitterKey
@@ -1270,7 +1655,7 @@ parameters:
       type: string
 
   pSubjectEmitterConstructorsPayload:
-    name: subjectEmitterConstructors
+    name: subjectEmitterConstructorsPayload
     in: body
     description: Subject emitter constructors payload.
     required: true
@@ -1278,7 +1663,7 @@ parameters:
       $ref: '#/definitions/mSubjectEmitterConstructorsPayload'
 
   pSubjectEmitterUpdatesPayload:
-    name: subjectEmitterUpdates
+    name: subjectEmitterUpdatesPayload
     in: body
     description: Subject emitter updates payload.
     required: true
@@ -1286,14 +1671,14 @@ parameters:
       $ref: '#/definitions/mSubjectEmitterUpdatesPayload'
 
   pSubjectEmitterDestructorsPayload:
-    name: subjectEmitterDestructors
+    name: subjectEmitterDestructorsPayload
     in: body
     description: Subject emitter destructors payload.
     required: true
     schema:
       $ref: '#/definitions/mSubjectEmitterDestructorsPayload'
 
-  # Subject Oscillators
+  # Subject Oscillators:
 
   pSubjectOscillatorKey:
     name: subjectOscillatorKey
@@ -1313,7 +1698,7 @@ parameters:
       type: string
 
   pSubjectOscillatorConstructorsPayload:
-    name: subjectOscillatorConstructors
+    name: subjectOscillatorConstructorsPayload
     in: body
     description: Subject oscillator constructors payload.
     required: true
@@ -1321,7 +1706,7 @@ parameters:
       $ref: '#/definitions/mSubjectOscillatorConstructorsPayload'
 
   pSubjectOscillatorUpdatesPayload:
-    name: subjectOscillatorUpdates
+    name: subjectOscillatorUpdatesPayload
     in: body
     description: Subject oscillator updates payload.
     required: true
@@ -1329,14 +1714,14 @@ parameters:
       $ref: '#/definitions/mSubjectOscillatorUpdatesPayload'
 
   pSubjectOscillatorDestructorsPayload:
-    name: subjectOscillatorDestructors
+    name: subjectOscillatorDestructorsPayload
     in: body
     description: Subject oscillator destructors payload.
     required: true
     schema:
       $ref: '#/definitions/mSubjectOscillatorDestructorsPayload'
 
-  # Probes
+  # Probes:
 
   pProbeKey:
     name: probeKey
@@ -1356,7 +1741,7 @@ parameters:
       type: string
 
   pProbeConstructorsPayload:
-    name: probeConstructors
+    name: probeConstructorsPayload
     in: body
     description: Probe constructors payload.
     required: true
@@ -1364,7 +1749,7 @@ parameters:
       $ref: '#/definitions/mProbeConstructorsPayload'
 
   pProbeUpdatesPayload:
-    name: probeUpdates
+    name: probeUpdatesPayload
     in: body
     description: Probe updates payload.
     required: true
@@ -1372,14 +1757,14 @@ parameters:
       $ref: '#/definitions/mProbeUpdatesPayload'
 
   pProbeDestructorsPayload:
-    name: probeDestructors
+    name: probeDestructorsPayload
     in: body
     description: Probe destructors payload.
     required: true
     schema:
       $ref: '#/definitions/mProbeDestructorsPayload'
 
-  # Probe Emitters
+  # Probe Emitters:
 
   pProbeEmitterKey:
     name: probeEmitterKey
@@ -1399,7 +1784,7 @@ parameters:
       type: string
 
   pProbeEmitterConstructorsPayload:
-    name: probeEmitterConstructors
+    name: probeEmitterConstructorsPayload
     in: body
     description: Probe emitter constructors payload.
     required: true
@@ -1407,7 +1792,7 @@ parameters:
       $ref: '#/definitions/mProbeEmitterConstructorsPayload'
 
   pProbeEmitterUpdatesPayload:
-    name: probeEmitterUpdates
+    name: probeEmitterUpdatesPayload
     in: body
     description: Probe emitter updates payload.
     required: true
@@ -1415,14 +1800,14 @@ parameters:
       $ref: '#/definitions/mProbeEmitterUpdatesPayload'
 
   pProbeEmitterDestructorsPayload:
-    name: probeEmitterDestructors
+    name: probeEmitterDestructorsPayload
     in: body
     description: Probe emitter destructors payload.
     required: true
     schema:
       $ref: '#/definitions/mProbeEmitterDestructorsPayload'
 
-  # Probe Oscillators
+  # Probe Oscillators:
 
   pProbeOscillatorKey:
     name: probeOscillatorKey
@@ -1442,7 +1827,7 @@ parameters:
       type: string
 
   pProbeOscillatorConstructorsPayload:
-    name: probeOscillatorConstructors
+    name: probeOscillatorConstructorsPayload
     in: body
     description: Probe oscillator constructors payload.
     required: true
@@ -1450,7 +1835,7 @@ parameters:
       $ref: '#/definitions/mProbeOscillatorConstructorsPayload'
 
   pProbeOscillatorUpdatesPayload:
-    name: probeOscillatorUpdates
+    name: probeOscillatorUpdatesPayload
     in: body
     description: Probe oscillator updates payload.
     required: true
@@ -1458,14 +1843,14 @@ parameters:
       $ref: '#/definitions/mProbeOscillatorUpdatesPayload'
 
   pProbeOscillatorDestructorsPayload:
-    name: probeOscillatorDestructors
+    name: probeOscillatorDestructorsPayload
     in: body
     description: Probe oscillator destructors payload.
     required: true
     schema:
       $ref: '#/definitions/mProbeOscillatorDestructorsPayload'
 
-  # Probe Collectors
+  # Probe Collectors:
 
   pProbeCollectorKey:
     name: probeCollectorKey
@@ -1492,7 +1877,7 @@ parameters:
     type: string
 
   pProbeCollectorConstructorsPayload:
-    name: probeCollectorConstructors
+    name: probeCollectorConstructorsPayload
     in: body
     description: Probe collector constructors payload.
     required: true
@@ -1500,7 +1885,7 @@ parameters:
       $ref: '#/definitions/mProbeCollectorConstructorsPayload'
 
   pProbeCollectorUpdatesPayload:
-    name: probeCollectorUpdates
+    name: probeCollectorUpdatesPayload
     in: body
     description: Probe collector updates payload.
     required: true
@@ -1508,15 +1893,79 @@ parameters:
       $ref: '#/definitions/mProbeCollectorUpdatesPayload'
 
   pProbeCollectorDestructorsPayload:
-    name: probeCollectorDestructors
+    name: probeCollectorDestructorsPayload
     in: body
     description: Probe collector destructors payload.
     required: true
     schema:
       $ref: '#/definitions/mProbeCollectorDestructorsPayload'
 
+  # Emitter Patches:
+
+  pEmitterPatchKey:
+    name: emitterPatchKey
+    in: path
+    description: Emitter patch key.
+    required: true
+    type: string
+
+  pEmitterPatchQueryKey:
+    name: k
+    in: query
+    description: Emitter patch key.
+    required: false
+    collectionFormat: multi
+    type: array
+    items:
+      type: string
+
+  pEmitterPatchUpdatesPayload:
+    name: emitterPatchUpdatesPayload
+    in: body
+    description: Emitter patch updates payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mEmitterPatchUpdatesPayload'
+
+  # Oscillator Patches:
+
+  pOscillatorPatchKey:
+    name: oscillatorPatchKey
+    in: path
+    description: Oscillator patch key.
+    required: true
+    type: string
+
+  pOscillatorPatchQueryKey:
+    name: k
+    in: query
+    description: Oscillator patch key.
+    required: false
+    collectionFormat: multi
+    type: array
+    items:
+      type: string
+
+  pOscillatorPatchUpdatesPayload:
+    name: oscillatorPatchUpdatesPayload
+    in: body
+    description: Oscillator patch updates payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mOscillatorPatchUpdatesPayload'
+
+  # Oscillator Patch Envelopes:
+
+  pOscillatorPatchEnvelopeUpdatesPayload:
+    name: oscillatorPatchEnvelopesUpdatesPayload
+    in: body
+    description: Oscillator patch envelope updates payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mOscillatorPatchEnvelopeUpdatesPayload'
+
 #
-# Responses
+# Responses:
 #
 responses:
 
@@ -1527,11 +1976,11 @@ responses:
       $ref: '#/definitions/mServiceResult'
 
 #
-# Paths
+# Paths:
 #
 paths:
 
-  # Fields
+  # Fields:
   /f:
 
     # ReportFields:
@@ -1542,6 +1991,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Fields
 
     # CreateFields:
     post:
@@ -1550,6 +2001,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Fields
 
     # UpdateFields:
     put:
@@ -1558,6 +2011,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Fields
 
     # DeleteFields:
     delete:
@@ -1566,8 +2021,10 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Fields
 
-  # Field Emitters
+  # Field Emitters:
   /f/{fieldKey}/fe:
     parameters:
       - $ref: '#/parameters/pFieldKey'
@@ -1580,6 +2037,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Field Emitters
 
     # CreateFieldEmitters:
     post:
@@ -1588,6 +2047,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Field Emitters
 
     # UpdateFieldEmitters:
     put:
@@ -1596,6 +2057,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Field Emitters
 
     # DeleteFieldEmitters:
     delete:
@@ -1604,8 +2067,10 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Field Emitters
 
-  # Field Oscillators
+  # Field Oscillators:
   /f/{fieldKey}/fo:
     parameters:
       - $ref: '#/parameters/pFieldKey'
@@ -1618,6 +2083,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Field Oscillators
 
     # UpdateFieldOscillators:
     put:
@@ -1626,14 +2093,19 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Field Oscillators
 
-#    # DeleteFieldOscillators:
-#    delete:
-#      parameters:
-#        - $ref: '#/parameters/pFieldOscillatorDestructorsPayload'
-#      responses:
-#        200:
-#          $ref: '#/responses/rSuccess'
+    # DeleteFieldOscillators:
+    delete:
+      deprecated: true
+      parameters:
+        - $ref: '#/parameters/pFieldOscillatorDestructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - Field Oscillators
 
   /f/{fieldKey}/fe/{fieldEmitterKey}/fo:
     parameters:
@@ -1648,16 +2120,21 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Field Oscillators
 
-#    # CreateFieldOscillators:
-#    post:
-#      parameters:
-#        - $ref: '#/parameters/pFieldOscillatorConstructorsPayload'
-#      responses:
-#        200:
-#          $ref: '#/responses/rSuccess'
+    # CreateFieldOscillators:
+    post:
+      deprecated: true
+      parameters:
+        - $ref: '#/parameters/pFieldOscillatorConstructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - Field Oscillators
 
-  # Subjects
+  # Subjects:
   /f/{fieldKey}/s:
     parameters:
       - $ref: '#/parameters/pFieldKey'
@@ -1670,6 +2147,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Subjects
 
     # CreateSubjects:
     post:
@@ -1678,6 +2157,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Subjects
 
     # UpdateSubjects:
     put:
@@ -1686,6 +2167,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Subjects
 
     # DeleteSubjects:
     delete:
@@ -1694,8 +2177,10 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Subjects
 
-  # Subject Emitters
+  # Subject Emitters:
   /f/{fieldKey}/se:
     parameters:
       - $ref: '#/parameters/pFieldKey'
@@ -1708,6 +2193,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Subject Emitters
 
     # UpdateSubjectEmitters:
     put:
@@ -1716,6 +2203,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Subject Emitters
 
     # DeleteSubjectsEmitters:
     delete:
@@ -1724,6 +2213,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Subject Emitters
 
   /f/{fieldKey}/s/{subjectKey}/se:
     parameters:
@@ -1738,6 +2229,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Subject Emitters
 
     # CreateSubjectEmitters:
     post:
@@ -1746,8 +2239,10 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Subject Emitters
 
-  # Subject Oscillators
+  # Subject Oscillators:
   /f/{fieldKey}/so:
     parameters:
       - $ref: '#/parameters/pFieldKey'
@@ -1760,6 +2255,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Subject Oscillators
 
     # UpdateSubjectOscillators:
     put:
@@ -1768,14 +2265,19 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Subject Oscillators
 
-#    # DeleteSubjectOscillators:
-#    delete:
-#      parameters:
-#        - $ref: '#/parameters/pSubjectOscillatorDestructorsPayload'
-#      responses:
-#        200:
-#          $ref: '#/responses/rSuccess'
+    # DeleteSubjectOscillators:
+    delete:
+      deprecated: true
+      parameters:
+        - $ref: '#/parameters/pSubjectOscillatorDestructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - Subject Oscillators
 
   /f/{fieldKey}/se/{subjectEmitterKey}/so:
     parameters:
@@ -1790,16 +2292,21 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Subject Oscillators
 
-#    # CreateSubjectOscillators:
-#    post:
-#      parameters:
-#        - $ref: '#/parameters/pSubjectOscillatorConstructorsPayload'
-#      responses:
-#        200:
-#          $ref: '#/responses/rSuccess'
+    # CreateSubjectOscillators:
+    post:
+      deprecated: true
+      parameters:
+        - $ref: '#/parameters/pSubjectOscillatorConstructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - Subject Oscillators
 
-  # Probes
+  # Probes:
   /f/{fieldKey}/p:
     parameters:
       - $ref: '#/parameters/pFieldKey'
@@ -1812,6 +2319,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probes
 
     # CreateProbes:
     post:
@@ -1820,6 +2329,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probes
 
     # UpdateProbes:
     put:
@@ -1828,6 +2339,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probes
 
     # DeleteProbes:
     delete:
@@ -1836,8 +2349,10 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probes
 
-  # Probe Emitters
+  # Probe Emitters:
   /f/{fieldKey}/pe:
     parameters:
       - $ref: '#/parameters/pFieldKey'
@@ -1850,6 +2365,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Emitters
 
     # UpdateProbeEmitters:
     put:
@@ -1858,6 +2375,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Emitters
 
     # DeleteProbesEmitters:
     delete:
@@ -1866,6 +2385,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Emitters
 
   /f/{fieldKey}/p/{probeKey}/pe:
     parameters:
@@ -1880,6 +2401,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Emitters
 
     # CreateProbeEmitters:
     post:
@@ -1888,8 +2411,10 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Emitters
 
-  # Probe Oscillators
+  # Probe Oscillators:
   /f/{fieldKey}/po:
     parameters:
       - $ref: '#/parameters/pFieldKey'
@@ -1902,6 +2427,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Oscillators
 
     # UpdateProbeOscillators:
     put:
@@ -1910,14 +2437,19 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Oscillators
 
-#    # DeleteProbeOscillators:
-#    delete:
-#      parameters:
-#        - $ref: '#/parameters/pProbeOscillatorDestructorsPayload'
-#      responses:
-#        200:
-#          $ref: '#/responses/rSuccess'
+    # DeleteProbeOscillators:
+    delete:
+      deprecated: true
+      parameters:
+        - $ref: '#/parameters/pProbeOscillatorDestructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Oscillators
 
   /f/{fieldKey}/pe/{probeEmitterKey}/po:
     parameters:
@@ -1932,16 +2464,21 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Oscillators
 
-#    # CreateProbeOscillators:
-#    post:
-#      parameters:
-#        - $ref: '#/parameters/pProbeOscillatorConstructorsPayload'
-#      responses:
-#        200:
-#          $ref: '#/responses/rSuccess'
+    # CreateProbeOscillators:
+    post:
+      deprecated: true
+      parameters:
+        - $ref: '#/parameters/pProbeOscillatorConstructorsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Oscillators
 
-  # Probe Collectors
+  # Probe Collectors:
   /f/{fieldKey}/pc:
     parameters:
       - $ref: '#/parameters/pFieldKey'
@@ -1954,6 +2491,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Collectors
 
     # UpdateProbeCollectors:
     put:
@@ -1962,6 +2501,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Collectors
 
     # DeleteProbesCollectors:
     delete:
@@ -1970,6 +2511,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Collectors
 
   /f/{fieldKey}/p/{probeKey}/pc:
     parameters:
@@ -1984,6 +2527,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Collectors
 
     # CreateProbeCollectors:
     post:
@@ -1992,6 +2537,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Collectors
 
   /f/{fieldKey}/pca/{probeCollectorAlias}:
     parameters:
@@ -2003,6 +2550,8 @@ paths:
       responses:
         200:
           $ref: '#/responses/rSuccess'
+      tags:
+        - Probe Collectors
 
   # Waveforms:
   /f/{fieldKey}/pc/{probeCollectorKey}/w:
@@ -2015,6 +2564,8 @@ paths:
       responses:
         200:
           description: Success
+      tags:
+        - Waveforms
 
   /f/{fieldKey}/w:
     parameters:
@@ -2025,4 +2576,166 @@ paths:
       responses:
         200:
           description: Success
+      tags:
+        - Waveforms
 
+  # Emitter Patches:
+  /f/{fieldKey}/smpe:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # Report Emitter Patches:
+    get:
+      responses:
+        200:
+          description: Success
+      tags:
+        - Emitter Patches
+
+    # Update Emitter Patches:
+    put:
+      parameters:
+        - $ref: '#/parameters/pEmitterPatchUpdatesPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - Emitter Patches
+
+  /f/{fieldKey}/fe/{fieldEmitterKey}/smpe:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pFieldEmitterKey'
+
+    # Report Patch Of Field Emitter:
+    get:
+      responses:
+        200:
+          description: Success
+      tags:
+        - Emitter Patches
+
+  /f/{fieldKey}/se/{subjectEmitterKey}/smpe:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pSubjectEmitterKey'
+
+    # Report Patch Of Subject Emitter:
+    get:
+      responses:
+        200:
+          description: Success
+      tags:
+        - Emitter Patches
+
+  /f/{fieldKey}/pe/{probeEmitterKey}/smpe:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pProbeEmitterKey'
+
+    # Report Patch Of Probe Emitter:
+    get:
+      responses:
+        200:
+          description: Success
+      tags:
+        - Emitter Patches
+
+  # Oscillator Patches:
+  /f/{fieldKey}/smpo:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # Report Oscillator Patches:
+    get:
+      responses:
+        200:
+          description: Success
+      tags:
+        - Oscillator Patches
+
+    # Update Oscillator Patches:
+    put:
+      parameters:
+        - $ref: '#/parameters/pOscillatorPatchUpdatesPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - Oscillator Patches
+
+  /f/{fieldKey}/smpe/{emitterPatchKey}/smpo:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pEmitterPatchKey'
+
+    # Report Oscillator Patches Of Emitter Patch:
+    get:
+      responses:
+        200:
+          description: Success
+      tags:
+        - Oscillator Patches
+
+  /f/{fieldKey}/fo/{fieldOscillatorKey}/smpo:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pFieldOscillatorKey'
+
+    # Report Patch Of Field Oscillator:
+    get:
+      responses:
+        200:
+          description: Success
+      tags:
+        - Oscillator Patches
+
+  /f/{fieldKey}/so/{subjectOscillatorKey}/smpo:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pSubjectOscillatorKey'
+
+    # Report Patch Of Subject Oscillator:
+    get:
+      responses:
+        200:
+          description: Success
+      tags:
+        - Oscillator Patches
+
+  /f/{fieldKey}/po/{probeOscillatorKey}/smpo:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pProbeOscillatorKey'
+      
+    # Report Patch Of Probe Oscillator:
+    get:
+      responses:
+        200:
+          description: Success
+      tags:
+        - Oscillator Patches
+
+  # Oscillator Patch Envelopes:
+  /f/{fieldKey}/smpo/{oscillatorPatchKey}/e:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+      - $ref: '#/parameters/pOscillatorPatchKey'
+
+    # Report Oscillator Patch Envelopes:
+    get:
+      responses:
+        200:
+          description: Success
+      tags:
+        - Oscillator Patch Envelopes
+
+    # Report Oscillator Patch Envelopes:
+    put:
+      parameters:
+        - $ref: '#/parameters/pOscillatorPatchEnvelopeUpdatesPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - Oscillator Patch Envelopes

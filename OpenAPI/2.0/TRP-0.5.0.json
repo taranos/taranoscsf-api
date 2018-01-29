@@ -2,8 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Taranos Rendering Protocol",
-    "description": "Wavefield rendering API for Taranos servers.",
-    "termsOfService": "Proprietary",
+    "description": "Wavefield rendering API for Taranos Cloud Sonification Framework clients.",
     "contact": {
       "name": "dhinson@netrogenblue.com"
     },
@@ -54,25 +53,91 @@
         "e"
       ]
     },
+    "mMetaKey": {
+      "title": "Key",
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 50
+    },
+    "mMetaTag": {
+      "title": "Tag",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "mMetaBadge": {
+      "title": "Badge",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "mMetaName": {
+      "title": "Name",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "mMetaDescription": {
+      "title": "Description",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "mMetaAlias": {
+      "title": "Alias",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "mDestructorScope": {
+      "title": "Destructor Scope",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1,
+      "enum": [
+        "d",
+        "s"
+      ]
+    },
     "mCommonConstructorMetas": {
       "title": "Common Constructor Metas",
       "type": "object",
       "properties": {
         "b": {
-          "title": "Badge",
-          "type": "string"
+          "$ref": "#/definitions/mMetaBadge"
         },
         "d": {
-          "title": "Description",
-          "type": "string"
+          "$ref": "#/definitions/mMetaDescription"
         },
         "n": {
-          "title": "Name",
-          "type": "string"
+          "$ref": "#/definitions/mMetaName"
         },
         "t": {
-          "title": "Tag",
-          "type": "string"
+          "$ref": "#/definitions/mMetaTag"
+        }
+      },
+      "required": [
+        "t"
+      ]
+    },
+    "mCommonConstructorMetasAliasable": {
+      "title": "Common Constructor Metas Aliasable",
+      "type": "object",
+      "properties": {
+        "a": {
+          "$ref": "#/definitions/mMetaAlias"
+        },
+        "b": {
+          "$ref": "#/definitions/mMetaBadge"
+        },
+        "d": {
+          "$ref": "#/definitions/mMetaDescription"
+        },
+        "n": {
+          "$ref": "#/definitions/mMetaName"
+        },
+        "t": {
+          "$ref": "#/definitions/mMetaTag"
         }
       },
       "required": [
@@ -84,16 +149,13 @@
       "type": "object",
       "properties": {
         "k": {
-          "title": "Key",
-          "type": "string"
+          "$ref": "#/definitions/mMetaKey"
         },
         "n": {
-          "title": "Name",
-          "type": "string"
+          "$ref": "#/definitions/mMetaName"
         },
         "d": {
-          "title": "Description",
-          "type": "string"
+          "$ref": "#/definitions/mMetaDescription"
         }
       },
       "required": [
@@ -105,16 +167,10 @@
       "type": "object",
       "properties": {
         "k": {
-          "title": "Key",
-          "type": "string"
+          "$ref": "#/definitions/mMetaKey"
         },
         "s": {
-          "title": "Scope",
-          "type": "string",
-          "enum": [
-            "d",
-            "s"
-          ]
+          "$ref": "#/definitions/mDestructorScope"
         }
       },
       "required": [
@@ -139,23 +195,33 @@
         "maxItems": 4
       }
     },
+    "mPoleAxisOffset": {
+      "title": "Pole Axis Offset",
+      "type": "string"
+    },
     "mPoleDefinition": {
       "title": "Pole Definition",
       "type": "object",
       "properties": {
         "x": {
-          "title": "X",
-          "type": "string"
+          "$ref": "#/definitions/mPoleAxisOffset"
         },
         "y": {
-          "title": "Y",
-          "type": "string"
+          "$ref": "#/definitions/mPoleAxisOffset"
         }
       },
       "required": [
         "x",
         "y"
       ]
+    },
+    "mEnvelopeCeiling": {
+      "title": "Envelope Ceiling",
+      "type": "string"
+    },
+    "mEnvelopeFloor": {
+      "title": "Envelope Floor",
+      "type": "string"
     },
     "mPoleDefinitions": {
       "title": "Poles Definition",
@@ -166,26 +232,31 @@
       "minItems": 1,
       "maxItems": 5
     },
+    "mPackedPoleDefinitions": {
+      "title": "Packed Pole Definitions",
+      "type": "string"
+    },
     "mEnvelopeDefinition": {
       "title": "Envelope Definition",
       "type": "object",
       "properties": {
         "c": {
-          "title": "Ceiling",
-          "type": "string"
+          "$ref": "#/definitions/mEnvelopeCeiling"
         },
         "f": {
-          "title": "Floor",
-          "type": "string"
+          "$ref": "#/definitions/mEnvelopeFloor"
         },
         "dp": {
           "$ref": "#/definitions/mPoleDefinitions"
         },
         "dpp": {
-          "title": "Packed Poles Definition",
-          "type": "string"
+          "$ref": "#/definitions/mPackedPoleDefinitions"
         }
       }
+    },
+    "mWavesetIdentifier": {
+      "title": "Waveset Identifier",
+      "type": "string"
     },
     "mQualityEnvelopeDefinitions": {
       "title": "Quality Envelope Definitions",
@@ -220,8 +291,7 @@
       "type": "object",
       "properties": {
         "w": {
-          "title": "Waveset ID",
-          "type": "string"
+          "$ref": "#/definitions/mWavesetIdentifier"
         },
         "de": {
           "$ref": "#/definitions/mQualityEnvelopeDefinitions"
@@ -265,11 +335,11 @@
       "type": "object",
       "properties": {
         "ac": {
-          "title": "Acoustic_c",
+          "title": "Acoustic Velocity (c)",
           "type": "string"
         },
         "ar": {
-          "title": "Acoustic_r",
+          "title": "Acoustic Density (rho)",
           "type": "string"
         },
         "ad": {
@@ -285,6 +355,18 @@
         }
       }
     },
+    "mFieldConstructorRefs": {
+      "title": "Field Constructor References",
+      "type": "object",
+      "properties": {
+        "sm": {
+          "$ref": "#/definitions/mMetaKey"
+        },
+        "t": {
+          "$ref": "#/definitions/mMetaKey"
+        }
+      }
+    },
     "mFieldConstructor": {
       "title": "Field Constructor",
       "type": "object",
@@ -294,24 +376,33 @@
         },
         "a": {
           "$ref": "#/definitions/mFieldConstructorAttrs"
+        },
+        "r": {
+          "$ref": "#/definitions/mFieldConstructorRefs"
         }
       },
       "required": [
         "m"
       ]
     },
+    "mFieldConstructorsSet": {
+      "title": "Field Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mFieldConstructor"
+      }
+    },
     "mFieldConstructorsPayload": {
       "title": "Field Constructors Payload",
       "type": "object",
       "properties": {
         "cf": {
-          "title": "Field Constructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mFieldConstructor"
-          }
+          "$ref": "#/definitions/mFieldConstructorsSet"
         }
-      }
+      },
+      "required": [
+        "cf"
+      ]
     },
     "mFieldUpdate": {
       "title": "Field Update",
@@ -319,24 +410,36 @@
       "properties": {
         "m": {
           "$ref": "#/definitions/mCommonUpdateMetas"
+        },
+        "p": {
+          "$ref": "#/definitions/mProbeUpdatesSet"
+        },
+        "s": {
+          "$ref": "#/definitions/mSubjectUpdatesSet"
         }
       },
       "required": [
         "m"
       ]
     },
+    "mFieldUpdatesSet": {
+      "title": "Field Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mFieldUpdate"
+      }
+    },
     "mFieldUpdatesPayload": {
       "title": "Field Updates Payload",
       "type": "object",
       "properties": {
         "uf": {
-          "title": "Field Updates Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mFieldUpdate"
-          }
+          "$ref": "#/definitions/mFieldUpdatesSet"
         }
-      }
+      },
+      "required": [
+        "uf"
+      ]
     },
     "mFieldDestructor": {
       "title": "Field Destructor",
@@ -347,18 +450,24 @@
         }
       }
     },
+    "mFieldDestructorsSet": {
+      "title": "Field Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mFieldDestructor"
+      }
+    },
     "mFieldDestructorsPayload": {
       "title": "Field Destructors Payload",
       "type": "object",
       "properties": {
         "df": {
-          "title": "Field Destructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mFieldDestructor"
-          }
+          "$ref": "#/definitions/mFieldDestructorsSet"
         }
-      }
+      },
+      "required": [
+        "df"
+      ]
     },
     "mFieldEmitterConstructorAttrs": {
       "title": "Field Emitter Constructor Attributes",
@@ -374,8 +483,7 @@
       "type": "object",
       "properties": {
         "sm": {
-          "title": "Signal Modulator Key",
-          "type": "string"
+          "$ref": "#/definitions/mMetaKey"
         }
       }
     },
@@ -397,18 +505,24 @@
         "m"
       ]
     },
+    "mFieldEmitterConstructorsSet": {
+      "title": "Field Emitter Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mFieldEmitterConstructor"
+      }
+    },
     "mFieldEmitterConstructorsPayload": {
       "title": "Field Emitter Constructors Payload",
       "type": "object",
       "properties": {
         "cfe": {
-          "title": "Field Emitter Constructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mFieldEmitterConstructor"
-          }
+          "$ref": "#/definitions/mFieldEmitterConstructorsSet"
         }
-      }
+      },
+      "required": [
+        "cfe"
+      ]
     },
     "mFieldEmitterUpdate": {
       "title": "Field Emitter Update",
@@ -422,18 +536,24 @@
         "m"
       ]
     },
+    "mFieldEmitterUpdatesSet": {
+      "title": "Field Emitter Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mFieldEmitterUpdate"
+      }
+    },
     "mFieldEmitterUpdatesPayload": {
       "title": "Field Emitter Updates Payload",
       "type": "object",
       "properties": {
         "ufe": {
-          "title": "Field Emitter Updates Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mFieldEmitterUpdate"
-          }
+          "$ref": "#/definitions/mFieldEmitterUpdatesSet"
         }
-      }
+      },
+      "required": [
+        "ufe"
+      ]
     },
     "mFieldEmitterDestructor": {
       "title": "Field Emitter Destructor",
@@ -444,26 +564,31 @@
         }
       }
     },
+    "mFieldEmitterDestructorsSet": {
+      "title": "Field Emitter Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mFieldEmitterDestructor"
+      }
+    },
     "mFieldEmitterDestructorsPayload": {
       "title": "Field Emitter Destructors Payload",
       "type": "object",
       "properties": {
         "dfe": {
-          "title": "Field Emitter Destructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mFieldEmitterDestructor"
-          }
+          "$ref": "#/definitions/mFieldEmitterDestructorsSet"
         }
-      }
+      },
+      "required": [
+        "dfe"
+      ]
     },
     "mFieldOscillatorConstructorAttrs": {
       "title": "Field Oscillator Constructor Attributes",
       "type": "object",
       "properties": {
         "dc": {
-          "title": "Channel Definition",
-          "type": "object"
+          "$ref": "#/definitions/mChannelDefinition"
         }
       }
     },
@@ -482,18 +607,24 @@
         "m"
       ]
     },
+    "mFieldOscillatorConstructorsSet": {
+      "title": "Field Oscillator Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mFieldOscillatorConstructor"
+      }
+    },
     "mFieldOscillatorConstructorsPayload": {
       "title": "Field Oscillator Constructors Payload",
       "type": "object",
       "properties": {
         "cfo": {
-          "title": "Field Oscillator Constructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mFieldOscillatorConstructor"
-          }
+          "$ref": "#/definitions/mFieldOscillatorConstructorsSet"
         }
-      }
+      },
+      "required": [
+        "cfo"
+      ]
     },
     "mFieldOscillatorUpdate": {
       "title": "Field Oscillator Update",
@@ -507,18 +638,24 @@
         "m"
       ]
     },
+    "mFieldOscillatorUpdatesSet": {
+      "title": "Field Oscillator Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mFieldOscillatorUpdate"
+      }
+    },
     "mFieldOscillatorUpdatesPayload": {
       "title": "Field Oscillator Updates Payload",
       "type": "object",
       "properties": {
         "ufo": {
-          "title": "Field Oscillator Updates Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mFieldOscillatorUpdate"
-          }
+          "$ref": "#/definitions/mFieldOscillatorUpdatesSet"
         }
-      }
+      },
+      "required": [
+        "ufo"
+      ]
     },
     "mFieldOscillatorDestructor": {
       "title": "Field Oscillator Destructor",
@@ -529,18 +666,24 @@
         }
       }
     },
+    "mFieldOscillatorDestructorsSet": {
+      "title": "Field Oscillator Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mFieldOscillatorDestructor"
+      }
+    },
     "mFieldOscillatorDestructorsPayload": {
       "title": "Field Oscillator Destructors Payload",
       "type": "object",
       "properties": {
         "dfo": {
-          "title": "Field Oscillator Destructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mFieldOscillatorDestructor"
-          }
+          "$ref": "#/definitions/mFieldOscillatorDestructorsSet"
         }
-      }
+      },
+      "required": [
+        "dfo"
+      ]
     },
     "mSubjectConstructorAttrs": {
       "title": "Subject Constructor Attributes",
@@ -556,8 +699,7 @@
       "type": "object",
       "properties": {
         "sm": {
-          "title": "Signal Modulator Key",
-          "type": "string"
+          "$ref": "#/definitions/mMetaKey"
         }
       }
     },
@@ -594,16 +736,34 @@
         "m"
       ]
     },
+    "mSubjectConstructorsSet": {
+      "title": "Subject Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSubjectConstructor"
+      }
+    },
     "mSubjectConstructorsPayload": {
       "title": "Subject Constructors Payload",
       "type": "object",
       "properties": {
         "cs": {
-          "title": "Subject Constructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mSubjectConstructor"
-          }
+          "$ref": "#/definitions/mSubjectConstructorsSet"
+        }
+      },
+      "required": [
+        "cs"
+      ]
+    },
+    "mSubjectUpdateStates": {
+      "title": "Subject Update States",
+      "type": "object",
+      "properties": {
+        "p": {
+          "$ref": "#/definitions/mPosition"
+        },
+        "r": {
+          "$ref": "#/definitions/mRotation"
         }
       }
     },
@@ -615,25 +775,31 @@
           "$ref": "#/definitions/mCommonUpdateMetas"
         },
         "s": {
-          "$ref": "#/definitions/mSubjectConstructorStates"
+          "$ref": "#/definitions/mSubjectUpdateStates"
         }
       },
       "required": [
         "m"
       ]
     },
+    "mSubjectUpdatesSet": {
+      "title": "Subject Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSubjectUpdate"
+      }
+    },
     "mSubjectUpdatesPayload": {
       "title": "Subject Updates Payload",
       "type": "object",
       "properties": {
         "us": {
-          "title": "Subject Updates Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mSubjectUpdate"
-          }
+          "$ref": "#/definitions/mSubjectUpdatesSet"
         }
-      }
+      },
+      "required": [
+        "us"
+      ]
     },
     "mSubjectDestructor": {
       "title": "Subject Destructor",
@@ -644,18 +810,24 @@
         }
       }
     },
+    "mSubjectDestructorsSet": {
+      "title": "Subject Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSubjectDestructor"
+      }
+    },
     "mSubjectDestructorsPayload": {
       "title": "Subject Destructors Payload",
       "type": "object",
       "properties": {
         "ds": {
-          "title": "Subject Destructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mSubjectDestructor"
-          }
+          "$ref": "#/definitions/mSubjectDestructorsSet"
         }
-      }
+      },
+      "required": [
+        "ds"
+      ]
     },
     "mSubjectEmitterConstructorAttrs": {
       "title": "Subject Emitter Constructor Attributes",
@@ -671,8 +843,7 @@
       "type": "object",
       "properties": {
         "sm": {
-          "title": "Signal Modulator Key",
-          "type": "string"
+          "$ref": "#/definitions/mMetaKey"
         }
       }
     },
@@ -694,18 +865,24 @@
         "m"
       ]
     },
+    "mSubjectEmitterConstructorsSet": {
+      "title": "Subject Emitter Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSubjectEmitterConstructor"
+      }
+    },
     "mSubjectEmitterConstructorsPayload": {
       "title": "Subject Emitter Constructors Payload",
       "type": "object",
       "properties": {
         "cse": {
-          "title": "Subject Emitter Constructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mSubjectEmitterConstructor"
-          }
+          "$ref": "#/definitions/mSubjectEmitterConstructorsSet"
         }
-      }
+      },
+      "required": [
+        "cse"
+      ]
     },
     "mSubjectEmitterUpdate": {
       "title": "Subject Emitter Update",
@@ -719,18 +896,24 @@
         "m"
       ]
     },
+    "mSubjectEmitterUpdatesSet": {
+      "title": "Subject Emitter Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSubjectEmitterUpdate"
+      }
+    },
     "mSubjectEmitterUpdatesPayload": {
       "title": "Subject Emitter Updates Payload",
       "type": "object",
       "properties": {
         "use": {
-          "title": "Subject Emitter Updates Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mSubjectEmitterUpdate"
-          }
+          "$ref": "#/definitions/mSubjectEmitterUpdatesSet"
         }
-      }
+      },
+      "required": [
+        "use"
+      ]
     },
     "mSubjectEmitterDestructor": {
       "title": "Subject Emitter Destructor",
@@ -741,26 +924,31 @@
         }
       }
     },
+    "mSubjectEmitterDestructorsSet": {
+      "title": "Subject Emitter Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSubjectEmitterDestructor"
+      }
+    },
     "mSubjectEmitterDestructorsPayload": {
       "title": "Subject Emitter Destructors Payload",
       "type": "object",
       "properties": {
         "dse": {
-          "title": "Subject Emitter Destructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mSubjectEmitterDestructor"
-          }
+          "$ref": "#/definitions/mSubjectEmitterDestructorsSet"
         }
-      }
+      },
+      "required": [
+        "dse"
+      ]
     },
     "mSubjectOscillatorConstructorAttrs": {
       "title": "Subject Oscillator Constructor Attributes",
       "type": "object",
       "properties": {
         "dc": {
-          "title": "Channel Definition",
-          "type": "object"
+          "$ref": "#/definitions/mChannelDefinition"
         }
       }
     },
@@ -779,18 +967,24 @@
         "m"
       ]
     },
+    "mSubjectOscillatorConstructorsSet": {
+      "title": "Subject Oscillator Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSubjectOscillatorConstructor"
+      }
+    },
     "mSubjectOscillatorConstructorsPayload": {
       "title": "Subject Oscillator Constructors Payload",
       "type": "object",
       "properties": {
         "cso": {
-          "title": "Subject Oscillator Constructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mSubjectOscillatorConstructor"
-          }
+          "$ref": "#/definitions/mSubjectOscillatorConstructorsSet"
         }
-      }
+      },
+      "required": [
+        "cso"
+      ]
     },
     "mSubjectOscillatorUpdate": {
       "title": "Subject Oscillator Update",
@@ -804,18 +998,24 @@
         "m"
       ]
     },
+    "mSubjectOscillatorUpdatesSet": {
+      "title": "Subject Oscillator Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSubjectOscillatorUpdate"
+      }
+    },
     "mSubjectOscillatorUpdatesPayload": {
       "title": "Subject Oscillator Updates Payload",
       "type": "object",
       "properties": {
         "uso": {
-          "title": "Subject Oscillator Updates Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mSubjectOscillatorUpdate"
-          }
+          "$ref": "#/definitions/mSubjectOscillatorUpdatesSet"
         }
-      }
+      },
+      "required": [
+        "uso"
+      ]
     },
     "mSubjectOscillatorDestructor": {
       "title": "Subject Oscillator Destructor",
@@ -826,25 +1026,48 @@
         }
       }
     },
+    "mSubjectOscillatorDestructorsSet": {
+      "title": "Subject Oscillator Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSubjectOscillatorDestructor"
+      }
+    },
     "mSubjectOscillatorDestructorsPayload": {
       "title": "Subject Oscillator Destructors Payload",
       "type": "object",
       "properties": {
         "dso": {
-          "title": "Subject Oscillator Destructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mSubjectOscillatorDestructor"
-          }
+          "$ref": "#/definitions/mSubjectOscillatorDestructorsSet"
         }
-      }
+      },
+      "required": [
+        "dso"
+      ]
     },
     "mProbeConstructorAttrs": {
       "title": "Probe Constructor Attributes",
       "type": "object",
       "properties": {
-        "dpe": {
-          "$ref": "#/definitions/mEmitterPatchDefinition"
+        "aa": {
+          "title": "Acoustic Area (a)",
+          "type": "string"
+        },
+        "st": {
+          "title": "Squelch Threshold",
+          "type": "string"
+        },
+        "lr": {
+          "title": "Lobe Range",
+          "type": "string"
+        },
+        "lrp": {
+          "title": "Lobe Range Poles",
+          "type": "string"
+        },
+        "lbp": {
+          "title": "Lobe Bearing Poles",
+          "type": "string"
         }
       }
     },
@@ -853,8 +1076,7 @@
       "type": "object",
       "properties": {
         "sm": {
-          "title": "Signal Modulator Key",
-          "type": "string"
+          "$ref": "#/definitions/mMetaKey"
         }
       }
     },
@@ -891,16 +1113,34 @@
         "m"
       ]
     },
+    "mProbeConstructorsSet": {
+      "title": "Probe Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mProbeConstructor"
+      }
+    },
     "mProbeConstructorsPayload": {
       "title": "Probe Constructors Payload",
       "type": "object",
       "properties": {
         "cp": {
-          "title": "Probe Constructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mProbeConstructor"
-          }
+          "$ref": "#/definitions/mProbeConstructorsSet"
+        }
+      },
+      "required": [
+        "cp"
+      ]
+    },
+    "mProbeUpdateStates": {
+      "title": "Probe Update States",
+      "type": "object",
+      "properties": {
+        "p": {
+          "$ref": "#/definitions/mPosition"
+        },
+        "r": {
+          "$ref": "#/definitions/mRotation"
         }
       }
     },
@@ -912,25 +1152,31 @@
           "$ref": "#/definitions/mCommonUpdateMetas"
         },
         "s": {
-          "$ref": "#/definitions/mProbeConstructorStates"
+          "$ref": "#/definitions/mProbeUpdateStates"
         }
       },
       "required": [
         "m"
       ]
     },
+    "mProbeUpdatesSet": {
+      "title": "Probe Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mProbeUpdate"
+      }
+    },
     "mProbeUpdatesPayload": {
       "title": "Probe Updates Payload",
       "type": "object",
       "properties": {
         "up": {
-          "title": "Probe Updates Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mProbeUpdate"
-          }
+          "$ref": "#/definitions/mProbeUpdatesSet"
         }
-      }
+      },
+      "required": [
+        "up"
+      ]
     },
     "mProbeDestructor": {
       "title": "Probe Destructor",
@@ -941,18 +1187,24 @@
         }
       }
     },
+    "mProbeDestructorsSet": {
+      "title": "Probe Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mProbeDestructor"
+      }
+    },
     "mProbeDestructorsPayload": {
       "title": "Probe Destructors Payload",
       "type": "object",
       "properties": {
         "dp": {
-          "title": "Probe Destructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mProbeDestructor"
-          }
+          "$ref": "#/definitions/mProbeDestructorsSet"
         }
-      }
+      },
+      "required": [
+        "dp"
+      ]
     },
     "mProbeEmitterConstructorAttrs": {
       "title": "Probe Emitter Constructor Attributes",
@@ -968,8 +1220,7 @@
       "type": "object",
       "properties": {
         "sm": {
-          "title": "Signal Modulator Key",
-          "type": "string"
+          "$ref": "#/definitions/mMetaKey"
         }
       }
     },
@@ -991,18 +1242,24 @@
         "m"
       ]
     },
+    "mProbeEmitterConstructorsSet": {
+      "title": "Probe Emitter Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mProbeEmitterConstructor"
+      }
+    },
     "mProbeEmitterConstructorsPayload": {
       "title": "Probe Emitter Constructors Payload",
       "type": "object",
       "properties": {
         "cpe": {
-          "title": "Probe Emitter Constructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mProbeEmitterConstructor"
-          }
+          "$ref": "#/definitions/mProbeEmitterConstructorsSet"
         }
-      }
+      },
+      "required": [
+        "cpe"
+      ]
     },
     "mProbeEmitterUpdate": {
       "title": "Probe Emitter Update",
@@ -1016,18 +1273,24 @@
         "m"
       ]
     },
+    "mProbeEmitterUpdatesSet": {
+      "title": "Probe Emitter Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mProbeEmitterUpdate"
+      }
+    },
     "mProbeEmitterUpdatesPayload": {
       "title": "Probe Emitter Updates Payload",
       "type": "object",
       "properties": {
         "upe": {
-          "title": "Probe Emitter Updates Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mProbeEmitterUpdate"
-          }
+          "$ref": "#/definitions/mProbeEmitterUpdatesSet"
         }
-      }
+      },
+      "required": [
+        "upe"
+      ]
     },
     "mProbeEmitterDestructor": {
       "title": "Probe Emitter Destructor",
@@ -1038,26 +1301,31 @@
         }
       }
     },
+    "mProbeEmitterDestructorsSet": {
+      "title": "Probe Emitter Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mProbeEmitterDestructor"
+      }
+    },
     "mProbeEmitterDestructorsPayload": {
       "title": "Probe Emitter Destructors Payload",
       "type": "object",
       "properties": {
         "dpe": {
-          "title": "Probe Emitter Destructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mProbeEmitterDestructor"
-          }
+          "$ref": "#/definitions/mProbeEmitterDestructorsSet"
         }
-      }
+      },
+      "required": [
+        "dpe"
+      ]
     },
     "mProbeOscillatorConstructorAttrs": {
       "title": "Probe Oscillator Constructor Attributes",
       "type": "object",
       "properties": {
         "dc": {
-          "title": "Channel Definition",
-          "type": "object"
+          "$ref": "#/definitions/mChannelDefinition"
         }
       }
     },
@@ -1076,18 +1344,24 @@
         "m"
       ]
     },
+    "mProbeOscillatorConstructorsSet": {
+      "title": "Probe Oscillator Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mProbeOscillatorConstructor"
+      }
+    },
     "mProbeOscillatorConstructorsPayload": {
       "title": "Probe Oscillator Constructors Payload",
       "type": "object",
       "properties": {
         "cpo": {
-          "title": "Probe Oscillator Constructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mProbeOscillatorConstructor"
-          }
+          "$ref": "#/definitions/mProbeOscillatorConstructorsSet"
         }
-      }
+      },
+      "required": [
+        "cpo"
+      ]
     },
     "mProbeOscillatorUpdate": {
       "title": "Probe Oscillator Update",
@@ -1101,18 +1375,24 @@
         "m"
       ]
     },
+    "mProbeOscillatorUpdatesSet": {
+      "title": "Probe Oscillator Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mProbeOscillatorUpdate"
+      }
+    },
     "mProbeOscillatorUpdatesPayload": {
       "title": "Probe Oscillator Updates Payload",
       "type": "object",
       "properties": {
         "upo": {
-          "title": "Probe Oscillator Updates Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mProbeOscillatorUpdate"
-          }
+          "$ref": "#/definitions/mProbeOscillatorUpdatesSet"
         }
-      }
+      },
+      "required": [
+        "upo"
+      ]
     },
     "mProbeOscillatorDestructor": {
       "title": "Probe Oscillator Destructor",
@@ -1123,35 +1403,47 @@
         }
       }
     },
+    "mProbeOscillatorDestructorsSet": {
+      "title": "Probe Oscillator Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mProbeOscillatorDestructor"
+      }
+    },
     "mProbeOscillatorDestructorsPayload": {
       "title": "Probe Oscillator Destructors Payload",
       "type": "object",
       "properties": {
         "dpo": {
-          "title": "Probe Oscillator Destructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mProbeOscillatorDestructor"
-          }
+          "$ref": "#/definitions/mProbeOscillatorDestructorsSet"
         }
-      }
+      },
+      "required": [
+        "dpo"
+      ]
     },
     "mProbeCollectorConstructorAttrs": {
       "title": "Probe Collector Constructor Attributes",
       "type": "object",
       "properties": {
-        "xxx": {
-          "title": "Collector Patch Definition",
-          "type": "object"
-        }
-      }
-    },
-    "mProbeCollectorConstructorRefs": {
-      "title": "Probe Collector Constructor References",
-      "type": "object",
-      "properties": {
-        "sm": {
-          "title": "Signal Modulator Key",
+        "aa": {
+          "title": "Acoustic Area (a)",
+          "type": "string"
+        },
+        "st": {
+          "title": "Squelch Threshold",
+          "type": "string"
+        },
+        "lr": {
+          "title": "Lobe Range",
+          "type": "string"
+        },
+        "lrp": {
+          "title": "Lobe Range Poles",
+          "type": "string"
+        },
+        "lbp": {
+          "title": "Lobe Bearing Poles",
           "type": "string"
         }
       }
@@ -1161,29 +1453,58 @@
       "type": "object",
       "properties": {
         "m": {
-          "$ref": "#/definitions/mCommonConstructorMetas"
+          "$ref": "#/definitions/mCommonConstructorMetasAliasable"
         },
         "a": {
           "$ref": "#/definitions/mProbeCollectorConstructorAttrs"
-        },
-        "r": {
-          "$ref": "#/definitions/mProbeCollectorConstructorRefs"
         }
       },
       "required": [
         "m"
       ]
     },
+    "mProbeCollectorConstructorsSet": {
+      "title": "Probe Collector Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mProbeCollectorConstructor"
+      }
+    },
     "mProbeCollectorConstructorsPayload": {
       "title": "Probe Collector Constructors Payload",
       "type": "object",
       "properties": {
         "cpc": {
-          "title": "Probe Collector Constructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mProbeCollectorConstructor"
-          }
+          "$ref": "#/definitions/mProbeCollectorConstructorsSet"
+        }
+      },
+      "required": [
+        "cpc"
+      ]
+    },
+    "mProbeCollectorUpdateAttrs": {
+      "title": "Probe Collector Update Attributes",
+      "type": "object",
+      "properties": {
+        "aa": {
+          "title": "Acoustic Area (a)",
+          "type": "string"
+        },
+        "st": {
+          "title": "Squelch Threshold",
+          "type": "string"
+        },
+        "lr": {
+          "title": "Lobe Range",
+          "type": "string"
+        },
+        "lrp": {
+          "title": "Lobe Range Poles",
+          "type": "string"
+        },
+        "lbp": {
+          "title": "Lobe Bearing Poles",
+          "type": "string"
         }
       }
     },
@@ -1193,24 +1514,33 @@
       "properties": {
         "m": {
           "$ref": "#/definitions/mCommonUpdateMetas"
+        },
+        "a": {
+          "$ref": "#/definitions/mProbeCollectorUpdateAttrs"
         }
       },
       "required": [
         "m"
       ]
     },
+    "mProbeCollectorUpdatesSet": {
+      "title": "Probe Collector Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mProbeCollectorUpdate"
+      }
+    },
     "mProbeCollectorUpdatesPayload": {
       "title": "Probe Collector Updates Payload",
       "type": "object",
       "properties": {
         "upc": {
-          "title": "Probe Collector Updates Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mProbeCollectorUpdate"
-          }
+          "$ref": "#/definitions/mProbeCollectorUpdatesSet"
         }
-      }
+      },
+      "required": [
+        "upc"
+      ]
     },
     "mProbeCollectorDestructor": {
       "title": "Probe Collector Destructor",
@@ -1221,18 +1551,145 @@
         }
       }
     },
+    "mProbeCollectorDestructorsSet": {
+      "title": "Probe Collector Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mProbeCollectorDestructor"
+      }
+    },
     "mProbeCollectorDestructorsPayload": {
       "title": "Probe Collector Destructors Payload",
       "type": "object",
       "properties": {
         "dpc": {
-          "title": "Probe Collector Destructors Array",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/mProbeCollectorDestructor"
-          }
+          "$ref": "#/definitions/mProbeCollectorDestructorsSet"
+        }
+      },
+      "required": [
+        "dpc"
+      ]
+    },
+    "mEmitterPatchUpdateAttrs": {
+      "title": "Emitter Patch Update Attributes",
+      "type": "object",
+      "properties": {
+        "dpe": {
+          "$ref": "#/definitions/mEmitterPatchDefinition"
         }
       }
+    },
+    "mEmitterPatchUpdate": {
+      "title": "Emitter Patch Update",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonUpdateMetas"
+        },
+        "a": {
+          "$ref": "#/definitions/mEmitterPatchUpdateAttrs"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mEmitterPatchUpdatesSet": {
+      "title": "Emitter Patch Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mEmitterPatchUpdate"
+      }
+    },
+    "mEmitterPatchUpdatesPayload": {
+      "title": "Emitter Patch Updates Payload",
+      "type": "object",
+      "properties": {
+        "usmpe": {
+          "$ref": "#/definitions/mEmitterPatchUpdatesSet"
+        }
+      },
+      "required": [
+        "usmpe"
+      ]
+    },
+    "mOscillatorPatchUpdateAttrs": {
+      "title": "Oscillator Patch Update Attributes",
+      "type": "object",
+      "properties": {
+        "dpo": {
+          "$ref": "#/definitions/mOscillatorPatchDefinition"
+        }
+      }
+    },
+    "mOscillatorPatchUpdate": {
+      "title": "Oscillator Patch Update",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonUpdateMetas"
+        },
+        "a": {
+          "$ref": "#/definitions/mOscillatorPatchUpdateAttrs"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mOscillatorPatchUpdatesSet": {
+      "title": "Oscillator Patch Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mOscillatorPatchUpdate"
+      }
+    },
+    "mOscillatorPatchUpdatesPayload": {
+      "title": "Oscillator Patch Updates Payload",
+      "type": "object",
+      "properties": {
+        "usmpo": {
+          "$ref": "#/definitions/mOscillatorPatchUpdatesSet"
+        }
+      },
+      "required": [
+        "usmpo"
+      ]
+    },
+    "mOscillatorPatchEnvelopeUpdate": {
+      "title": "Oscillator Patch Envelope Update",
+      "type": "object",
+      "properties": {
+        "k": {
+          "$ref": "#/definitions/mMetaKey"
+        },
+        "de": {
+          "$ref": "#/definitions/mEnvelopeDefinition"
+        }
+      },
+      "required": [
+        "k",
+        "de"
+      ]
+    },
+    "mOscillatorPatchEnvelopeUpdatesSet": {
+      "title": "Oscillator Patch Envelope Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mOscillatorPatchEnvelopeUpdate"
+      }
+    },
+    "mOscillatorPatchEnvelopeUpdatesPayload": {
+      "title": "Oscillator Patch Envelope Updates Payload",
+      "type": "object",
+      "properties": {
+        "usmpoe": {
+          "$ref": "#/definitions/mOscillatorPatchEnvelopeUpdatesSet"
+        }
+      },
+      "required": [
+        "usmpoe"
+      ]
     }
   },
   "parameters": {
@@ -1262,7 +1719,7 @@
       }
     },
     "pFieldConstructorsPayload": {
-      "name": "fieldConstructors",
+      "name": "fieldConstructorsPayload",
       "in": "body",
       "description": "Field constructors payload.",
       "required": true,
@@ -1271,7 +1728,7 @@
       }
     },
     "pFieldUpdatesPayload": {
-      "name": "fieldUpdates",
+      "name": "fieldUpdatesPayload",
       "in": "body",
       "description": "Field updates payload.",
       "required": true,
@@ -1280,7 +1737,7 @@
       }
     },
     "pFieldDestructorsPayload": {
-      "name": "fieldDestructors",
+      "name": "fieldDestructorsPayload",
       "in": "body",
       "description": "Field destructors payload.",
       "required": true,
@@ -1307,7 +1764,7 @@
       }
     },
     "pFieldEmitterConstructorsPayload": {
-      "name": "fieldEmitterConstructors",
+      "name": "fieldEmitterConstructorsPayload",
       "in": "body",
       "description": "Field emitter constructors payload.",
       "required": true,
@@ -1316,7 +1773,7 @@
       }
     },
     "pFieldEmitterUpdatesPayload": {
-      "name": "fieldEmitterUpdates",
+      "name": "fieldEmitterUpdatesPayload",
       "in": "body",
       "description": "Field emitter updates payload.",
       "required": true,
@@ -1325,7 +1782,7 @@
       }
     },
     "pFieldEmitterDestructorsPayload": {
-      "name": "fieldEmitterDestructors",
+      "name": "fieldEmitterDestructorsPayload",
       "in": "body",
       "description": "Field emitter destructors payload.",
       "required": true,
@@ -1352,7 +1809,7 @@
       }
     },
     "pFieldOscillatorConstructorsPayload": {
-      "name": "fieldOscillatorConstructors",
+      "name": "fieldOscillatorConstructorsPayload",
       "in": "body",
       "description": "Field oscillator constructors payload.",
       "required": true,
@@ -1361,7 +1818,7 @@
       }
     },
     "pFieldOscillatorUpdatesPayload": {
-      "name": "fieldOscillatorUpdates",
+      "name": "fieldOscillatorUpdatesPayload",
       "in": "body",
       "description": "Field oscillator updates payload.",
       "required": true,
@@ -1370,7 +1827,7 @@
       }
     },
     "pFieldOscillatorDestructorsPayload": {
-      "name": "fieldOscillatorDestructors",
+      "name": "fieldOscillatorDestructorsPayload",
       "in": "body",
       "description": "Field oscillator destructors payload.",
       "required": true,
@@ -1397,7 +1854,7 @@
       }
     },
     "pSubjectConstructorsPayload": {
-      "name": "subjectConstructors",
+      "name": "subjectConstructorsPayload",
       "in": "body",
       "description": "Subject constructors payload.",
       "required": true,
@@ -1406,7 +1863,7 @@
       }
     },
     "pSubjectUpdatesPayload": {
-      "name": "subjectUpdates",
+      "name": "subjectUpdatesPayload",
       "in": "body",
       "description": "Subject updates payload.",
       "required": true,
@@ -1415,7 +1872,7 @@
       }
     },
     "pSubjectDestructorsPayload": {
-      "name": "subjectDestructors",
+      "name": "subjectDestructorsPayload",
       "in": "body",
       "description": "Subject destructors payload.",
       "required": true,
@@ -1442,7 +1899,7 @@
       }
     },
     "pSubjectEmitterConstructorsPayload": {
-      "name": "subjectEmitterConstructors",
+      "name": "subjectEmitterConstructorsPayload",
       "in": "body",
       "description": "Subject emitter constructors payload.",
       "required": true,
@@ -1451,7 +1908,7 @@
       }
     },
     "pSubjectEmitterUpdatesPayload": {
-      "name": "subjectEmitterUpdates",
+      "name": "subjectEmitterUpdatesPayload",
       "in": "body",
       "description": "Subject emitter updates payload.",
       "required": true,
@@ -1460,7 +1917,7 @@
       }
     },
     "pSubjectEmitterDestructorsPayload": {
-      "name": "subjectEmitterDestructors",
+      "name": "subjectEmitterDestructorsPayload",
       "in": "body",
       "description": "Subject emitter destructors payload.",
       "required": true,
@@ -1487,7 +1944,7 @@
       }
     },
     "pSubjectOscillatorConstructorsPayload": {
-      "name": "subjectOscillatorConstructors",
+      "name": "subjectOscillatorConstructorsPayload",
       "in": "body",
       "description": "Subject oscillator constructors payload.",
       "required": true,
@@ -1496,7 +1953,7 @@
       }
     },
     "pSubjectOscillatorUpdatesPayload": {
-      "name": "subjectOscillatorUpdates",
+      "name": "subjectOscillatorUpdatesPayload",
       "in": "body",
       "description": "Subject oscillator updates payload.",
       "required": true,
@@ -1505,7 +1962,7 @@
       }
     },
     "pSubjectOscillatorDestructorsPayload": {
-      "name": "subjectOscillatorDestructors",
+      "name": "subjectOscillatorDestructorsPayload",
       "in": "body",
       "description": "Subject oscillator destructors payload.",
       "required": true,
@@ -1532,7 +1989,7 @@
       }
     },
     "pProbeConstructorsPayload": {
-      "name": "probeConstructors",
+      "name": "probeConstructorsPayload",
       "in": "body",
       "description": "Probe constructors payload.",
       "required": true,
@@ -1541,7 +1998,7 @@
       }
     },
     "pProbeUpdatesPayload": {
-      "name": "probeUpdates",
+      "name": "probeUpdatesPayload",
       "in": "body",
       "description": "Probe updates payload.",
       "required": true,
@@ -1550,7 +2007,7 @@
       }
     },
     "pProbeDestructorsPayload": {
-      "name": "probeDestructors",
+      "name": "probeDestructorsPayload",
       "in": "body",
       "description": "Probe destructors payload.",
       "required": true,
@@ -1577,7 +2034,7 @@
       }
     },
     "pProbeEmitterConstructorsPayload": {
-      "name": "probeEmitterConstructors",
+      "name": "probeEmitterConstructorsPayload",
       "in": "body",
       "description": "Probe emitter constructors payload.",
       "required": true,
@@ -1586,7 +2043,7 @@
       }
     },
     "pProbeEmitterUpdatesPayload": {
-      "name": "probeEmitterUpdates",
+      "name": "probeEmitterUpdatesPayload",
       "in": "body",
       "description": "Probe emitter updates payload.",
       "required": true,
@@ -1595,7 +2052,7 @@
       }
     },
     "pProbeEmitterDestructorsPayload": {
-      "name": "probeEmitterDestructors",
+      "name": "probeEmitterDestructorsPayload",
       "in": "body",
       "description": "Probe emitter destructors payload.",
       "required": true,
@@ -1622,7 +2079,7 @@
       }
     },
     "pProbeOscillatorConstructorsPayload": {
-      "name": "probeOscillatorConstructors",
+      "name": "probeOscillatorConstructorsPayload",
       "in": "body",
       "description": "Probe oscillator constructors payload.",
       "required": true,
@@ -1631,7 +2088,7 @@
       }
     },
     "pProbeOscillatorUpdatesPayload": {
-      "name": "probeOscillatorUpdates",
+      "name": "probeOscillatorUpdatesPayload",
       "in": "body",
       "description": "Probe oscillator updates payload.",
       "required": true,
@@ -1640,7 +2097,7 @@
       }
     },
     "pProbeOscillatorDestructorsPayload": {
-      "name": "probeOscillatorDestructors",
+      "name": "probeOscillatorDestructorsPayload",
       "in": "body",
       "description": "Probe oscillator destructors payload.",
       "required": true,
@@ -1674,7 +2131,7 @@
       "type": "string"
     },
     "pProbeCollectorConstructorsPayload": {
-      "name": "probeCollectorConstructors",
+      "name": "probeCollectorConstructorsPayload",
       "in": "body",
       "description": "Probe collector constructors payload.",
       "required": true,
@@ -1683,7 +2140,7 @@
       }
     },
     "pProbeCollectorUpdatesPayload": {
-      "name": "probeCollectorUpdates",
+      "name": "probeCollectorUpdatesPayload",
       "in": "body",
       "description": "Probe collector updates payload.",
       "required": true,
@@ -1692,12 +2149,75 @@
       }
     },
     "pProbeCollectorDestructorsPayload": {
-      "name": "probeCollectorDestructors",
+      "name": "probeCollectorDestructorsPayload",
       "in": "body",
       "description": "Probe collector destructors payload.",
       "required": true,
       "schema": {
         "$ref": "#/definitions/mProbeCollectorDestructorsPayload"
+      }
+    },
+    "pEmitterPatchKey": {
+      "name": "emitterPatchKey",
+      "in": "path",
+      "description": "Emitter patch key.",
+      "required": true,
+      "type": "string"
+    },
+    "pEmitterPatchQueryKey": {
+      "name": "k",
+      "in": "query",
+      "description": "Emitter patch key.",
+      "required": false,
+      "collectionFormat": "multi",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pEmitterPatchUpdatesPayload": {
+      "name": "emitterPatchUpdatesPayload",
+      "in": "body",
+      "description": "Emitter patch updates payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mEmitterPatchUpdatesPayload"
+      }
+    },
+    "pOscillatorPatchKey": {
+      "name": "oscillatorPatchKey",
+      "in": "path",
+      "description": "Oscillator patch key.",
+      "required": true,
+      "type": "string"
+    },
+    "pOscillatorPatchQueryKey": {
+      "name": "k",
+      "in": "query",
+      "description": "Oscillator patch key.",
+      "required": false,
+      "collectionFormat": "multi",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pOscillatorPatchUpdatesPayload": {
+      "name": "oscillatorPatchUpdatesPayload",
+      "in": "body",
+      "description": "Oscillator patch updates payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mOscillatorPatchUpdatesPayload"
+      }
+    },
+    "pOscillatorPatchEnvelopeUpdatesPayload": {
+      "name": "oscillatorPatchEnvelopesUpdatesPayload",
+      "in": "body",
+      "description": "Oscillator patch envelope updates payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mOscillatorPatchEnvelopeUpdatesPayload"
       }
     }
   },
@@ -1724,7 +2244,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Fields"
+        ]
       },
       "post": {
         "parameters": [
@@ -1736,7 +2259,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Fields"
+        ]
       },
       "put": {
         "parameters": [
@@ -1748,7 +2274,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Fields"
+        ]
       },
       "delete": {
         "parameters": [
@@ -1760,7 +2289,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Fields"
+        ]
       }
     },
     "/f/{fieldKey}/fe": {
@@ -1782,7 +2314,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Field Emitters"
+        ]
       },
       "post": {
         "parameters": [
@@ -1794,7 +2329,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Field Emitters"
+        ]
       },
       "put": {
         "parameters": [
@@ -1806,7 +2344,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Field Emitters"
+        ]
       },
       "delete": {
         "parameters": [
@@ -1818,7 +2359,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Field Emitters"
+        ]
       }
     },
     "/f/{fieldKey}/fo": {
@@ -1840,7 +2384,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Field Oscillators"
+        ]
       },
       "put": {
         "parameters": [
@@ -1852,7 +2399,26 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Field Oscillators"
+        ]
+      },
+      "delete": {
+        "deprecated": true,
+        "parameters": [
+          {
+            "$ref": "#/parameters/pFieldOscillatorDestructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Field Oscillators"
+        ]
       }
     },
     "/f/{fieldKey}/fe/{fieldEmitterKey}/fo": {
@@ -1877,7 +2443,26 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Field Oscillators"
+        ]
+      },
+      "post": {
+        "deprecated": true,
+        "parameters": [
+          {
+            "$ref": "#/parameters/pFieldOscillatorConstructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Field Oscillators"
+        ]
       }
     },
     "/f/{fieldKey}/s": {
@@ -1899,7 +2484,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Subjects"
+        ]
       },
       "post": {
         "parameters": [
@@ -1911,7 +2499,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Subjects"
+        ]
       },
       "put": {
         "parameters": [
@@ -1923,7 +2514,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Subjects"
+        ]
       },
       "delete": {
         "parameters": [
@@ -1935,7 +2529,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Subjects"
+        ]
       }
     },
     "/f/{fieldKey}/se": {
@@ -1957,7 +2554,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Subject Emitters"
+        ]
       },
       "put": {
         "parameters": [
@@ -1969,7 +2569,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Subject Emitters"
+        ]
       },
       "delete": {
         "parameters": [
@@ -1981,7 +2584,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Subject Emitters"
+        ]
       }
     },
     "/f/{fieldKey}/s/{subjectKey}/se": {
@@ -2006,7 +2612,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Subject Emitters"
+        ]
       },
       "post": {
         "parameters": [
@@ -2018,7 +2627,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Subject Emitters"
+        ]
       }
     },
     "/f/{fieldKey}/so": {
@@ -2040,7 +2652,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Subject Oscillators"
+        ]
       },
       "put": {
         "parameters": [
@@ -2052,7 +2667,26 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Subject Oscillators"
+        ]
+      },
+      "delete": {
+        "deprecated": true,
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSubjectOscillatorDestructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Subject Oscillators"
+        ]
       }
     },
     "/f/{fieldKey}/se/{subjectEmitterKey}/so": {
@@ -2077,7 +2711,26 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Subject Oscillators"
+        ]
+      },
+      "post": {
+        "deprecated": true,
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSubjectOscillatorConstructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Subject Oscillators"
+        ]
       }
     },
     "/f/{fieldKey}/p": {
@@ -2099,7 +2752,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probes"
+        ]
       },
       "post": {
         "parameters": [
@@ -2111,7 +2767,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probes"
+        ]
       },
       "put": {
         "parameters": [
@@ -2123,7 +2782,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probes"
+        ]
       },
       "delete": {
         "parameters": [
@@ -2135,7 +2797,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probes"
+        ]
       }
     },
     "/f/{fieldKey}/pe": {
@@ -2157,7 +2822,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Emitters"
+        ]
       },
       "put": {
         "parameters": [
@@ -2169,7 +2837,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Emitters"
+        ]
       },
       "delete": {
         "parameters": [
@@ -2181,7 +2852,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Emitters"
+        ]
       }
     },
     "/f/{fieldKey}/p/{probeKey}/pe": {
@@ -2206,7 +2880,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Emitters"
+        ]
       },
       "post": {
         "parameters": [
@@ -2218,7 +2895,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Emitters"
+        ]
       }
     },
     "/f/{fieldKey}/po": {
@@ -2240,7 +2920,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Oscillators"
+        ]
       },
       "put": {
         "parameters": [
@@ -2252,7 +2935,26 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Oscillators"
+        ]
+      },
+      "delete": {
+        "deprecated": true,
+        "parameters": [
+          {
+            "$ref": "#/parameters/pProbeOscillatorDestructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Probe Oscillators"
+        ]
       }
     },
     "/f/{fieldKey}/pe/{probeEmitterKey}/po": {
@@ -2277,7 +2979,26 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Oscillators"
+        ]
+      },
+      "post": {
+        "deprecated": true,
+        "parameters": [
+          {
+            "$ref": "#/parameters/pProbeOscillatorConstructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Probe Oscillators"
+        ]
       }
     },
     "/f/{fieldKey}/pc": {
@@ -2299,7 +3020,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Collectors"
+        ]
       },
       "put": {
         "parameters": [
@@ -2311,7 +3035,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Collectors"
+        ]
       },
       "delete": {
         "parameters": [
@@ -2323,7 +3050,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Collectors"
+        ]
       }
     },
     "/f/{fieldKey}/p/{probeKey}/pc": {
@@ -2348,7 +3078,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Collectors"
+        ]
       },
       "post": {
         "parameters": [
@@ -2360,7 +3093,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Collectors"
+        ]
       }
     },
     "/f/{fieldKey}/pca/{probeCollectorAlias}": {
@@ -2377,7 +3113,10 @@
           "200": {
             "$ref": "#/responses/rSuccess"
           }
-        }
+        },
+        "tags": [
+          "Probe Collectors"
+        ]
       }
     },
     "/f/{fieldKey}/pc/{probeCollectorKey}/w": {
@@ -2394,7 +3133,10 @@
           "200": {
             "description": "Success"
           }
-        }
+        },
+        "tags": [
+          "Waveforms"
+        ]
       }
     },
     "/f/{fieldKey}/w": {
@@ -2408,7 +3150,249 @@
           "200": {
             "description": "Success"
           }
+        },
+        "tags": [
+          "Waveforms"
+        ]
+      }
+    },
+    "/f/{fieldKey}/smpe": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
         }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "Emitter Patches"
+        ]
+      },
+      "put": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/pEmitterPatchUpdatesPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Emitter Patches"
+        ]
+      }
+    },
+    "/f/{fieldKey}/fe/{fieldEmitterKey}/smpe": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        },
+        {
+          "$ref": "#/parameters/pFieldEmitterKey"
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "Emitter Patches"
+        ]
+      }
+    },
+    "/f/{fieldKey}/se/{subjectEmitterKey}/smpe": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        },
+        {
+          "$ref": "#/parameters/pSubjectEmitterKey"
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "Emitter Patches"
+        ]
+      }
+    },
+    "/f/{fieldKey}/pe/{probeEmitterKey}/smpe": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        },
+        {
+          "$ref": "#/parameters/pProbeEmitterKey"
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "Emitter Patches"
+        ]
+      }
+    },
+    "/f/{fieldKey}/smpo": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "Oscillator Patches"
+        ]
+      },
+      "put": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/pOscillatorPatchUpdatesPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Oscillator Patches"
+        ]
+      }
+    },
+    "/f/{fieldKey}/smpe/{emitterPatchKey}/smpo": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        },
+        {
+          "$ref": "#/parameters/pEmitterPatchKey"
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "Oscillator Patches"
+        ]
+      }
+    },
+    "/f/{fieldKey}/fo/{fieldOscillatorKey}/smpo": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        },
+        {
+          "$ref": "#/parameters/pFieldOscillatorKey"
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "Oscillator Patches"
+        ]
+      }
+    },
+    "/f/{fieldKey}/so/{subjectOscillatorKey}/smpo": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        },
+        {
+          "$ref": "#/parameters/pSubjectOscillatorKey"
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "Oscillator Patches"
+        ]
+      }
+    },
+    "/f/{fieldKey}/po/{probeOscillatorKey}/smpo": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        },
+        {
+          "$ref": "#/parameters/pProbeOscillatorKey"
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "Oscillator Patches"
+        ]
+      }
+    },
+    "/f/{fieldKey}/smpo/{oscillatorPatchKey}/e": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        },
+        {
+          "$ref": "#/parameters/pOscillatorPatchKey"
+        }
+      ],
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "Oscillator Patch Envelopes"
+        ]
+      },
+      "put": {
+        "parameters": [
+          {
+            "$ref": "#/parameters/pOscillatorPatchEnvelopeUpdatesPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Oscillator Patch Envelopes"
+        ]
       }
     }
   }
