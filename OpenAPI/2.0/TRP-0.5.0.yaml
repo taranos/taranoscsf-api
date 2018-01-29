@@ -161,6 +161,76 @@ definitions:
     required:
       - k
 
+  mMacroArgs:
+    title: Macro Arguments
+    type: array
+    items:
+      type: string
+
+  mEmitterMacro:
+    title: Emitter Macro
+    type: object
+    properties:
+      create_channel:
+        $ref: '#/definitions/mMacroArgs'
+      destroy_channel:
+        $ref: '#/definitions/mMacroArgs'
+      set_channel_ceiling:
+        $ref: '#/definitions/mMacroArgs'
+      set_channel_poles:
+        $ref: '#/definitions/mMacroArgs'
+      set_channel_floor:
+        $ref: '#/definitions/mMacroArgs'
+
+  mEmitterCall:
+    title: Emitter Call
+    type: object
+    properties:
+      k:
+        $ref: '#/definitions/mMetaKey'
+      m:
+        $ref: '#/definitions/mEmitterMacro'
+    required:
+      - k
+      - m
+
+  mOscillatorMacro:
+    title: Oscillator Macro
+    type: object
+    properties:
+      set_loudness_ceiling:
+        $ref: '#/definitions/mMacroArgs'
+      set_loudness_poles:
+        $ref: '#/definitions/mMacroArgs'
+      set_loudness_floor:
+        $ref: '#/definitions/mMacroArgs'
+      set_period_poles:
+        $ref: '#/definitions/mMacroArgs'
+      set_pitch_ceiling:
+        $ref: '#/definitions/mMacroArgs'
+      set_pitch_poles:
+        $ref: '#/definitions/mMacroArgs'
+      set_pitch_floor:
+        $ref: '#/definitions/mMacroArgs'
+      set_shape_poles:
+        $ref: '#/definitions/mMacroArgs'
+      set_tone_poles:
+        $ref: '#/definitions/mMacroArgs'
+      set_waveset_id:
+        $ref: '#/definitions/mMacroArgs'
+
+  mOscillatorCall:
+    title: Oscillator Call
+    type: object
+    properties:
+      k:
+        $ref: '#/definitions/mMetaKey'
+      m:
+        $ref: '#/definitions/mOscillatorMacro'
+    required:
+      - k
+      - m
+
   mPosition:
     title: Position
     type: array
@@ -336,7 +406,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mFieldConstructor'
-  
+
   mFieldConstructorsPayload:
     title: Field Constructors Payload
     type: object
@@ -366,7 +436,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mFieldUpdate'
-  
+
   mFieldUpdatesPayload:
     title: Field Updates Payload
     type: object
@@ -390,7 +460,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mFieldDestructor'
-  
+
   mFieldDestructorsPayload:
     title: Field Destructors Payload
     type: object
@@ -438,7 +508,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mFieldEmitterConstructor'
-  
+
   mFieldEmitterConstructorsPayload:
     title: Field Emitter Constructors Payload
     type: object
@@ -464,7 +534,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mFieldEmitterUpdate'
-  
+
   mFieldEmitterUpdatesPayload:
     title: Field Emitter Updates Payload
     type: object
@@ -498,6 +568,23 @@ definitions:
     required:
       - dfe
 
+  # Calls:
+
+  mFieldEmitterCallsSet:
+    title: Field Emitter Calls Set
+    type: array
+    items:
+      $ref: '#/definitions/mEmitterCall'
+
+  mFieldEmitterCallsPayload:
+    title: Field Emitter Calls Payload
+    type: object
+    properties:
+      mfe:
+        $ref: '#/definitions/mFieldEmitterCallsSet'
+    required:
+      - mfe
+
   #
   # Field Oscillators:
   #
@@ -527,7 +614,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mFieldOscillatorConstructor'
-  
+
   mFieldOscillatorConstructorsPayload:
     title: Field Oscillator Constructors Payload
     type: object
@@ -553,7 +640,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mFieldOscillatorUpdate'
-  
+
   mFieldOscillatorUpdatesPayload:
     title: Field Oscillator Updates Payload
     type: object
@@ -577,7 +664,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mFieldOscillatorDestructor'
-  
+
   mFieldOscillatorDestructorsPayload:
     title: Field Oscillator Destructors Payload
     type: object
@@ -586,6 +673,23 @@ definitions:
         $ref: '#/definitions/mFieldOscillatorDestructorsSet'
     required:
       - dfo
+
+  # Calls:
+
+  mFieldOscillatorCallsSet:
+    title: Field Oscillator Calls Set
+    type: array
+    items:
+      $ref: '#/definitions/mOscillatorCall'
+
+  mFieldOscillatorCallsPayload:
+    title: Field Oscillator Calls Payload
+    type: object
+    properties:
+      mfo:
+        $ref: '#/definitions/mFieldOscillatorCallsSet'
+    required:
+      - mfo
 
   #
   # Subjects:
@@ -636,7 +740,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mSubjectConstructor'
-  
+
   mSubjectConstructorsPayload:
     title: Subject Constructors Payload
     type: object
@@ -673,7 +777,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mSubjectUpdate'
-  
+
   mSubjectUpdatesPayload:
     title: Subject Updates Payload
     type: object
@@ -697,7 +801,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mSubjectDestructor'
-  
+
   mSubjectDestructorsPayload:
     title: Subject Destructors Payload
     type: object
@@ -745,7 +849,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mSubjectEmitterConstructor'
-  
+
   mSubjectEmitterConstructorsPayload:
     title: Subject Emitter Constructors Payload
     type: object
@@ -771,7 +875,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mSubjectEmitterUpdate'
-  
+
   mSubjectEmitterUpdatesPayload:
     title: Subject Emitter Updates Payload
     type: object
@@ -795,7 +899,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mSubjectEmitterDestructor'
-  
+
   mSubjectEmitterDestructorsPayload:
     title: Subject Emitter Destructors Payload
     type: object
@@ -804,6 +908,23 @@ definitions:
         $ref: '#/definitions/mSubjectEmitterDestructorsSet'
     required:
       - dse
+
+  # Calls:
+
+  mSubjectEmitterCallsSet:
+    title: Subject Emitter Calls Set
+    type: array
+    items:
+      $ref: '#/definitions/mEmitterCall'
+
+  mSubjectEmitterCallsPayload:
+    title: Subject Emitter Calls Payload
+    type: object
+    properties:
+      mse:
+        $ref: '#/definitions/mSubjectEmitterCallsSet'
+    required:
+      - mse
 
   #
   # Subject Oscillators:
@@ -834,7 +955,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mSubjectOscillatorConstructor'
-  
+
   mSubjectOscillatorConstructorsPayload:
     title: Subject Oscillator Constructors Payload
     type: object
@@ -860,7 +981,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mSubjectOscillatorUpdate'
-  
+
   mSubjectOscillatorUpdatesPayload:
     title: Subject Oscillator Updates Payload
     type: object
@@ -884,7 +1005,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mSubjectOscillatorDestructor'
-  
+
   mSubjectOscillatorDestructorsPayload:
     title: Subject Oscillator Destructors Payload
     type: object
@@ -893,6 +1014,23 @@ definitions:
         $ref: '#/definitions/mSubjectOscillatorDestructorsSet'
     required:
       - dso
+
+  # Calls:
+
+  mSubjectOscillatorCallsSet:
+    title: Subject Oscillator Calls Set
+    type: array
+    items:
+      $ref: '#/definitions/mOscillatorCall'
+
+  mSubjectOscillatorCallsPayload:
+    title: Subject Oscillator Calls Payload
+    type: object
+    properties:
+      mso:
+        $ref: '#/definitions/mSubjectOscillatorCallsSet'
+    required:
+      - mso
 
   #
   # Probes:
@@ -956,7 +1094,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mProbeConstructor'
-  
+
   mProbeConstructorsPayload:
     title: Probe Constructors Payload
     type: object
@@ -976,7 +1114,7 @@ definitions:
         $ref: '#/definitions/mPosition'
       r:
         $ref: '#/definitions/mRotation'
-        
+
   mProbeUpdate:
     title: Probe Update
     type: object
@@ -993,7 +1131,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mProbeUpdate'
-  
+
   mProbeUpdatesPayload:
     title: Probe Updates Payload
     type: object
@@ -1017,7 +1155,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mProbeDestructor'
-  
+
   mProbeDestructorsPayload:
     title: Probe Destructors Payload
     type: object
@@ -1065,7 +1203,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mProbeEmitterConstructor'
-  
+
   mProbeEmitterConstructorsPayload:
     title: Probe Emitter Constructors Payload
     type: object
@@ -1091,7 +1229,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mProbeEmitterUpdate'
-  
+
   mProbeEmitterUpdatesPayload:
     title: Probe Emitter Updates Payload
     type: object
@@ -1115,7 +1253,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mProbeEmitterDestructor'
-  
+
   mProbeEmitterDestructorsPayload:
     title: Probe Emitter Destructors Payload
     type: object
@@ -1124,6 +1262,23 @@ definitions:
         $ref: '#/definitions/mProbeEmitterDestructorsSet'
     required:
       - dpe
+
+  # Calls:
+
+  mProbeEmitterCallsSet:
+    title: Probe Emitter Calls Set
+    type: array
+    items:
+      $ref: '#/definitions/mEmitterCall'
+
+  mProbeEmitterCallsPayload:
+    title: Probe Emitter Calls Payload
+    type: object
+    properties:
+      mpe:
+        $ref: '#/definitions/mProbeEmitterCallsSet'
+    required:
+      - mpe
 
   #
   # Probe Oscillators:
@@ -1154,7 +1309,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mProbeOscillatorConstructor'
-  
+
   mProbeOscillatorConstructorsPayload:
     title: Probe Oscillator Constructors Payload
     type: object
@@ -1180,7 +1335,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mProbeOscillatorUpdate'
-  
+
   mProbeOscillatorUpdatesPayload:
     title: Probe Oscillator Updates Payload
     type: object
@@ -1204,7 +1359,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mProbeOscillatorDestructor'
-  
+
   mProbeOscillatorDestructorsPayload:
     title: Probe Oscillator Destructors Payload
     type: object
@@ -1213,6 +1368,23 @@ definitions:
         $ref: '#/definitions/mProbeOscillatorDestructorsSet'
     required:
       - dpo
+
+  # Calls:
+
+  mProbeOscillatorCallsSet:
+    title: Probe Oscillator Calls Set
+    type: array
+    items:
+      $ref: '#/definitions/mOscillatorCall'
+
+  mProbeOscillatorCallsPayload:
+    title: Probe Oscillator Calls Payload
+    type: object
+    properties:
+      mso:
+        $ref: '#/definitions/mProbeOscillatorCallsSet'
+    required:
+      - mso
 
   #
   # Probe Collectors:
@@ -1256,7 +1428,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mProbeCollectorConstructor'
-  
+
   mProbeCollectorConstructorsPayload:
     title: Probe Collector Constructors Payload
     type: object
@@ -1287,7 +1459,7 @@ definitions:
       lbp:
         title: Lobe Bearing Poles
         type: string
-  
+
   mProbeCollectorUpdate:
     title: Probe Collector Update
     type: object
@@ -1304,7 +1476,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mProbeCollectorUpdate'
-  
+
   mProbeCollectorUpdatesPayload:
     title: Probe Collector Updates Payload
     type: object
@@ -1328,7 +1500,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mProbeCollectorDestructor'
-  
+
   mProbeCollectorDestructorsPayload:
     title: Probe Collector Destructors Payload
     type: object
@@ -1350,7 +1522,7 @@ definitions:
     properties:
       dpe:
         $ref: '#/definitions/mEmitterPatchDefinition'
-        
+
   mEmitterPatchUpdate:
     title: Emitter Patch Update
     type: object
@@ -1367,7 +1539,7 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/mEmitterPatchUpdate'
-  
+
   mEmitterPatchUpdatesPayload:
     title: Emitter Patch Updates Payload
     type: object
@@ -1549,6 +1721,14 @@ parameters:
     schema:
       $ref: '#/definitions/mFieldEmitterDestructorsPayload'
 
+  pFieldEmitterCallsPayload:
+    name: fieldEmitterCallsPayload
+    in: body
+    description: Field emitter calls payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mFieldEmitterCallsPayload'
+
   # Field Oscillators:
 
   pFieldOscillatorKey:
@@ -1591,6 +1771,14 @@ parameters:
     required: true
     schema:
       $ref: '#/definitions/mFieldOscillatorDestructorsPayload'
+
+  pFieldOscillatorCallsPayload:
+    name: fieldOscillatorCallsPayload
+    in: body
+    description: Field oscillator calls payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mFieldOscillatorCallsPayload'
 
   # Subjects:
 
@@ -1678,6 +1866,14 @@ parameters:
     schema:
       $ref: '#/definitions/mSubjectEmitterDestructorsPayload'
 
+  pSubjectEmitterCallsPayload:
+    name: fieldSubjectCallsPayload
+    in: body
+    description: Subject emitter calls payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mSubjectEmitterCallsPayload'
+
   # Subject Oscillators:
 
   pSubjectOscillatorKey:
@@ -1720,6 +1916,14 @@ parameters:
     required: true
     schema:
       $ref: '#/definitions/mSubjectOscillatorDestructorsPayload'
+
+  pSubjectOscillatorCallsPayload:
+    name: subjectOscillatorCallsPayload
+    in: body
+    description: Subject oscillator calls payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mSubjectOscillatorCallsPayload'
 
   # Probes:
 
@@ -1807,6 +2011,14 @@ parameters:
     schema:
       $ref: '#/definitions/mProbeEmitterDestructorsPayload'
 
+  pProbeEmitterCallsPayload:
+    name: probeSubjectCallsPayload
+    in: body
+    description: Probe emitter calls payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeEmitterCallsPayload'
+
   # Probe Oscillators:
 
   pProbeOscillatorKey:
@@ -1849,6 +2061,14 @@ parameters:
     required: true
     schema:
       $ref: '#/definitions/mProbeOscillatorDestructorsPayload'
+
+  pProbeOscillatorCallsPayload:
+    name: probeOscillatorCallsPayload
+    in: body
+    description: Probe oscillator calls payload.
+    required: true
+    schema:
+      $ref: '#/definitions/mProbeOscillatorCallsPayload'
 
   # Probe Collectors:
 
@@ -1983,8 +2203,9 @@ paths:
   # Fields:
   /f:
 
-    # ReportFields:
+    # ReportFields():
     get:
+      description: "ReportFields() operation"
       parameters:
         - $ref: '#/parameters/pFieldQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -1992,45 +2213,53 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Fields
+        - "Elements: Fields"
+        - "Layer: Simulation"
 
-    # CreateFields:
+    # CreateFields():
     post:
+      description: "CreateFields() operation"
       parameters:
         - $ref: '#/parameters/pFieldConstructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Fields
+        - "Elements: Fields"
+        - "Layer: Simulation"
 
-    # UpdateFields:
+    # UpdateFields():
     put:
+      description: "UpdateFields() operation"
       parameters:
         - $ref: '#/parameters/pFieldUpdatesPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Fields
+        - "Elements: Fields"
+        - "Layer: Simulation"
 
-    # DeleteFields:
+    # DestroyFields():
     delete:
+      description: "DestroyFields() operation"
       parameters:
         - $ref: '#/parameters/pFieldDestructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Fields
+        - "Elements: Fields"
+        - "Layer: Simulation"
 
   # Field Emitters:
   /f/{fieldKey}/fe:
     parameters:
       - $ref: '#/parameters/pFieldKey'
 
-    # ReportFieldEmitters:
+    # ReportFieldEmitters():
     get:
+      description: "ReportFieldEmitters() operation"
       parameters:
         - $ref: '#/parameters/pFieldEmitterQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2038,45 +2267,69 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Field Emitters
+        - "Elements: Field Emitters"
+        - "Layer: Simulation"
 
-    # CreateFieldEmitters:
+    # CreateFieldEmitters():
     post:
+      description: "CreateFieldEmitters() operation"
       parameters:
         - $ref: '#/parameters/pFieldEmitterConstructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Field Emitters
+        - "Elements: Field Emitters"
+        - "Layer: Simulation"
 
-    # UpdateFieldEmitters:
+    # UpdateFieldEmitters():
     put:
+      description: "UpdateFieldEmitters() operation"
       parameters:
         - $ref: '#/parameters/pFieldEmitterUpdatesPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Field Emitters
+        - "Elements: Field Emitters"
+        - "Layer: Simulation"
 
-    # DeleteFieldEmitters:
+    # DestroyFieldEmitters():
     delete:
+      description: "DestroyFieldEmitters() operation"
       parameters:
         - $ref: '#/parameters/pFieldEmitterDestructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Field Emitters
+        - "Elements: Field Emitters"
+        - "Layer: Simulation"
+
+  /f/{fieldKey}/fe/m:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # CallFieldEmitters():
+    put:
+      description: "CallFieldEmitters() operation"
+      parameters:
+        - $ref: '#/parameters/pFieldEmitterCallsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - "Elements: Field Emitters"
+        - "Layer: Simulation"
 
   # Field Oscillators:
   /f/{fieldKey}/fo:
     parameters:
       - $ref: '#/parameters/pFieldKey'
 
-    # ReportFieldOscillators:
+    # ReportFieldOscillators():
     get:
+      description: "ReportFieldOscillators() operation"
       parameters:
         - $ref: '#/parameters/pFieldOscillatorQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2084,20 +2337,24 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Field Oscillators
+        - "Elements: Field Oscillators"
+        - "Layer: Simulation"
 
-    # UpdateFieldOscillators:
+    # UpdateFieldOscillators():
     put:
+      description: "UpdateFieldOscillators() operation"
       parameters:
         - $ref: '#/parameters/pFieldOscillatorUpdatesPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Field Oscillators
+        - "Elements: Field Oscillators"
+        - "Layer: Simulation"
 
-    # DeleteFieldOscillators:
+    # DestroyFieldOscillators():
     delete:
+      description: "DestroyFieldOscillators() operation"
       deprecated: true
       parameters:
         - $ref: '#/parameters/pFieldOscillatorDestructorsPayload'
@@ -2105,15 +2362,17 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Field Oscillators
+        - "Elements: Field Oscillators"
+        - "Layer: Simulation"
 
   /f/{fieldKey}/fe/{fieldEmitterKey}/fo:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pFieldEmitterKey'
 
-    # ReportOscillatorsOfFieldEmitter:
+    # ReportOscillatorsOfFieldEmitter():
     get:
+      description: "ReportOscillatorsOfFieldEmitter() operation"
       parameters:
         - $ref: '#/parameters/pFieldOscillatorQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2121,10 +2380,12 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Field Oscillators
+        - "Elements: Field Oscillators"
+        - "Layer: Simulation"
 
-    # CreateFieldOscillators:
+    # CreateFieldOscillators():
     post:
+      description: "CreateFieldOscillators() operation"
       deprecated: true
       parameters:
         - $ref: '#/parameters/pFieldOscillatorConstructorsPayload'
@@ -2132,15 +2393,33 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Field Oscillators
+        - "Elements: Field Oscillators"
+        - "Layer: Simulation"
+
+  /f/{fieldKey}/fo/m:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # CallFieldOscillators():
+    put:
+      description: "CallFieldOscillators() operation"
+      parameters:
+        - $ref: '#/parameters/pFieldOscillatorCallsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - "Elements: Field Oscillators"
+        - "Layer: Simulation"
 
   # Subjects:
   /f/{fieldKey}/s:
     parameters:
       - $ref: '#/parameters/pFieldKey'
 
-    # ReportSubjects:
+    # ReportSubjects():
     get:
+      description: "ReportSubjects() operation"
       parameters:
         - $ref: '#/parameters/pSubjectQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2148,45 +2427,53 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subjects
+        - "Elements: Subjects"
+        - "Layer: Simulation"
 
-    # CreateSubjects:
+    # CreateSubjects():
     post:
+      description: "CreateSubjects() operation"
       parameters:
         - $ref: '#/parameters/pSubjectConstructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subjects
+        - "Elements: Subjects"
+        - "Layer: Simulation"
 
-    # UpdateSubjects:
+    # UpdateSubjects():
     put:
+      description: "UpdateSubjects() operation"
       parameters:
         - $ref: '#/parameters/pSubjectUpdatesPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subjects
+        - "Elements: Subjects"
+        - "Layer: Simulation"
 
-    # DeleteSubjects:
+    # DestroySubjects():
     delete:
+      description: "DestroySubjects() operation"
       parameters:
         - $ref: '#/parameters/pSubjectDestructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subjects
+        - "Elements: Subjects"
+        - "Layer: Simulation"
 
   # Subject Emitters:
   /f/{fieldKey}/se:
     parameters:
       - $ref: '#/parameters/pFieldKey'
 
-    # ReportSubjectEmitters:
+    # ReportSubjectEmitters():
     get:
+      description: "ReportSubjectEmitters() operation"
       parameters:
         - $ref: '#/parameters/pSubjectEmitterQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2194,35 +2481,41 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subject Emitters
+        - "Elements: Subject Emitters"
+        - "Layer: Simulation"
 
-    # UpdateSubjectEmitters:
+    # UpdateSubjectEmitters():
     put:
+      description: "UpdateSubjectEmitters() operation"
       parameters:
         - $ref: '#/parameters/pSubjectEmitterUpdatesPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subject Emitters
+        - "Elements: Subject Emitters"
+        - "Layer: Simulation"
 
-    # DeleteSubjectsEmitters:
+    # DestroySubjectsEmitters():
     delete:
+      description: "DestroySubjectsEmitters() operation"
       parameters:
         - $ref: '#/parameters/pSubjectEmitterDestructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subject Emitters
+        - "Elements: Subject Emitters"
+        - "Layer: Simulation"
 
   /f/{fieldKey}/s/{subjectKey}/se:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pSubjectKey'
 
-    # ReportEmittersOfSubject:
+    # ReportEmittersOfSubject():
     get:
+      description: "ReportEmittersOfSubject() operation"
       parameters:
         - $ref: '#/parameters/pSubjectEmitterQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2230,25 +2523,45 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subject Emitters
+        - "Elements: Subject Emitters"
+        - "Layer: Simulation"
 
-    # CreateSubjectEmitters:
+    # CreateSubjectEmitters():
     post:
+      description: "CreateSubjectEmitters() operation"
       parameters:
         - $ref: '#/parameters/pSubjectEmitterConstructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subject Emitters
+        - "Elements: Subject Emitters"
+        - "Layer: Simulation"
+
+  /f/{fieldKey}/se/m:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # CallSubjectEmitters():
+    put:
+      description: "CallSubjectEmitters() operation"
+      parameters:
+        - $ref: '#/parameters/pSubjectEmitterCallsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - "Elements: Subject Emitters"
+        - "Layer: Simulation"
 
   # Subject Oscillators:
   /f/{fieldKey}/so:
     parameters:
       - $ref: '#/parameters/pFieldKey'
 
-    # ReportSubjectOscillators:
+    # ReportSubjectOscillators():
     get:
+      description: "ReportSubjectOscillators() operation"
       parameters:
         - $ref: '#/parameters/pSubjectOscillatorQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2256,20 +2569,24 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subject Oscillators
+        - "Elements: Subject Oscillators"
+        - "Layer: Simulation"
 
-    # UpdateSubjectOscillators:
+    # UpdateSubjectOscillators():
     put:
+      description: "UpdateSubjectOscillators() operation"
       parameters:
         - $ref: '#/parameters/pSubjectOscillatorUpdatesPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subject Oscillators
+        - "Elements: Subject Oscillators"
+        - "Layer: Simulation"
 
-    # DeleteSubjectOscillators:
+    # DestroySubjectOscillators():
     delete:
+      description: "DestroySubjectOscillators() operation"
       deprecated: true
       parameters:
         - $ref: '#/parameters/pSubjectOscillatorDestructorsPayload'
@@ -2277,15 +2594,17 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subject Oscillators
+        - "Elements: Subject Oscillators"
+        - "Layer: Simulation"
 
   /f/{fieldKey}/se/{subjectEmitterKey}/so:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pSubjectEmitterKey'
 
-    # ReportOscillatorsOfSubjectEmitter:
+    # ReportOscillatorsOfSubjectEmitter():
     get:
+      description: "ReportOscillatorsOfSubjectEmitter() operation"
       parameters:
         - $ref: '#/parameters/pSubjectOscillatorQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2293,10 +2612,12 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subject Oscillators
+        - "Elements: Subject Oscillators"
+        - "Layer: Simulation"
 
-    # CreateSubjectOscillators:
+    # CreateSubjectOscillators():
     post:
+      description: "CreateSubjectOscillators() operation"
       deprecated: true
       parameters:
         - $ref: '#/parameters/pSubjectOscillatorConstructorsPayload'
@@ -2304,15 +2625,33 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Subject Oscillators
+        - "Elements: Subject Oscillators"
+        - "Layer: Simulation"
+
+  /f/{fieldKey}/so/m:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # CallSubjectOscillators():
+    put:
+      description: "CallSubjectOscillators() operation"
+      parameters:
+        - $ref: '#/parameters/pSubjectOscillatorCallsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - "Elements: Subject Oscillators"
+        - "Layer: Simulation"
 
   # Probes:
   /f/{fieldKey}/p:
     parameters:
       - $ref: '#/parameters/pFieldKey'
 
-    # ReportProbes:
+    # ReportProbes():
     get:
+      description: "ReportProbes() operation"
       parameters:
         - $ref: '#/parameters/pProbeQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2320,45 +2659,53 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probes
+        - "Elements: Probes"
+        - "Layer: Simulation"
 
-    # CreateProbes:
+    # CreateProbes():
     post:
+      description: "CreateProbes() operation"
       parameters:
         - $ref: '#/parameters/pProbeConstructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probes
+        - "Elements: Probes"
+        - "Layer: Simulation"
 
-    # UpdateProbes:
+    # UpdateProbes():
     put:
+      description: "UpdateProbes() operation"
       parameters:
         - $ref: '#/parameters/pProbeUpdatesPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probes
+        - "Elements: Probes"
+        - "Layer: Simulation"
 
-    # DeleteProbes:
+    # DestroyProbes():
     delete:
+      description: "DestroyProbes() operation"
       parameters:
         - $ref: '#/parameters/pProbeDestructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probes
+        - "Elements: Probes"
+        - "Layer: Simulation"
 
   # Probe Emitters:
   /f/{fieldKey}/pe:
     parameters:
       - $ref: '#/parameters/pFieldKey'
 
-    # ReportProbeEmitters:
+    # ReportProbeEmitters():
     get:
+      description: "ReportProbeEmitters() operation"
       parameters:
         - $ref: '#/parameters/pProbeEmitterQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2366,35 +2713,41 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Emitters
+        - "Elements: Probe Emitters"
+        - "Layer: Simulation"
 
-    # UpdateProbeEmitters:
+    # UpdateProbeEmitters():
     put:
+      description: "UpdateProbeEmitters() operation"
       parameters:
         - $ref: '#/parameters/pProbeEmitterUpdatesPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Emitters
+        - "Elements: Probe Emitters"
+        - "Layer: Simulation"
 
-    # DeleteProbesEmitters:
+    # DestroyProbesEmitters():
     delete:
+      description: "DestroyProbesEmitters() operation"
       parameters:
         - $ref: '#/parameters/pProbeEmitterDestructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Emitters
+        - "Elements: Probe Emitters"
+        - "Layer: Simulation"
 
   /f/{fieldKey}/p/{probeKey}/pe:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pProbeKey'
 
-    # ReportEmittersOfProbe:
+    # ReportEmittersOfProbe():
     get:
+      description: "ReportEmittersOfProbe() operation"
       parameters:
         - $ref: '#/parameters/pProbeEmitterQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2402,25 +2755,45 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Emitters
+        - "Elements: Probe Emitters"
+        - "Layer: Simulation"
 
-    # CreateProbeEmitters:
+    # CreateProbeEmitters():
     post:
+      description: "CreateProbeEmitters() operation"
       parameters:
         - $ref: '#/parameters/pProbeEmitterConstructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Emitters
+        - "Elements: Probe Emitters"
+        - "Layer: Simulation"
+
+  /f/{fieldKey}/pe/m:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # CallProbeEmitters():
+    put:
+      description: "CallProbeEmitters() operation"
+      parameters:
+        - $ref: '#/parameters/pProbeEmitterCallsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - "Elements: Probe Emitters"
+        - "Layer: Simulation"
 
   # Probe Oscillators:
   /f/{fieldKey}/po:
     parameters:
       - $ref: '#/parameters/pFieldKey'
 
-    # ReportProbeOscillators:
+    # ReportProbeOscillators():
     get:
+      description: "ReportProbeOscillators() operation"
       parameters:
         - $ref: '#/parameters/pProbeOscillatorQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2428,20 +2801,24 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Oscillators
+        - "Elements: Probe Oscillators"
+        - "Layer: Simulation"
 
-    # UpdateProbeOscillators:
+    # UpdateProbeOscillators():
     put:
+      description: "UpdateProbeOscillators() operation"
       parameters:
         - $ref: '#/parameters/pProbeOscillatorUpdatesPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Oscillators
+        - "Elements: Probe Oscillators"
+        - "Layer: Simulation"
 
-    # DeleteProbeOscillators:
+    # DestroyProbeOscillators():
     delete:
+      description: "DestroyProbeOscillators() operation"
       deprecated: true
       parameters:
         - $ref: '#/parameters/pProbeOscillatorDestructorsPayload'
@@ -2449,15 +2826,17 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Oscillators
+        - "Elements: Probe Oscillators"
+        - "Layer: Simulation"
 
   /f/{fieldKey}/pe/{probeEmitterKey}/po:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pProbeEmitterKey'
 
-    # ReportOscillatorsOfProbeEmitter:
+    # ReportOscillatorsOfProbeEmitter():
     get:
+      description: "ReportOscillatorsOfProbeEmitter() operation"
       parameters:
         - $ref: '#/parameters/pProbeOscillatorQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2465,10 +2844,12 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Oscillators
+        - "Elements: Probe Oscillators"
+        - "Layer: Simulation"
 
-    # CreateProbeOscillators:
+    # CreateProbeOscillators():
     post:
+      description: "CreateProbeOscillators() operation"
       deprecated: true
       parameters:
         - $ref: '#/parameters/pProbeOscillatorConstructorsPayload'
@@ -2476,15 +2857,33 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Oscillators
+        - "Elements: Probe Oscillators"
+        - "Layer: Simulation"
+
+  /f/{fieldKey}/po/m:
+    parameters:
+      - $ref: '#/parameters/pFieldKey'
+
+    # CallProbeOscillators():
+    put:
+      description: "CallProbeOscillators() operation"
+      parameters:
+        - $ref: '#/parameters/pProbeOscillatorCallsPayload'
+      responses:
+        200:
+          $ref: '#/responses/rSuccess'
+      tags:
+        - "Elements: Probe Oscillators"
+        - "Layer: Simulation"
 
   # Probe Collectors:
   /f/{fieldKey}/pc:
     parameters:
       - $ref: '#/parameters/pFieldKey'
 
-    # ReportProbeCollectors:
+    # ReportProbeCollectors():
     get:
+      description: "ReportProbeCollectors() operation"
       parameters:
         - $ref: '#/parameters/pProbeCollectorQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2492,35 +2891,41 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Collectors
+        - "Elements: Probe Collectors"
+        - "Layer: Simulation"
 
-    # UpdateProbeCollectors:
+    # UpdateProbeCollectors():
     put:
+      description: "UpdateProbeCollectors() operation"
       parameters:
         - $ref: '#/parameters/pProbeCollectorUpdatesPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Collectors
+        - "Elements: Probe Collectors"
+        - "Layer: Simulation"
 
-    # DeleteProbesCollectors:
+    # DestroyProbesCollectors():
     delete:
+      description: "DestroyProbesCollectors() operation"
       parameters:
         - $ref: '#/parameters/pProbeCollectorDestructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Collectors
+        - "Elements: Probe Collectors"
+        - "Layer: Simulation"
 
   /f/{fieldKey}/p/{probeKey}/pc:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pProbeKey'
 
-    # ReportCollectorsOfProbe:
+    # ReportCollectorsOfProbe():
     get:
+      description: "ReportCollectorsOfProbe() operation"
       parameters:
         - $ref: '#/parameters/pProbeCollectorQueryKey'
         - $ref: '#/parameters/pCommonQuerySections'
@@ -2528,30 +2933,35 @@ paths:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Collectors
+        - "Elements: Probe Collectors"
+        - "Layer: Simulation"
 
-    # CreateProbeCollectors:
+    # CreateProbeCollectors():
     post:
+      description: "CreateProbeCollectors() operation"
       parameters:
         - $ref: '#/parameters/pProbeCollectorConstructorsPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Collectors
+        - "Elements: Probe Collectors"
+        - "Layer: Simulation"
 
   /f/{fieldKey}/pca/{probeCollectorAlias}:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pProbeCollectorAlias'
 
-    # LookupProbeCollector:
+    # LookupProbeCollector():
     get:
+      description: "LookupProbeCollector() operation"
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Probe Collectors
+        - "Elements: Probe Collectors"
+        - "Layer: Simulation"
 
   # Waveforms:
   /f/{fieldKey}/pc/{probeCollectorKey}/w:
@@ -2559,162 +2969,188 @@ paths:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pProbeCollectorKey'
 
-    # ReportWaveformsAtProbeCollector:
+    # ReportWaveformsAtProbeCollector():
     get:
+      description: "ReportWaveformsAtProbeCollector() operation"
       responses:
         200:
-          description: Success
+          $ref: '#/responses/rSuccess'
       tags:
-        - Waveforms
+        - "Elements: Waveforms"
+        - "Layer: Simulation"
 
   /f/{fieldKey}/w:
     parameters:
       - $ref: '#/parameters/pFieldKey'
 
-    # ReportWaveformsAtSampler:
+    # ReportWaveformsAtSampler():
     get:
+      description: "ReportWaveformsAtSampler() operation"
       responses:
         200:
-          description: Success
+          $ref: '#/responses/rSuccess'
       tags:
-        - Waveforms
+        - "Elements: Waveforms"
+        - "Layer: Simulation"
 
   # Emitter Patches:
   /f/{fieldKey}/smpe:
     parameters:
       - $ref: '#/parameters/pFieldKey'
 
-    # Report Emitter Patches:
+    # ReportEmitterPatches():
     get:
+      description: "ReportEmitterPatches() operation"
       responses:
         200:
-          description: Success
+          $ref: '#/responses/rSuccess'
       tags:
-        - Emitter Patches
+        - "Elements: Emitter Patches"
+        - "Layer: Modulation"
 
-    # Update Emitter Patches:
+    # UpdateEmitterPatches():
     put:
+      description: "UpdateEmitterPatches() operation"
       parameters:
         - $ref: '#/parameters/pEmitterPatchUpdatesPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Emitter Patches
+        - "Elements: Emitter Patches"
+        - "Layer: Modulation"
 
   /f/{fieldKey}/fe/{fieldEmitterKey}/smpe:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pFieldEmitterKey'
 
-    # Report Patch Of Field Emitter:
+    # ReportPatchOfFieldEmitter():
     get:
+      description: "ReportPatchOfFieldEmitter() operation"
       responses:
         200:
-          description: Success
+          $ref: '#/responses/rSuccess'
       tags:
-        - Emitter Patches
+        - "Elements: Emitter Patches"
+        - "Layer: Modulation"
 
   /f/{fieldKey}/se/{subjectEmitterKey}/smpe:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pSubjectEmitterKey'
 
-    # Report Patch Of Subject Emitter:
+    # ReportPatchOfSubjectEmitter():
     get:
+      description: "ReportPatchOfSubjectEmitter() operation"
       responses:
         200:
-          description: Success
+          $ref: '#/responses/rSuccess'
       tags:
-        - Emitter Patches
+        - "Elements: Emitter Patches"
+        - "Layer: Modulation"
 
   /f/{fieldKey}/pe/{probeEmitterKey}/smpe:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pProbeEmitterKey'
 
-    # Report Patch Of Probe Emitter:
+    # ReportPatchOfProbeEmitter():
     get:
+      description: "ReportPatchOfProbeEmitter() operation"
       responses:
         200:
-          description: Success
+          $ref: '#/responses/rSuccess'
       tags:
-        - Emitter Patches
+        - "Elements: Emitter Patches"
+        - "Layer: Modulation"
 
   # Oscillator Patches:
   /f/{fieldKey}/smpo:
     parameters:
       - $ref: '#/parameters/pFieldKey'
 
-    # Report Oscillator Patches:
+    # ReportOscillatorPatches():
     get:
+      description: "ReportOscillatorPatches() operation"
       responses:
         200:
-          description: Success
+          $ref: '#/responses/rSuccess'
       tags:
-        - Oscillator Patches
+        - "Elements: Oscillator Patches"
+        - "Layer: Modulation"
 
-    # Update Oscillator Patches:
+    # UpdateOscillatorPatches():
     put:
+      description: "UpdateOscillatorPatches() operation"
       parameters:
         - $ref: '#/parameters/pOscillatorPatchUpdatesPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Oscillator Patches
+        - "Elements: Oscillator Patches"
+        - "Layer: Modulation"
 
   /f/{fieldKey}/smpe/{emitterPatchKey}/smpo:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pEmitterPatchKey'
 
-    # Report Oscillator Patches Of Emitter Patch:
+    # ReportOscillatorPatchesOfEmitterPatch():
     get:
+      description: "ReportOscillatorPatchesOfEmitterPatch() operation"
       responses:
         200:
-          description: Success
+          $ref: '#/responses/rSuccess'
       tags:
-        - Oscillator Patches
+        - "Elements: Oscillator Patches"
+        - "Layer: Modulation"
 
   /f/{fieldKey}/fo/{fieldOscillatorKey}/smpo:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pFieldOscillatorKey'
 
-    # Report Patch Of Field Oscillator:
+    # ReportPatchOfFieldOscillator():
     get:
+      description: "ReportPatchOfFieldOscillator() operation"
       responses:
         200:
-          description: Success
+          $ref: '#/responses/rSuccess'
       tags:
-        - Oscillator Patches
+        - "Elements: Oscillator Patches"
+        - "Layer: Modulation"
 
   /f/{fieldKey}/so/{subjectOscillatorKey}/smpo:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pSubjectOscillatorKey'
 
-    # Report Patch Of Subject Oscillator:
+    # ReportPatchOfSubjectOscillator():
     get:
+      description: "ReportPatchOfSubjectOscillator() operation"
       responses:
         200:
-          description: Success
+          $ref: '#/responses/rSuccess'
       tags:
-        - Oscillator Patches
+        - "Elements: Oscillator Patches"
+        - "Layer: Modulation"
 
   /f/{fieldKey}/po/{probeOscillatorKey}/smpo:
     parameters:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pProbeOscillatorKey'
-      
-    # Report Patch Of Probe Oscillator:
+
+    # ReportPatchOfProbeOscillator():
     get:
+      description: "ReportPatchOfProbeOscillator() operation"
       responses:
         200:
-          description: Success
+          $ref: '#/responses/rSuccess'
       tags:
-        - Oscillator Patches
+        - "Elements: Oscillator Patches"
+        - "Layer: Modulation"
 
   # Oscillator Patch Envelopes:
   /f/{fieldKey}/smpo/{oscillatorPatchKey}/e:
@@ -2722,20 +3158,24 @@ paths:
       - $ref: '#/parameters/pFieldKey'
       - $ref: '#/parameters/pOscillatorPatchKey'
 
-    # Report Oscillator Patch Envelopes:
+    # ReportOscillatorPatchEnvelopes():
     get:
+      description: "ReportOscillatorPatchEnvelopes() operation"
       responses:
         200:
-          description: Success
+          $ref: '#/responses/rSuccess'
       tags:
-        - Oscillator Patch Envelopes
+        - "Elements: Oscillator Patch Envelopes"
+        - "Layer: Modulation"
 
-    # Report Oscillator Patch Envelopes:
+    # UpdateOscillatorPatchEnvelopes():
     put:
+      description: "UpdateOscillatorPatchEnvelopes() operation"
       parameters:
         - $ref: '#/parameters/pOscillatorPatchEnvelopeUpdatesPayload'
       responses:
         200:
           $ref: '#/responses/rSuccess'
       tags:
-        - Oscillator Patch Envelopes
+        - "Elements: Oscillator Patch Envelopes"
+        - "Layer: Modulation"

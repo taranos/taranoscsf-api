@@ -177,6 +177,102 @@
         "k"
       ]
     },
+    "mMacroArgs": {
+      "title": "Macro Arguments",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "mEmitterMacro": {
+      "title": "Emitter Macro",
+      "type": "object",
+      "properties": {
+        "create_channel": {
+          "$ref": "#/definitions/mMacroArgs"
+        },
+        "destroy_channel": {
+          "$ref": "#/definitions/mMacroArgs"
+        },
+        "set_channel_ceiling": {
+          "$ref": "#/definitions/mMacroArgs"
+        },
+        "set_channel_poles": {
+          "$ref": "#/definitions/mMacroArgs"
+        },
+        "set_channel_floor": {
+          "$ref": "#/definitions/mMacroArgs"
+        }
+      }
+    },
+    "mEmitterCall": {
+      "title": "Emitter Call",
+      "type": "object",
+      "properties": {
+        "k": {
+          "$ref": "#/definitions/mMetaKey"
+        },
+        "m": {
+          "$ref": "#/definitions/mEmitterMacro"
+        }
+      },
+      "required": [
+        "k",
+        "m"
+      ]
+    },
+    "mOscillatorMacro": {
+      "title": "Oscillator Macro",
+      "type": "object",
+      "properties": {
+        "set_loudness_ceiling": {
+          "$ref": "#/definitions/mMacroArgs"
+        },
+        "set_loudness_poles": {
+          "$ref": "#/definitions/mMacroArgs"
+        },
+        "set_loudness_floor": {
+          "$ref": "#/definitions/mMacroArgs"
+        },
+        "set_period_poles": {
+          "$ref": "#/definitions/mMacroArgs"
+        },
+        "set_pitch_ceiling": {
+          "$ref": "#/definitions/mMacroArgs"
+        },
+        "set_pitch_poles": {
+          "$ref": "#/definitions/mMacroArgs"
+        },
+        "set_pitch_floor": {
+          "$ref": "#/definitions/mMacroArgs"
+        },
+        "set_shape_poles": {
+          "$ref": "#/definitions/mMacroArgs"
+        },
+        "set_tone_poles": {
+          "$ref": "#/definitions/mMacroArgs"
+        },
+        "set_waveset_id": {
+          "$ref": "#/definitions/mMacroArgs"
+        }
+      }
+    },
+    "mOscillatorCall": {
+      "title": "Oscillator Call",
+      "type": "object",
+      "properties": {
+        "k": {
+          "$ref": "#/definitions/mMetaKey"
+        },
+        "m": {
+          "$ref": "#/definitions/mOscillatorMacro"
+        }
+      },
+      "required": [
+        "k",
+        "m"
+      ]
+    },
     "mPosition": {
       "title": "Position",
       "type": "array",
@@ -583,6 +679,25 @@
         "dfe"
       ]
     },
+    "mFieldEmitterCallsSet": {
+      "title": "Field Emitter Calls Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mEmitterCall"
+      }
+    },
+    "mFieldEmitterCallsPayload": {
+      "title": "Field Emitter Calls Payload",
+      "type": "object",
+      "properties": {
+        "mfe": {
+          "$ref": "#/definitions/mFieldEmitterCallsSet"
+        }
+      },
+      "required": [
+        "mfe"
+      ]
+    },
     "mFieldOscillatorConstructorAttrs": {
       "title": "Field Oscillator Constructor Attributes",
       "type": "object",
@@ -683,6 +798,25 @@
       },
       "required": [
         "dfo"
+      ]
+    },
+    "mFieldOscillatorCallsSet": {
+      "title": "Field Oscillator Calls Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mOscillatorCall"
+      }
+    },
+    "mFieldOscillatorCallsPayload": {
+      "title": "Field Oscillator Calls Payload",
+      "type": "object",
+      "properties": {
+        "mfo": {
+          "$ref": "#/definitions/mFieldOscillatorCallsSet"
+        }
+      },
+      "required": [
+        "mfo"
       ]
     },
     "mSubjectConstructorAttrs": {
@@ -943,6 +1077,25 @@
         "dse"
       ]
     },
+    "mSubjectEmitterCallsSet": {
+      "title": "Subject Emitter Calls Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mEmitterCall"
+      }
+    },
+    "mSubjectEmitterCallsPayload": {
+      "title": "Subject Emitter Calls Payload",
+      "type": "object",
+      "properties": {
+        "mse": {
+          "$ref": "#/definitions/mSubjectEmitterCallsSet"
+        }
+      },
+      "required": [
+        "mse"
+      ]
+    },
     "mSubjectOscillatorConstructorAttrs": {
       "title": "Subject Oscillator Constructor Attributes",
       "type": "object",
@@ -1043,6 +1196,25 @@
       },
       "required": [
         "dso"
+      ]
+    },
+    "mSubjectOscillatorCallsSet": {
+      "title": "Subject Oscillator Calls Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mOscillatorCall"
+      }
+    },
+    "mSubjectOscillatorCallsPayload": {
+      "title": "Subject Oscillator Calls Payload",
+      "type": "object",
+      "properties": {
+        "mso": {
+          "$ref": "#/definitions/mSubjectOscillatorCallsSet"
+        }
+      },
+      "required": [
+        "mso"
       ]
     },
     "mProbeConstructorAttrs": {
@@ -1320,6 +1492,25 @@
         "dpe"
       ]
     },
+    "mProbeEmitterCallsSet": {
+      "title": "Probe Emitter Calls Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mEmitterCall"
+      }
+    },
+    "mProbeEmitterCallsPayload": {
+      "title": "Probe Emitter Calls Payload",
+      "type": "object",
+      "properties": {
+        "mpe": {
+          "$ref": "#/definitions/mProbeEmitterCallsSet"
+        }
+      },
+      "required": [
+        "mpe"
+      ]
+    },
     "mProbeOscillatorConstructorAttrs": {
       "title": "Probe Oscillator Constructor Attributes",
       "type": "object",
@@ -1420,6 +1611,25 @@
       },
       "required": [
         "dpo"
+      ]
+    },
+    "mProbeOscillatorCallsSet": {
+      "title": "Probe Oscillator Calls Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mOscillatorCall"
+      }
+    },
+    "mProbeOscillatorCallsPayload": {
+      "title": "Probe Oscillator Calls Payload",
+      "type": "object",
+      "properties": {
+        "mso": {
+          "$ref": "#/definitions/mProbeOscillatorCallsSet"
+        }
+      },
+      "required": [
+        "mso"
       ]
     },
     "mProbeCollectorConstructorAttrs": {
@@ -1790,6 +2000,15 @@
         "$ref": "#/definitions/mFieldEmitterDestructorsPayload"
       }
     },
+    "pFieldEmitterCallsPayload": {
+      "name": "fieldEmitterCallsPayload",
+      "in": "body",
+      "description": "Field emitter calls payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mFieldEmitterCallsPayload"
+      }
+    },
     "pFieldOscillatorKey": {
       "name": "fieldOscillatorKey",
       "in": "path",
@@ -1833,6 +2052,15 @@
       "required": true,
       "schema": {
         "$ref": "#/definitions/mFieldOscillatorDestructorsPayload"
+      }
+    },
+    "pFieldOscillatorCallsPayload": {
+      "name": "fieldOscillatorCallsPayload",
+      "in": "body",
+      "description": "Field oscillator calls payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mFieldOscillatorCallsPayload"
       }
     },
     "pSubjectKey": {
@@ -1925,6 +2153,15 @@
         "$ref": "#/definitions/mSubjectEmitterDestructorsPayload"
       }
     },
+    "pSubjectEmitterCallsPayload": {
+      "name": "fieldSubjectCallsPayload",
+      "in": "body",
+      "description": "Subject emitter calls payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSubjectEmitterCallsPayload"
+      }
+    },
     "pSubjectOscillatorKey": {
       "name": "subjectOscillatorKey",
       "in": "path",
@@ -1968,6 +2205,15 @@
       "required": true,
       "schema": {
         "$ref": "#/definitions/mSubjectOscillatorDestructorsPayload"
+      }
+    },
+    "pSubjectOscillatorCallsPayload": {
+      "name": "subjectOscillatorCallsPayload",
+      "in": "body",
+      "description": "Subject oscillator calls payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSubjectOscillatorCallsPayload"
       }
     },
     "pProbeKey": {
@@ -2060,6 +2306,15 @@
         "$ref": "#/definitions/mProbeEmitterDestructorsPayload"
       }
     },
+    "pProbeEmitterCallsPayload": {
+      "name": "probeSubjectCallsPayload",
+      "in": "body",
+      "description": "Probe emitter calls payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mProbeEmitterCallsPayload"
+      }
+    },
     "pProbeOscillatorKey": {
       "name": "probeOscillatorKey",
       "in": "path",
@@ -2103,6 +2358,15 @@
       "required": true,
       "schema": {
         "$ref": "#/definitions/mProbeOscillatorDestructorsPayload"
+      }
+    },
+    "pProbeOscillatorCallsPayload": {
+      "name": "probeOscillatorCallsPayload",
+      "in": "body",
+      "description": "Probe oscillator calls payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mProbeOscillatorCallsPayload"
       }
     },
     "pProbeCollectorKey": {
@@ -2232,6 +2496,7 @@
   "paths": {
     "/f": {
       "get": {
+        "description": "ReportFields() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pFieldQueryKey"
@@ -2246,10 +2511,12 @@
           }
         },
         "tags": [
-          "Fields"
+          "Elements: Fields",
+          "Layer: Simulation"
         ]
       },
       "post": {
+        "description": "CreateFields() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pFieldConstructorsPayload"
@@ -2261,10 +2528,12 @@
           }
         },
         "tags": [
-          "Fields"
+          "Elements: Fields",
+          "Layer: Simulation"
         ]
       },
       "put": {
+        "description": "UpdateFields() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pFieldUpdatesPayload"
@@ -2276,10 +2545,12 @@
           }
         },
         "tags": [
-          "Fields"
+          "Elements: Fields",
+          "Layer: Simulation"
         ]
       },
       "delete": {
+        "description": "DestroyFields() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pFieldDestructorsPayload"
@@ -2291,7 +2562,8 @@
           }
         },
         "tags": [
-          "Fields"
+          "Elements: Fields",
+          "Layer: Simulation"
         ]
       }
     },
@@ -2302,6 +2574,7 @@
         }
       ],
       "get": {
+        "description": "ReportFieldEmitters() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pFieldEmitterQueryKey"
@@ -2316,10 +2589,12 @@
           }
         },
         "tags": [
-          "Field Emitters"
+          "Elements: Field Emitters",
+          "Layer: Simulation"
         ]
       },
       "post": {
+        "description": "CreateFieldEmitters() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pFieldEmitterConstructorsPayload"
@@ -2331,10 +2606,12 @@
           }
         },
         "tags": [
-          "Field Emitters"
+          "Elements: Field Emitters",
+          "Layer: Simulation"
         ]
       },
       "put": {
+        "description": "UpdateFieldEmitters() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pFieldEmitterUpdatesPayload"
@@ -2346,10 +2623,12 @@
           }
         },
         "tags": [
-          "Field Emitters"
+          "Elements: Field Emitters",
+          "Layer: Simulation"
         ]
       },
       "delete": {
+        "description": "DestroyFieldEmitters() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pFieldEmitterDestructorsPayload"
@@ -2361,7 +2640,32 @@
           }
         },
         "tags": [
-          "Field Emitters"
+          "Elements: Field Emitters",
+          "Layer: Simulation"
+        ]
+      }
+    },
+    "/f/{fieldKey}/fe/m": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        }
+      ],
+      "put": {
+        "description": "CallFieldEmitters() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pFieldEmitterCallsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Field Emitters",
+          "Layer: Simulation"
         ]
       }
     },
@@ -2372,6 +2676,7 @@
         }
       ],
       "get": {
+        "description": "ReportFieldOscillators() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pFieldOscillatorQueryKey"
@@ -2386,10 +2691,12 @@
           }
         },
         "tags": [
-          "Field Oscillators"
+          "Elements: Field Oscillators",
+          "Layer: Simulation"
         ]
       },
       "put": {
+        "description": "UpdateFieldOscillators() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pFieldOscillatorUpdatesPayload"
@@ -2401,10 +2708,12 @@
           }
         },
         "tags": [
-          "Field Oscillators"
+          "Elements: Field Oscillators",
+          "Layer: Simulation"
         ]
       },
       "delete": {
+        "description": "DestroyFieldOscillators() operation",
         "deprecated": true,
         "parameters": [
           {
@@ -2417,7 +2726,8 @@
           }
         },
         "tags": [
-          "Field Oscillators"
+          "Elements: Field Oscillators",
+          "Layer: Simulation"
         ]
       }
     },
@@ -2431,6 +2741,7 @@
         }
       ],
       "get": {
+        "description": "ReportOscillatorsOfFieldEmitter() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pFieldOscillatorQueryKey"
@@ -2445,10 +2756,12 @@
           }
         },
         "tags": [
-          "Field Oscillators"
+          "Elements: Field Oscillators",
+          "Layer: Simulation"
         ]
       },
       "post": {
+        "description": "CreateFieldOscillators() operation",
         "deprecated": true,
         "parameters": [
           {
@@ -2461,7 +2774,32 @@
           }
         },
         "tags": [
-          "Field Oscillators"
+          "Elements: Field Oscillators",
+          "Layer: Simulation"
+        ]
+      }
+    },
+    "/f/{fieldKey}/fo/m": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        }
+      ],
+      "put": {
+        "description": "CallFieldOscillators() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pFieldOscillatorCallsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Field Oscillators",
+          "Layer: Simulation"
         ]
       }
     },
@@ -2472,6 +2810,7 @@
         }
       ],
       "get": {
+        "description": "ReportSubjects() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pSubjectQueryKey"
@@ -2486,10 +2825,12 @@
           }
         },
         "tags": [
-          "Subjects"
+          "Elements: Subjects",
+          "Layer: Simulation"
         ]
       },
       "post": {
+        "description": "CreateSubjects() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pSubjectConstructorsPayload"
@@ -2501,10 +2842,12 @@
           }
         },
         "tags": [
-          "Subjects"
+          "Elements: Subjects",
+          "Layer: Simulation"
         ]
       },
       "put": {
+        "description": "UpdateSubjects() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pSubjectUpdatesPayload"
@@ -2516,10 +2859,12 @@
           }
         },
         "tags": [
-          "Subjects"
+          "Elements: Subjects",
+          "Layer: Simulation"
         ]
       },
       "delete": {
+        "description": "DestroySubjects() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pSubjectDestructorsPayload"
@@ -2531,7 +2876,8 @@
           }
         },
         "tags": [
-          "Subjects"
+          "Elements: Subjects",
+          "Layer: Simulation"
         ]
       }
     },
@@ -2542,6 +2888,7 @@
         }
       ],
       "get": {
+        "description": "ReportSubjectEmitters() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pSubjectEmitterQueryKey"
@@ -2556,10 +2903,12 @@
           }
         },
         "tags": [
-          "Subject Emitters"
+          "Elements: Subject Emitters",
+          "Layer: Simulation"
         ]
       },
       "put": {
+        "description": "UpdateSubjectEmitters() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pSubjectEmitterUpdatesPayload"
@@ -2571,10 +2920,12 @@
           }
         },
         "tags": [
-          "Subject Emitters"
+          "Elements: Subject Emitters",
+          "Layer: Simulation"
         ]
       },
       "delete": {
+        "description": "DestroySubjectsEmitters() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pSubjectEmitterDestructorsPayload"
@@ -2586,7 +2937,8 @@
           }
         },
         "tags": [
-          "Subject Emitters"
+          "Elements: Subject Emitters",
+          "Layer: Simulation"
         ]
       }
     },
@@ -2600,6 +2952,7 @@
         }
       ],
       "get": {
+        "description": "ReportEmittersOfSubject() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pSubjectEmitterQueryKey"
@@ -2614,10 +2967,12 @@
           }
         },
         "tags": [
-          "Subject Emitters"
+          "Elements: Subject Emitters",
+          "Layer: Simulation"
         ]
       },
       "post": {
+        "description": "CreateSubjectEmitters() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pSubjectEmitterConstructorsPayload"
@@ -2629,7 +2984,32 @@
           }
         },
         "tags": [
-          "Subject Emitters"
+          "Elements: Subject Emitters",
+          "Layer: Simulation"
+        ]
+      }
+    },
+    "/f/{fieldKey}/se/m": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        }
+      ],
+      "put": {
+        "description": "CallSubjectEmitters() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSubjectEmitterCallsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Subject Emitters",
+          "Layer: Simulation"
         ]
       }
     },
@@ -2640,6 +3020,7 @@
         }
       ],
       "get": {
+        "description": "ReportSubjectOscillators() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pSubjectOscillatorQueryKey"
@@ -2654,10 +3035,12 @@
           }
         },
         "tags": [
-          "Subject Oscillators"
+          "Elements: Subject Oscillators",
+          "Layer: Simulation"
         ]
       },
       "put": {
+        "description": "UpdateSubjectOscillators() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pSubjectOscillatorUpdatesPayload"
@@ -2669,10 +3052,12 @@
           }
         },
         "tags": [
-          "Subject Oscillators"
+          "Elements: Subject Oscillators",
+          "Layer: Simulation"
         ]
       },
       "delete": {
+        "description": "DestroySubjectOscillators() operation",
         "deprecated": true,
         "parameters": [
           {
@@ -2685,7 +3070,8 @@
           }
         },
         "tags": [
-          "Subject Oscillators"
+          "Elements: Subject Oscillators",
+          "Layer: Simulation"
         ]
       }
     },
@@ -2699,6 +3085,7 @@
         }
       ],
       "get": {
+        "description": "ReportOscillatorsOfSubjectEmitter() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pSubjectOscillatorQueryKey"
@@ -2713,10 +3100,12 @@
           }
         },
         "tags": [
-          "Subject Oscillators"
+          "Elements: Subject Oscillators",
+          "Layer: Simulation"
         ]
       },
       "post": {
+        "description": "CreateSubjectOscillators() operation",
         "deprecated": true,
         "parameters": [
           {
@@ -2729,7 +3118,32 @@
           }
         },
         "tags": [
-          "Subject Oscillators"
+          "Elements: Subject Oscillators",
+          "Layer: Simulation"
+        ]
+      }
+    },
+    "/f/{fieldKey}/so/m": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        }
+      ],
+      "put": {
+        "description": "CallSubjectOscillators() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSubjectOscillatorCallsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Subject Oscillators",
+          "Layer: Simulation"
         ]
       }
     },
@@ -2740,6 +3154,7 @@
         }
       ],
       "get": {
+        "description": "ReportProbes() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeQueryKey"
@@ -2754,10 +3169,12 @@
           }
         },
         "tags": [
-          "Probes"
+          "Elements: Probes",
+          "Layer: Simulation"
         ]
       },
       "post": {
+        "description": "CreateProbes() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeConstructorsPayload"
@@ -2769,10 +3186,12 @@
           }
         },
         "tags": [
-          "Probes"
+          "Elements: Probes",
+          "Layer: Simulation"
         ]
       },
       "put": {
+        "description": "UpdateProbes() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeUpdatesPayload"
@@ -2784,10 +3203,12 @@
           }
         },
         "tags": [
-          "Probes"
+          "Elements: Probes",
+          "Layer: Simulation"
         ]
       },
       "delete": {
+        "description": "DestroyProbes() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeDestructorsPayload"
@@ -2799,7 +3220,8 @@
           }
         },
         "tags": [
-          "Probes"
+          "Elements: Probes",
+          "Layer: Simulation"
         ]
       }
     },
@@ -2810,6 +3232,7 @@
         }
       ],
       "get": {
+        "description": "ReportProbeEmitters() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeEmitterQueryKey"
@@ -2824,10 +3247,12 @@
           }
         },
         "tags": [
-          "Probe Emitters"
+          "Elements: Probe Emitters",
+          "Layer: Simulation"
         ]
       },
       "put": {
+        "description": "UpdateProbeEmitters() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeEmitterUpdatesPayload"
@@ -2839,10 +3264,12 @@
           }
         },
         "tags": [
-          "Probe Emitters"
+          "Elements: Probe Emitters",
+          "Layer: Simulation"
         ]
       },
       "delete": {
+        "description": "DestroyProbesEmitters() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeEmitterDestructorsPayload"
@@ -2854,7 +3281,8 @@
           }
         },
         "tags": [
-          "Probe Emitters"
+          "Elements: Probe Emitters",
+          "Layer: Simulation"
         ]
       }
     },
@@ -2868,6 +3296,7 @@
         }
       ],
       "get": {
+        "description": "ReportEmittersOfProbe() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeEmitterQueryKey"
@@ -2882,10 +3311,12 @@
           }
         },
         "tags": [
-          "Probe Emitters"
+          "Elements: Probe Emitters",
+          "Layer: Simulation"
         ]
       },
       "post": {
+        "description": "CreateProbeEmitters() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeEmitterConstructorsPayload"
@@ -2897,7 +3328,32 @@
           }
         },
         "tags": [
-          "Probe Emitters"
+          "Elements: Probe Emitters",
+          "Layer: Simulation"
+        ]
+      }
+    },
+    "/f/{fieldKey}/pe/m": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        }
+      ],
+      "put": {
+        "description": "CallProbeEmitters() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pProbeEmitterCallsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Probe Emitters",
+          "Layer: Simulation"
         ]
       }
     },
@@ -2908,6 +3364,7 @@
         }
       ],
       "get": {
+        "description": "ReportProbeOscillators() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeOscillatorQueryKey"
@@ -2922,10 +3379,12 @@
           }
         },
         "tags": [
-          "Probe Oscillators"
+          "Elements: Probe Oscillators",
+          "Layer: Simulation"
         ]
       },
       "put": {
+        "description": "UpdateProbeOscillators() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeOscillatorUpdatesPayload"
@@ -2937,10 +3396,12 @@
           }
         },
         "tags": [
-          "Probe Oscillators"
+          "Elements: Probe Oscillators",
+          "Layer: Simulation"
         ]
       },
       "delete": {
+        "description": "DestroyProbeOscillators() operation",
         "deprecated": true,
         "parameters": [
           {
@@ -2953,7 +3414,8 @@
           }
         },
         "tags": [
-          "Probe Oscillators"
+          "Elements: Probe Oscillators",
+          "Layer: Simulation"
         ]
       }
     },
@@ -2967,6 +3429,7 @@
         }
       ],
       "get": {
+        "description": "ReportOscillatorsOfProbeEmitter() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeOscillatorQueryKey"
@@ -2981,10 +3444,12 @@
           }
         },
         "tags": [
-          "Probe Oscillators"
+          "Elements: Probe Oscillators",
+          "Layer: Simulation"
         ]
       },
       "post": {
+        "description": "CreateProbeOscillators() operation",
         "deprecated": true,
         "parameters": [
           {
@@ -2997,7 +3462,32 @@
           }
         },
         "tags": [
-          "Probe Oscillators"
+          "Elements: Probe Oscillators",
+          "Layer: Simulation"
+        ]
+      }
+    },
+    "/f/{fieldKey}/po/m": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pFieldKey"
+        }
+      ],
+      "put": {
+        "description": "CallProbeOscillators() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pProbeOscillatorCallsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Probe Oscillators",
+          "Layer: Simulation"
         ]
       }
     },
@@ -3008,6 +3498,7 @@
         }
       ],
       "get": {
+        "description": "ReportProbeCollectors() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeCollectorQueryKey"
@@ -3022,10 +3513,12 @@
           }
         },
         "tags": [
-          "Probe Collectors"
+          "Elements: Probe Collectors",
+          "Layer: Simulation"
         ]
       },
       "put": {
+        "description": "UpdateProbeCollectors() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeCollectorUpdatesPayload"
@@ -3037,10 +3530,12 @@
           }
         },
         "tags": [
-          "Probe Collectors"
+          "Elements: Probe Collectors",
+          "Layer: Simulation"
         ]
       },
       "delete": {
+        "description": "DestroyProbesCollectors() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeCollectorDestructorsPayload"
@@ -3052,7 +3547,8 @@
           }
         },
         "tags": [
-          "Probe Collectors"
+          "Elements: Probe Collectors",
+          "Layer: Simulation"
         ]
       }
     },
@@ -3066,6 +3562,7 @@
         }
       ],
       "get": {
+        "description": "ReportCollectorsOfProbe() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeCollectorQueryKey"
@@ -3080,10 +3577,12 @@
           }
         },
         "tags": [
-          "Probe Collectors"
+          "Elements: Probe Collectors",
+          "Layer: Simulation"
         ]
       },
       "post": {
+        "description": "CreateProbeCollectors() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeCollectorConstructorsPayload"
@@ -3095,7 +3594,8 @@
           }
         },
         "tags": [
-          "Probe Collectors"
+          "Elements: Probe Collectors",
+          "Layer: Simulation"
         ]
       }
     },
@@ -3109,13 +3609,15 @@
         }
       ],
       "get": {
+        "description": "LookupProbeCollector() operation",
         "responses": {
           "200": {
             "$ref": "#/responses/rSuccess"
           }
         },
         "tags": [
-          "Probe Collectors"
+          "Elements: Probe Collectors",
+          "Layer: Simulation"
         ]
       }
     },
@@ -3129,13 +3631,15 @@
         }
       ],
       "get": {
+        "description": "ReportWaveformsAtProbeCollector() operation",
         "responses": {
           "200": {
-            "description": "Success"
+            "$ref": "#/responses/rSuccess"
           }
         },
         "tags": [
-          "Waveforms"
+          "Elements: Waveforms",
+          "Layer: Simulation"
         ]
       }
     },
@@ -3146,13 +3650,15 @@
         }
       ],
       "get": {
+        "description": "ReportWaveformsAtSampler() operation",
         "responses": {
           "200": {
-            "description": "Success"
+            "$ref": "#/responses/rSuccess"
           }
         },
         "tags": [
-          "Waveforms"
+          "Elements: Waveforms",
+          "Layer: Simulation"
         ]
       }
     },
@@ -3163,16 +3669,19 @@
         }
       ],
       "get": {
+        "description": "ReportEmitterPatches() operation",
         "responses": {
           "200": {
-            "description": "Success"
+            "$ref": "#/responses/rSuccess"
           }
         },
         "tags": [
-          "Emitter Patches"
+          "Elements: Emitter Patches",
+          "Layer: Modulation"
         ]
       },
       "put": {
+        "description": "UpdateEmitterPatches() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pEmitterPatchUpdatesPayload"
@@ -3184,7 +3693,8 @@
           }
         },
         "tags": [
-          "Emitter Patches"
+          "Elements: Emitter Patches",
+          "Layer: Modulation"
         ]
       }
     },
@@ -3198,13 +3708,15 @@
         }
       ],
       "get": {
+        "description": "ReportPatchOfFieldEmitter() operation",
         "responses": {
           "200": {
-            "description": "Success"
+            "$ref": "#/responses/rSuccess"
           }
         },
         "tags": [
-          "Emitter Patches"
+          "Elements: Emitter Patches",
+          "Layer: Modulation"
         ]
       }
     },
@@ -3218,13 +3730,15 @@
         }
       ],
       "get": {
+        "description": "ReportPatchOfSubjectEmitter() operation",
         "responses": {
           "200": {
-            "description": "Success"
+            "$ref": "#/responses/rSuccess"
           }
         },
         "tags": [
-          "Emitter Patches"
+          "Elements: Emitter Patches",
+          "Layer: Modulation"
         ]
       }
     },
@@ -3238,13 +3752,15 @@
         }
       ],
       "get": {
+        "description": "ReportPatchOfProbeEmitter() operation",
         "responses": {
           "200": {
-            "description": "Success"
+            "$ref": "#/responses/rSuccess"
           }
         },
         "tags": [
-          "Emitter Patches"
+          "Elements: Emitter Patches",
+          "Layer: Modulation"
         ]
       }
     },
@@ -3255,16 +3771,19 @@
         }
       ],
       "get": {
+        "description": "ReportOscillatorPatches() operation",
         "responses": {
           "200": {
-            "description": "Success"
+            "$ref": "#/responses/rSuccess"
           }
         },
         "tags": [
-          "Oscillator Patches"
+          "Elements: Oscillator Patches",
+          "Layer: Modulation"
         ]
       },
       "put": {
+        "description": "UpdateOscillatorPatches() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pOscillatorPatchUpdatesPayload"
@@ -3276,7 +3795,8 @@
           }
         },
         "tags": [
-          "Oscillator Patches"
+          "Elements: Oscillator Patches",
+          "Layer: Modulation"
         ]
       }
     },
@@ -3290,13 +3810,15 @@
         }
       ],
       "get": {
+        "description": "ReportOscillatorPatchesOfEmitterPatch() operation",
         "responses": {
           "200": {
-            "description": "Success"
+            "$ref": "#/responses/rSuccess"
           }
         },
         "tags": [
-          "Oscillator Patches"
+          "Elements: Oscillator Patches",
+          "Layer: Modulation"
         ]
       }
     },
@@ -3310,13 +3832,15 @@
         }
       ],
       "get": {
+        "description": "ReportPatchOfFieldOscillator() operation",
         "responses": {
           "200": {
-            "description": "Success"
+            "$ref": "#/responses/rSuccess"
           }
         },
         "tags": [
-          "Oscillator Patches"
+          "Elements: Oscillator Patches",
+          "Layer: Modulation"
         ]
       }
     },
@@ -3330,13 +3854,15 @@
         }
       ],
       "get": {
+        "description": "ReportPatchOfSubjectOscillator() operation",
         "responses": {
           "200": {
-            "description": "Success"
+            "$ref": "#/responses/rSuccess"
           }
         },
         "tags": [
-          "Oscillator Patches"
+          "Elements: Oscillator Patches",
+          "Layer: Modulation"
         ]
       }
     },
@@ -3350,13 +3876,15 @@
         }
       ],
       "get": {
+        "description": "ReportPatchOfProbeOscillator() operation",
         "responses": {
           "200": {
-            "description": "Success"
+            "$ref": "#/responses/rSuccess"
           }
         },
         "tags": [
-          "Oscillator Patches"
+          "Elements: Oscillator Patches",
+          "Layer: Modulation"
         ]
       }
     },
@@ -3370,16 +3898,19 @@
         }
       ],
       "get": {
+        "description": "ReportOscillatorPatchEnvelopes() operation",
         "responses": {
           "200": {
-            "description": "Success"
+            "$ref": "#/responses/rSuccess"
           }
         },
         "tags": [
-          "Oscillator Patch Envelopes"
+          "Elements: Oscillator Patch Envelopes",
+          "Layer: Modulation"
         ]
       },
       "put": {
+        "description": "UpdateOscillatorPatchEnvelopes() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pOscillatorPatchEnvelopeUpdatesPayload"
@@ -3391,7 +3922,8 @@
           }
         },
         "tags": [
-          "Oscillator Patch Envelopes"
+          "Elements: Oscillator Patch Envelopes",
+          "Layer: Modulation"
         ]
       }
     }
