@@ -1,0 +1,2668 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Taranos Signaling Protocol",
+    "description": "Taranos Cloud Sonification Framework API for signal providers.",
+    "contact": {
+      "name": "dhinson@netrogenblue.com"
+    },
+    "license": {
+      "name": "Non-proprietary."
+    },
+    "version": "0.5.0"
+  },
+  "host": "localhost:9000",
+  "basePath": "/tsp",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json",
+    "application/x-www-form-urlencoded"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "definitions": {
+    "mServiceResult": {
+      "title": "Service Result",
+      "type": "object",
+      "properties": {
+        "k": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "s": {
+          "title": "Status",
+          "type": "integer",
+          "format": "int32"
+        },
+        "r": {
+          "title": "Result Code",
+          "type": "integer"
+        },
+        "e": {
+          "title": "Error Descriptor",
+          "type": "string"
+        }
+      },
+      "required": [
+        "k",
+        "s",
+        "r",
+        "e"
+      ]
+    },
+    "mMetaKey": {
+      "title": "Key",
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 50
+    },
+    "mMetaTag": {
+      "title": "Tag",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "mMetaBadge": {
+      "title": "Badge",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "mMetaName": {
+      "title": "Name",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "mMetaDescription": {
+      "title": "Description",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "mMetaAlias": {
+      "title": "Alias",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "mMetaSignalMode": {
+      "title": "Signal Mode",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1,
+      "enum": [
+        "c",
+        "d"
+      ]
+    },
+    "mPart": {
+      "title": "Signal Part",
+      "type": "string"
+    },
+    "mCommonConstructorMetas": {
+      "title": "Common Constructor Metas",
+      "type": "object",
+      "properties": {
+        "b": {
+          "$ref": "#/definitions/mMetaBadge"
+        },
+        "d": {
+          "$ref": "#/definitions/mMetaDescription"
+        },
+        "n": {
+          "$ref": "#/definitions/mMetaName"
+        },
+        "t": {
+          "$ref": "#/definitions/mMetaTag"
+        }
+      },
+      "required": [
+        "t"
+      ]
+    },
+    "mCommonConstructorMetasAliasableBiasable": {
+      "title": "Common Constructor Metas Aliasable/Biasable",
+      "type": "object",
+      "properties": {
+        "a": {
+          "$ref": "#/definitions/mMetaAlias"
+        },
+        "b": {
+          "$ref": "#/definitions/mMetaBadge"
+        },
+        "d": {
+          "$ref": "#/definitions/mMetaDescription"
+        },
+        "m": {
+          "$ref": "#/definitions/mMetaSignalMode"
+        },
+        "n": {
+          "$ref": "#/definitions/mMetaName"
+        },
+        "t": {
+          "$ref": "#/definitions/mMetaTag"
+        }
+      },
+      "required": [
+        "t"
+      ]
+    },
+    "mCommonConstructorMetasBiasable": {
+      "title": "Common Constructor Metas Biasable",
+      "type": "object",
+      "properties": {
+        "b": {
+          "$ref": "#/definitions/mMetaBadge"
+        },
+        "d": {
+          "$ref": "#/definitions/mMetaDescription"
+        },
+        "m": {
+          "$ref": "#/definitions/mMetaSignalMode"
+        },
+        "n": {
+          "$ref": "#/definitions/mMetaName"
+        },
+        "t": {
+          "$ref": "#/definitions/mMetaTag"
+        }
+      },
+      "required": [
+        "t"
+      ]
+    },
+    "mCommonUpdateMetas": {
+      "title": "Common Update Metas",
+      "type": "object",
+      "properties": {
+        "k": {
+          "$ref": "#/definitions/mMetaKey"
+        },
+        "n": {
+          "$ref": "#/definitions/mMetaName"
+        },
+        "d": {
+          "$ref": "#/definitions/mMetaDescription"
+        }
+      },
+      "required": [
+        "k"
+      ]
+    },
+    "mCommonUpdateMetasAliasable": {
+      "title": "Common Update Metas Aliasable",
+      "type": "object",
+      "properties": {
+        "k": {
+          "$ref": "#/definitions/mMetaKey"
+        },
+        "a": {
+          "$ref": "#/definitions/mMetaAlias"
+        },
+        "n": {
+          "$ref": "#/definitions/mMetaName"
+        },
+        "d": {
+          "$ref": "#/definitions/mMetaDescription"
+        }
+      },
+      "required": [
+        "k"
+      ]
+    },
+    "mCommonUpdateMetasBiasable": {
+      "title": "Common Update Metas Biasable",
+      "type": "object",
+      "properties": {
+        "k": {
+          "$ref": "#/definitions/mMetaKey"
+        },
+        "m": {
+          "$ref": "#/definitions/mMetaSignalMode"
+        },
+        "n": {
+          "$ref": "#/definitions/mMetaName"
+        },
+        "d": {
+          "$ref": "#/definitions/mMetaDescription"
+        }
+      },
+      "required": [
+        "k"
+      ]
+    },
+    "mCommonDestructorMetas": {
+      "title": "Common Destructor Metas",
+      "type": "object",
+      "properties": {
+        "k": {
+          "$ref": "#/definitions/mMetaKey"
+        }
+      },
+      "required": [
+        "k"
+      ]
+    },
+    "mSignal": {
+      "title": "Signal",
+      "type": "string"
+    },
+    "mTrunkConstructor": {
+      "title": "Trunk Constructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonConstructorMetas"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mTrunkConstructorsSet": {
+      "title": "Trunk Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mTrunkConstructor"
+      }
+    },
+    "mTrunkConstructorsPayload": {
+      "title": "Trunk Constructors Payload",
+      "type": "object",
+      "properties": {
+        "ct": {
+          "$ref": "#/definitions/mTrunkConstructorsSet"
+        }
+      },
+      "required": [
+        "ct"
+      ]
+    },
+    "mTrunkUpdate": {
+      "title": "Trunk Update",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonUpdateMetas"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mTrunkUpdatesSet": {
+      "title": "Trunk Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mTrunkUpdate"
+      }
+    },
+    "mTrunkUpdatesPayload": {
+      "title": "Trunk Updates Payload",
+      "type": "object",
+      "properties": {
+        "ut": {
+          "$ref": "#/definitions/mTrunkUpdatesSet"
+        }
+      },
+      "required": [
+        "ut"
+      ]
+    },
+    "mTrunkDestructor": {
+      "title": "Trunk Destructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonDestructorMetas"
+        }
+      }
+    },
+    "mTrunkDestructorsSet": {
+      "title": "Trunk Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mTrunkDestructor"
+      }
+    },
+    "mTrunkDestructorsPayload": {
+      "title": "Trunk Destructors Payload",
+      "type": "object",
+      "properties": {
+        "dt": {
+          "$ref": "#/definitions/mTrunkDestructorsSet"
+        }
+      },
+      "required": [
+        "dt"
+      ]
+    },
+    "mSignalInputConstructorRefs": {
+      "title": "Signal Input Constructor References",
+      "type": "object",
+      "properties": {
+        "st": {
+          "$ref": "#/definitions/mMetaKey"
+        }
+      }
+    },
+    "mSignalInputConstructor": {
+      "title": "Signal Input Constructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonConstructorMetasBiasable"
+        },
+        "r": {
+          "$ref": "#/definitions/mSignalInputConstructorRefs"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalInputConstructorsSet": {
+      "title": "Signal Input Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalInputConstructor"
+      }
+    },
+    "mSignalInputConstructorsPayload": {
+      "title": "Signal Input Constructors Payload",
+      "type": "object",
+      "properties": {
+        "csmi": {
+          "$ref": "#/definitions/mSignalInputConstructorsSet"
+        }
+      },
+      "required": [
+        "csmi"
+      ]
+    },
+    "mSignalInputUpdateStates": {
+      "title": "Signal Input Update States",
+      "type": "object",
+      "properties": {
+        "s": {
+          "$ref": "#/definitions/mSignal"
+        }
+      }
+    },
+    "mSignalInputUpdate": {
+      "title": "Signal Input Update",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonUpdateMetas"
+        },
+        "s": {
+          "$ref": "#/definitions/mSignalInputUpdateStates"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalInputUpdatesSet": {
+      "title": "Signal Input Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalInputUpdate"
+      }
+    },
+    "mSignalInputUpdatesPayload": {
+      "title": "Signal Input Updates Payload",
+      "type": "object",
+      "properties": {
+        "usmi": {
+          "$ref": "#/definitions/mSignalInputUpdatesSet"
+        }
+      },
+      "required": [
+        "usmi"
+      ]
+    },
+    "mSignalInputDestructor": {
+      "title": "Signal Input Destructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonDestructorMetas"
+        }
+      }
+    },
+    "mSignalInputDestructorsSet": {
+      "title": "Signal Input Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalInputDestructor"
+      }
+    },
+    "mSignalInputDestructorsPayload": {
+      "title": "Signal Input Destructors Payload",
+      "type": "object",
+      "properties": {
+        "dsmi": {
+          "$ref": "#/definitions/mSignalInputDestructorsSet"
+        }
+      },
+      "required": [
+        "dsmi"
+      ]
+    },
+    "mSignalBridgeConstructorAttrs": {
+      "title": "Signal Bridge Constructor Attributes",
+      "type": "object",
+      "properties": {
+        "p": {
+          "$ref": "#/definitions/mPart"
+        }
+      }
+    },
+    "mSignalBridgeConstructorRefs": {
+      "title": "Signal Bridge Constructor References",
+      "type": "object",
+      "properties": {
+        "sm": {
+          "$ref": "#/definitions/mMetaKey"
+        },
+        "st": {
+          "$ref": "#/definitions/mMetaKey"
+        }
+      },
+      "required": [
+        "sm"
+      ]
+    },
+    "mSignalBridgeConstructor": {
+      "title": "Signal Bridge Constructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonConstructorMetasBiasable"
+        },
+        "a": {
+          "$ref": "#/definitions/mSignalBridgeConstructorAttrs"
+        },
+        "r": {
+          "$ref": "#/definitions/mSignalBridgeConstructorRefs"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalBridgeConstructorsSet": {
+      "title": "Signal Bridge Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalBridgeConstructor"
+      }
+    },
+    "mSignalBridgeConstructorsPayload": {
+      "title": "Signal Bridge Constructors Payload",
+      "type": "object",
+      "properties": {
+        "csmb": {
+          "$ref": "#/definitions/mSignalBridgeConstructorsSet"
+        }
+      },
+      "required": [
+        "csmb"
+      ]
+    },
+    "mSignalBridgeUpdateStates": {
+      "title": "Signal Bridge Update States",
+      "type": "object",
+      "properties": {
+        "s": {
+          "$ref": "#/definitions/mSignal"
+        }
+      }
+    },
+    "mSignalBridgeUpdate": {
+      "title": "Signal Bridge Update",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonUpdateMetas"
+        },
+        "s": {
+          "$ref": "#/definitions/mSignalBridgeUpdateStates"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalBridgeUpdatesSet": {
+      "title": "Signal Bridge Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalBridgeUpdate"
+      }
+    },
+    "mSignalBridgeUpdatesPayload": {
+      "title": "Signal Bridge Updates Payload",
+      "type": "object",
+      "properties": {
+        "usmb": {
+          "$ref": "#/definitions/mSignalBridgeUpdatesSet"
+        }
+      },
+      "required": [
+        "usmb"
+      ]
+    },
+    "mSignalBridgeDestructor": {
+      "title": "Signal Bridge Destructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonDestructorMetas"
+        }
+      }
+    },
+    "mSignalBridgeDestructorsSet": {
+      "title": "Signal Bridge Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalBridgeDestructor"
+      }
+    },
+    "mSignalBridgeDestructorsPayload": {
+      "title": "Signal Bridge Destructors Payload",
+      "type": "object",
+      "properties": {
+        "dsmb": {
+          "$ref": "#/definitions/mSignalBridgeDestructorsSet"
+        }
+      },
+      "required": [
+        "dsmb"
+      ]
+    },
+    "mSignalOutputConstructorAttrs": {
+      "title": "Signal Output Constructor Attributes",
+      "type": "object",
+      "properties": {
+        "p": {
+          "$ref": "#/definitions/mPart"
+        }
+      }
+    },
+    "mSignalOutputConstructorRefs": {
+      "title": "Signal Output Constructor References",
+      "type": "object",
+      "properties": {
+        "sm": {
+          "$ref": "#/definitions/mMetaKey"
+        },
+        "st": {
+          "$ref": "#/definitions/mMetaKey"
+        }
+      },
+      "required": [
+        "sm"
+      ]
+    },
+    "mSignalOutputConstructor": {
+      "title": "Signal Output Constructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonConstructorMetasBiasable"
+        },
+        "a": {
+          "$ref": "#/definitions/mSignalOutputConstructorAttrs"
+        },
+        "r": {
+          "$ref": "#/definitions/mSignalOutputConstructorRefs"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalOutputConstructorsSet": {
+      "title": "Signal Output Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalOutputConstructor"
+      }
+    },
+    "mSignalOutputConstructorsPayload": {
+      "title": "Signal Output Constructors Payload",
+      "type": "object",
+      "properties": {
+        "csmo": {
+          "$ref": "#/definitions/mSignalOutputConstructorsSet"
+        }
+      },
+      "required": [
+        "csmo"
+      ]
+    },
+    "mSignalOutputUpdateStates": {
+      "title": "Signal Output Update States",
+      "type": "object",
+      "properties": {
+        "s": {
+          "$ref": "#/definitions/mSignal"
+        }
+      }
+    },
+    "mSignalOutputUpdate": {
+      "title": "Signal Output Update",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonUpdateMetas"
+        },
+        "s": {
+          "$ref": "#/definitions/mSignalOutputUpdateStates"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalOutputUpdatesSet": {
+      "title": "Signal Output Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalOutputUpdate"
+      }
+    },
+    "mSignalOutputUpdatesPayload": {
+      "title": "Signal Output Updates Payload",
+      "type": "object",
+      "properties": {
+        "usmo": {
+          "$ref": "#/definitions/mSignalOutputUpdatesSet"
+        }
+      },
+      "required": [
+        "usmo"
+      ]
+    },
+    "mSignalOutputDestructor": {
+      "title": "Signal Output Destructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonDestructorMetas"
+        }
+      }
+    },
+    "mSignalOutputDestructorsSet": {
+      "title": "Signal Output Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalOutputDestructor"
+      }
+    },
+    "mSignalOutputDestructorsPayload": {
+      "title": "Signal Output Destructors Payload",
+      "type": "object",
+      "properties": {
+        "dsmo": {
+          "$ref": "#/definitions/mSignalOutputDestructorsSet"
+        }
+      },
+      "required": [
+        "dsmo"
+      ]
+    },
+    "mSignalInterfaceConstructor": {
+      "title": "Signal Interface Constructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonConstructorMetas"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalInterfaceConstructorsSet": {
+      "title": "Signal Interface Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalInterfaceConstructor"
+      }
+    },
+    "mSignalInterfaceConstructorsPayload": {
+      "title": "Signal Interface Constructors Payload",
+      "type": "object",
+      "properties": {
+        "csi": {
+          "$ref": "#/definitions/mSignalInterfaceConstructorsSet"
+        }
+      },
+      "required": [
+        "csi"
+      ]
+    },
+    "mSignalInterfaceUpdate": {
+      "title": "Signal Interface Update",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonUpdateMetas"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalInterfaceUpdatesSet": {
+      "title": "Signal Interface Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalInterfaceUpdate"
+      }
+    },
+    "mSignalInterfaceUpdatesPayload": {
+      "title": "Signal Interface Updates Payload",
+      "type": "object",
+      "properties": {
+        "usi": {
+          "$ref": "#/definitions/mSignalInterfaceUpdatesSet"
+        }
+      },
+      "required": [
+        "usi"
+      ]
+    },
+    "mSignalInterfaceDestructor": {
+      "title": "Signal Interface Destructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonDestructorMetas"
+        }
+      }
+    },
+    "mSignalInterfaceDestructorsSet": {
+      "title": "Signal Interface Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalInterfaceDestructor"
+      }
+    },
+    "mSignalInterfaceDestructorsPayload": {
+      "title": "Signal Interface Destructors Payload",
+      "type": "object",
+      "properties": {
+        "dsi": {
+          "$ref": "#/definitions/mSignalInterfaceDestructorsSet"
+        }
+      },
+      "required": [
+        "dsi"
+      ]
+    },
+    "mSignalPortConstructor": {
+      "title": "Signal Port Constructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonConstructorMetasAliasableBiasable"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalPortConstructorsSet": {
+      "title": "Signal Port Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalPortConstructor"
+      }
+    },
+    "mSignalPortConstructorsPayload": {
+      "title": "Signal Port Constructors Payload",
+      "type": "object",
+      "properties": {
+        "csp": {
+          "$ref": "#/definitions/mSignalPortConstructorsSet"
+        }
+      },
+      "required": [
+        "csp"
+      ]
+    },
+    "mSignalPortUpdateStates": {
+      "title": "Signal Port Update States",
+      "type": "object",
+      "properties": {
+        "s": {
+          "$ref": "#/definitions/mSignal"
+        }
+      }
+    },
+    "mSignalPortUpdate": {
+      "title": "Signal Port Update",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonUpdateMetasAliasable"
+        },
+        "s": {
+          "$ref": "#/definitions/mSignalPortUpdateStates"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalPortUpdatesSet": {
+      "title": "Signal Port Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalPortUpdate"
+      }
+    },
+    "mSignalPortUpdatesPayload": {
+      "title": "Signal Port Updates Payload",
+      "type": "object",
+      "properties": {
+        "usp": {
+          "$ref": "#/definitions/mSignalPortUpdatesSet"
+        }
+      },
+      "required": [
+        "usp"
+      ]
+    },
+    "mSignalPortDestructor": {
+      "title": "Signal Port Destructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonDestructorMetas"
+        }
+      }
+    },
+    "mSignalPortDestructorsSet": {
+      "title": "Signal Port Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalPortDestructor"
+      }
+    },
+    "mSignalPortDestructorsPayload": {
+      "title": "Signal Port Destructors Payload",
+      "type": "object",
+      "properties": {
+        "dsp": {
+          "$ref": "#/definitions/mSignalPortDestructorsSet"
+        }
+      },
+      "required": [
+        "dsp"
+      ]
+    },
+    "mSignalSourceConstructor": {
+      "title": "Signal Source Constructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonConstructorMetas"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalSourceConstructorsSet": {
+      "title": "Signal Source Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalSourceConstructor"
+      }
+    },
+    "mSignalSourceConstructorsPayload": {
+      "title": "Signal Source Constructors Payload",
+      "type": "object",
+      "properties": {
+        "css": {
+          "$ref": "#/definitions/mSignalSourceConstructorsSet"
+        }
+      },
+      "required": [
+        "css"
+      ]
+    },
+    "mSignalSourceUpdateStates": {
+      "title": "Signal Source Update States",
+      "type": "object",
+      "properties": {
+        "s": {
+          "$ref": "#/definitions/mSignal"
+        }
+      }
+    },
+    "mSignalSourceUpdate": {
+      "title": "Signal Source Update",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonUpdateMetas"
+        },
+        "s": {
+          "$ref": "#/definitions/mSignalSourceUpdateStates"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalSourceUpdatesSet": {
+      "title": "Signal Source Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalSourceUpdate"
+      }
+    },
+    "mSignalSourceUpdatesPayload": {
+      "title": "Signal Source Updates Payload",
+      "type": "object",
+      "properties": {
+        "uss": {
+          "$ref": "#/definitions/mSignalSourceUpdatesSet"
+        }
+      },
+      "required": [
+        "uss"
+      ]
+    },
+    "mSignalSourceDestructor": {
+      "title": "Signal Source Destructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonDestructorMetas"
+        }
+      }
+    },
+    "mSignalSourceDestructorsSet": {
+      "title": "Signal Source Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalSourceDestructor"
+      }
+    },
+    "mSignalSourceDestructorsPayload": {
+      "title": "Signal Source Destructors Payload",
+      "type": "object",
+      "properties": {
+        "dss": {
+          "$ref": "#/definitions/mSignalSourceDestructorsSet"
+        }
+      },
+      "required": [
+        "dss"
+      ]
+    },
+    "mSignalSinkConstructor": {
+      "title": "Signal Sink Constructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonConstructorMetasBiasable"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalSinkConstructorsSet": {
+      "title": "Signal Sink Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalSinkConstructor"
+      }
+    },
+    "mSignalSinkConstructorsPayload": {
+      "title": "Signal Sink Constructors Payload",
+      "type": "object",
+      "properties": {
+        "csk": {
+          "$ref": "#/definitions/mSignalSinkConstructorsSet"
+        }
+      },
+      "required": [
+        "csk"
+      ]
+    },
+    "mSignalSinkUpdateStates": {
+      "title": "Signal Sink Update States",
+      "type": "object",
+      "properties": {
+        "s": {
+          "$ref": "#/definitions/mSignal"
+        }
+      }
+    },
+    "mSignalSinkUpdate": {
+      "title": "Signal Sink Update",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonUpdateMetasBiasable"
+        },
+        "s": {
+          "$ref": "#/definitions/mSignalSinkUpdateStates"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalSinkUpdatesSet": {
+      "title": "Signal Sink Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalSinkUpdate"
+      }
+    },
+    "mSignalSinkUpdatesPayload": {
+      "title": "Signal Sink Updates Payload",
+      "type": "object",
+      "properties": {
+        "usk": {
+          "$ref": "#/definitions/mSignalSinkUpdatesSet"
+        }
+      },
+      "required": [
+        "usk"
+      ]
+    },
+    "mSignalSinkDestructor": {
+      "title": "Signal Sink Destructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonDestructorMetas"
+        }
+      }
+    },
+    "mSignalSinkDestructorsSet": {
+      "title": "Signal Sink Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalSinkDestructor"
+      }
+    },
+    "mSignalSinkDestructorsPayload": {
+      "title": "Signal Sink Destructors Payload",
+      "type": "object",
+      "properties": {
+        "dsk": {
+          "$ref": "#/definitions/mSignalSinkDestructorsSet"
+        }
+      },
+      "required": [
+        "dsk"
+      ]
+    },
+    "mSignalLinkConstructorAttrs": {
+      "title": "Signal Link Constructor Attributes",
+      "type": "object",
+      "properties": {
+        "p": {
+          "$ref": "#/definitions/mPart"
+        }
+      }
+    },
+    "mSignalLinkConstructorRefs": {
+      "title": "Signal Link Constructor References",
+      "type": "object",
+      "properties": {
+        "ss": {
+          "$ref": "#/definitions/mMetaKey"
+        },
+        "sk": {
+          "$ref": "#/definitions/mMetaKey"
+        }
+      }
+    },
+    "mSignalLinkConstructor": {
+      "title": "Signal Link Constructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonConstructorMetasBiasable"
+        },
+        "a": {
+          "$ref": "#/definitions/mSignalLinkConstructorAttrs"
+        },
+        "r": {
+          "$ref": "#/definitions/mSignalLinkConstructorRefs"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalLinkConstructorsSet": {
+      "title": "Signal Link Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalLinkConstructor"
+      }
+    },
+    "mSignalLinkConstructorsPayload": {
+      "title": "Signal Link Constructors Payload",
+      "type": "object",
+      "properties": {
+        "csk": {
+          "$ref": "#/definitions/mSignalLinkConstructorsSet"
+        }
+      },
+      "required": [
+        "csk"
+      ]
+    },
+    "mSignalLinkUpdateStates": {
+      "title": "Signal Link Update States",
+      "type": "object",
+      "properties": {
+        "s": {
+          "$ref": "#/definitions/mSignal"
+        }
+      }
+    },
+    "mSignalLinkUpdate": {
+      "title": "Signal Link Update",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonUpdateMetasBiasable"
+        },
+        "s": {
+          "$ref": "#/definitions/mSignalLinkUpdateStates"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalLinkUpdatesSet": {
+      "title": "Signal Link Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalLinkUpdate"
+      }
+    },
+    "mSignalLinkUpdatesPayload": {
+      "title": "Signal Link Updates Payload",
+      "type": "object",
+      "properties": {
+        "usk": {
+          "$ref": "#/definitions/mSignalLinkUpdatesSet"
+        }
+      },
+      "required": [
+        "usk"
+      ]
+    },
+    "mSignalLinkDestructor": {
+      "title": "Signal Link Destructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonDestructorMetas"
+        }
+      }
+    },
+    "mSignalLinkDestructorsSet": {
+      "title": "Signal Link Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalLinkDestructor"
+      }
+    },
+    "mSignalLinkDestructorsPayload": {
+      "title": "Signal Link Destructors Payload",
+      "type": "object",
+      "properties": {
+        "dsk": {
+          "$ref": "#/definitions/mSignalLinkDestructorsSet"
+        }
+      },
+      "required": [
+        "dsk"
+      ]
+    },
+    "mSignalTapConstructorRefs": {
+      "title": "Signal Tap Constructor References",
+      "type": "object",
+      "properties": {
+        "st": {
+          "$ref": "#/definitions/mMetaKey"
+        }
+      },
+      "required": [
+        "sm"
+      ]
+    },
+    "mSignalTapConstructor": {
+      "title": "Signal Tap Constructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonConstructorMetasBiasable"
+        },
+        "r": {
+          "$ref": "#/definitions/mSignalTapConstructorRefs"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalTapConstructorsSet": {
+      "title": "Signal Tap Constructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalTapConstructor"
+      }
+    },
+    "mSignalTapConstructorsPayload": {
+      "title": "Signal Tap Constructors Payload",
+      "type": "object",
+      "properties": {
+        "cst": {
+          "$ref": "#/definitions/mSignalTapConstructorsSet"
+        }
+      },
+      "required": [
+        "cst"
+      ]
+    },
+    "mSignalTapUpdateStates": {
+      "title": "Signal Tap Update States",
+      "type": "object",
+      "properties": {
+        "s": {
+          "$ref": "#/definitions/mSignal"
+        }
+      }
+    },
+    "mSignalTapUpdate": {
+      "title": "Signal Tap Update",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonUpdateMetasBiasable"
+        },
+        "s": {
+          "$ref": "#/definitions/mSignalTapUpdateStates"
+        }
+      },
+      "required": [
+        "m"
+      ]
+    },
+    "mSignalTapUpdatesSet": {
+      "title": "Signal Tap Updates Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalTapUpdate"
+      }
+    },
+    "mSignalTapUpdatesPayload": {
+      "title": "Signal Tap Updates Payload",
+      "type": "object",
+      "properties": {
+        "ust": {
+          "$ref": "#/definitions/mSignalTapUpdatesSet"
+        }
+      },
+      "required": [
+        "ust"
+      ]
+    },
+    "mSignalTapDestructor": {
+      "title": "Signal Tap Destructor",
+      "type": "object",
+      "properties": {
+        "m": {
+          "$ref": "#/definitions/mCommonDestructorMetas"
+        }
+      }
+    },
+    "mSignalTapDestructorsSet": {
+      "title": "Signal Tap Destructors Set",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/mSignalTapDestructor"
+      }
+    },
+    "mSignalTapDestructorsPayload": {
+      "title": "Signal Tap Destructors Payload",
+      "type": "object",
+      "properties": {
+        "dst": {
+          "$ref": "#/definitions/mSignalTapDestructorsSet"
+        }
+      },
+      "required": [
+        "dst"
+      ]
+    }
+  },
+  "parameters": {
+    "pCommonQuerySections": {
+      "name": "s",
+      "in": "query",
+      "description": "Report sections.",
+      "required": false,
+      "type": "string"
+    },
+    "pTrunkKey": {
+      "name": "trunkKey",
+      "in": "path",
+      "description": "Trunk key.",
+      "required": true,
+      "type": "string"
+    },
+    "pTrunkQueryKey": {
+      "name": "k",
+      "in": "query",
+      "description": "Trunk key.",
+      "required": false,
+      "collectionFormat": "multi",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pTrunkConstructorsPayload": {
+      "name": "trunkConstructorsPayload",
+      "in": "body",
+      "description": "Trunk constructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mTrunkConstructorsPayload"
+      }
+    },
+    "pTrunkUpdatesPayload": {
+      "name": "trunkUpdatesPayload",
+      "in": "body",
+      "description": "Trunk updates payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mTrunkUpdatesPayload"
+      }
+    },
+    "pTrunkDestructorsPayload": {
+      "name": "trunkDestructorsPayload",
+      "in": "body",
+      "description": "Trunk destructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mTrunkDestructorsPayload"
+      }
+    },
+    "pSignalInputKey": {
+      "name": "signalInputKey",
+      "in": "path",
+      "description": "Signal input key.",
+      "required": true,
+      "type": "string"
+    },
+    "pSignalInputQueryKey": {
+      "name": "k",
+      "in": "query",
+      "description": "Signal input key.",
+      "required": false,
+      "collectionFormat": "multi",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pSignalInputConstructorsPayload": {
+      "name": "signalInputConstructorsPayload",
+      "in": "body",
+      "description": "Signal input constructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalInputConstructorsPayload"
+      }
+    },
+    "pSignalInputUpdatesPayload": {
+      "name": "signalInputUpdatesPayload",
+      "in": "body",
+      "description": "Signal input updates payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalInputUpdatesPayload"
+      }
+    },
+    "pSignalInputDestructorsPayload": {
+      "name": "signalInputDestructorsPayload",
+      "in": "body",
+      "description": "Signal input destructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalInputDestructorsPayload"
+      }
+    },
+    "pSignalBridgeKey": {
+      "name": "signalBridgeKey",
+      "in": "path",
+      "description": "Signal bridge key.",
+      "required": true,
+      "type": "string"
+    },
+    "pSignalBridgeQueryKey": {
+      "name": "k",
+      "in": "query",
+      "description": "Signal bridge key.",
+      "required": false,
+      "collectionFormat": "multi",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pSignalBridgeConstructorsPayload": {
+      "name": "signalBridgeConstructorsPayload",
+      "in": "body",
+      "description": "Signal bridge constructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalBridgeConstructorsPayload"
+      }
+    },
+    "pSignalBridgeUpdatesPayload": {
+      "name": "signalBridgeUpdatesPayload",
+      "in": "body",
+      "description": "Signal bridge updates payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalBridgeUpdatesPayload"
+      }
+    },
+    "pSignalBridgeDestructorsPayload": {
+      "name": "signalBridgeDestructorsPayload",
+      "in": "body",
+      "description": "Signal bridge destructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalBridgeDestructorsPayload"
+      }
+    },
+    "pSignalOutputKey": {
+      "name": "signalOutputKey",
+      "in": "path",
+      "description": "Signal output key.",
+      "required": true,
+      "type": "string"
+    },
+    "pSignalOutputQueryKey": {
+      "name": "k",
+      "in": "query",
+      "description": "Signal output key.",
+      "required": false,
+      "collectionFormat": "multi",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pSignalOutputConstructorsPayload": {
+      "name": "signalOutputConstructorsPayload",
+      "in": "body",
+      "description": "Signal output constructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalOutputConstructorsPayload"
+      }
+    },
+    "pSignalOutputUpdatesPayload": {
+      "name": "signalOutputUpdatesPayload",
+      "in": "body",
+      "description": "Signal output updates payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalOutputUpdatesPayload"
+      }
+    },
+    "pSignalOutputDestructorsPayload": {
+      "name": "signalOutputDestructorsPayload",
+      "in": "body",
+      "description": "Signal output destructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalOutputDestructorsPayload"
+      }
+    },
+    "pSignalInterfaceKey": {
+      "name": "signalInterfaceKey",
+      "in": "path",
+      "description": "Signal interface key.",
+      "required": true,
+      "type": "string"
+    },
+    "pSignalInterfaceQueryKey": {
+      "name": "k",
+      "in": "query",
+      "description": "Signal interface key.",
+      "required": false,
+      "collectionFormat": "multi",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pSignalInterfaceConstructorsPayload": {
+      "name": "signalInterfaceConstructorsPayload",
+      "in": "body",
+      "description": "Signal interface constructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalInterfaceConstructorsPayload"
+      }
+    },
+    "pSignalInterfaceUpdatesPayload": {
+      "name": "signalInterfaceUpdatesPayload",
+      "in": "body",
+      "description": "Signal interface updates payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalInterfaceUpdatesPayload"
+      }
+    },
+    "pSignalInterfaceDestructorsPayload": {
+      "name": "signalInterfaceDestructorsPayload",
+      "in": "body",
+      "description": "Signal interface destructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalInterfaceDestructorsPayload"
+      }
+    },
+    "pSignalPortKey": {
+      "name": "signalPortKey",
+      "in": "path",
+      "description": "Signal port key.",
+      "required": true,
+      "type": "string"
+    },
+    "pSignalPortQueryKey": {
+      "name": "k",
+      "in": "query",
+      "description": "Signal port key.",
+      "required": false,
+      "collectionFormat": "multi",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pSignalPortAlias": {
+      "name": "signalPortAlias",
+      "in": "path",
+      "description": "Signal port alias.",
+      "required": true,
+      "type": "string"
+    },
+    "pSignalPortConstructorsPayload": {
+      "name": "signalPortConstructorsPayload",
+      "in": "body",
+      "description": "Signal port constructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalPortConstructorsPayload"
+      }
+    },
+    "pSignalPortUpdatesPayload": {
+      "name": "signalPortUpdatesPayload",
+      "in": "body",
+      "description": "Signal port updates payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalPortUpdatesPayload"
+      }
+    },
+    "pSignalPortDestructorsPayload": {
+      "name": "signalPortDestructorsPayload",
+      "in": "body",
+      "description": "Signal port destructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalPortDestructorsPayload"
+      }
+    },
+    "pSignalSourceKey": {
+      "name": "signalSourceKey",
+      "in": "path",
+      "description": "Signal source key.",
+      "required": true,
+      "type": "string"
+    },
+    "pSignalSourceQueryKey": {
+      "name": "k",
+      "in": "query",
+      "description": "Signal source key.",
+      "required": false,
+      "collectionFormat": "multi",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pSignalSourceConstructorsPayload": {
+      "name": "signalSourceConstructorsPayload",
+      "in": "body",
+      "description": "Signal source constructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalSourceConstructorsPayload"
+      }
+    },
+    "pSignalSourceUpdatesPayload": {
+      "name": "signalSourceUpdatesPayload",
+      "in": "body",
+      "description": "Signal source updates payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalSourceUpdatesPayload"
+      }
+    },
+    "pSignalSourceDestructorsPayload": {
+      "name": "signalSourceDestructorsPayload",
+      "in": "body",
+      "description": "Signal source destructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalSourceDestructorsPayload"
+      }
+    },
+    "pSignalSinkKey": {
+      "name": "signalSinkKey",
+      "in": "path",
+      "description": "Signal sink key.",
+      "required": true,
+      "type": "string"
+    },
+    "pSignalSinkQueryKey": {
+      "name": "k",
+      "in": "query",
+      "description": "Signal sink key.",
+      "required": false,
+      "collectionFormat": "multi",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pSignalSinkConstructorsPayload": {
+      "name": "signalSinkConstructorsPayload",
+      "in": "body",
+      "description": "Signal sink constructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalSinkConstructorsPayload"
+      }
+    },
+    "pSignalSinkUpdatesPayload": {
+      "name": "signalSinkUpdatesPayload",
+      "in": "body",
+      "description": "Signal sink updates payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalSinkUpdatesPayload"
+      }
+    },
+    "pSignalSinkDestructorsPayload": {
+      "name": "signalSinkDestructorsPayload",
+      "in": "body",
+      "description": "Signal sink destructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalSinkDestructorsPayload"
+      }
+    },
+    "pSignalLinkKey": {
+      "name": "signalLinkKey",
+      "in": "path",
+      "description": "Signal link key.",
+      "required": true,
+      "type": "string"
+    },
+    "pSignalLinkQueryKey": {
+      "name": "k",
+      "in": "query",
+      "description": "Signal link key.",
+      "required": false,
+      "collectionFormat": "multi",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pSignalLinkConstructorsPayload": {
+      "name": "signalLinkConstructorsPayload",
+      "in": "body",
+      "description": "Signal link constructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalLinkConstructorsPayload"
+      }
+    },
+    "pSignalLinkUpdatesPayload": {
+      "name": "signalLinkUpdatesPayload",
+      "in": "body",
+      "description": "Signal link updates payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalLinkUpdatesPayload"
+      }
+    },
+    "pSignalLinkDestructorsPayload": {
+      "name": "signalLinkDestructorsPayload",
+      "in": "body",
+      "description": "Signal link destructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalLinkDestructorsPayload"
+      }
+    },
+    "pSignalTapKey": {
+      "name": "signalTapKey",
+      "in": "path",
+      "description": "Signal tap key.",
+      "required": true,
+      "type": "string"
+    },
+    "pSignalTapQueryKey": {
+      "name": "k",
+      "in": "query",
+      "description": "Signal tap key.",
+      "required": false,
+      "collectionFormat": "multi",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pSignalTapConstructorsPayload": {
+      "name": "signalTapConstructorsPayload",
+      "in": "body",
+      "description": "Signal tap constructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalTapConstructorsPayload"
+      }
+    },
+    "pSignalTapUpdatesPayload": {
+      "name": "signalTapUpdatesPayload",
+      "in": "body",
+      "description": "Signal tap updates payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalTapUpdatesPayload"
+      }
+    },
+    "pSignalTapDestructorsPayload": {
+      "name": "signalTapDestructorsPayload",
+      "in": "body",
+      "description": "Signal tap destructors payload.",
+      "required": true,
+      "schema": {
+        "$ref": "#/definitions/mSignalTapDestructorsPayload"
+      }
+    }
+  },
+  "responses": {
+    "rSuccess": {
+      "description": "Success",
+      "schema": {
+        "$ref": "#/definitions/mServiceResult"
+      }
+    }
+  },
+  "paths": {
+    "/t": {
+      "get": {
+        "description": "ReportTrunks() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pTrunkQueryKey"
+          },
+          {
+            "$ref": "#/parameters/pCommonQuerySections"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Trunks",
+          "Layer: Propagation"
+        ]
+      },
+      "post": {
+        "description": "CreateTrunks() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pTrunkConstructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Trunks",
+          "Layer: Propagation"
+        ]
+      },
+      "put": {
+        "description": "UpdateTrunks() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pTrunkUpdatesPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Trunks",
+          "Layer: Propagation"
+        ]
+      },
+      "delete": {
+        "description": "DestroyTrunks() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pTrunkDestructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Trunks",
+          "Layer: Propagation"
+        ]
+      }
+    },
+    "/t/{trunkKey}/smi": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pTrunkKey"
+        }
+      ],
+      "get": {
+        "description": "ReportSignalInputs() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalInputQueryKey"
+          },
+          {
+            "$ref": "#/parameters/pCommonQuerySections"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Inputs",
+          "Layer: Modulation"
+        ]
+      },
+      "post": {
+        "description": "CreateSignalInputs() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalInputConstructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Inputs",
+          "Layer: Modulation"
+        ]
+      },
+      "put": {
+        "description": "UpdateSignalInputs() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalInputUpdatesPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Inputs",
+          "Layer: Modulation"
+        ]
+      },
+      "delete": {
+        "description": "DestroySignalInputs() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalInputDestructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Inputs",
+          "Layer: Modulation"
+        ]
+      }
+    },
+    "/t/{trunkKey}/smb": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pTrunkKey"
+        }
+      ],
+      "get": {
+        "description": "ReportSignalBridges() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalBridgeQueryKey"
+          },
+          {
+            "$ref": "#/parameters/pCommonQuerySections"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Bridges",
+          "Layer: Modulation"
+        ]
+      },
+      "post": {
+        "description": "CreateSignalBridges() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalBridgeConstructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Bridges",
+          "Layer: Modulation"
+        ]
+      },
+      "put": {
+        "description": "UpdateSignalBridges() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalBridgeUpdatesPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Bridges",
+          "Layer: Modulation"
+        ]
+      },
+      "delete": {
+        "description": "DestroySignalBridges() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalBridgeDestructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Bridges",
+          "Layer: Modulation"
+        ]
+      }
+    },
+    "/t/{trunkKey}/smo": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pTrunkKey"
+        }
+      ],
+      "get": {
+        "description": "ReportSignalOutputs() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalOutputQueryKey"
+          },
+          {
+            "$ref": "#/parameters/pCommonQuerySections"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Outputs",
+          "Layer: Modulation"
+        ]
+      },
+      "post": {
+        "description": "CreateSignalOutputs() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalOutputConstructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Outputs",
+          "Layer: Modulation"
+        ]
+      },
+      "put": {
+        "description": "UpdateSignalOutputs() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalOutputUpdatesPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Outputs",
+          "Layer: Modulation"
+        ]
+      },
+      "delete": {
+        "description": "DestroySignalOutputs() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalOutputDestructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Outputs",
+          "Layer: Modulation"
+        ]
+      }
+    },
+    "/t/{trunkKey}/si": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pTrunkKey"
+        }
+      ],
+      "get": {
+        "description": "ReportSignalInterfaces() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalInterfaceQueryKey"
+          },
+          {
+            "$ref": "#/parameters/pCommonQuerySections"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Interfaces",
+          "Layer: Propagation"
+        ]
+      },
+      "post": {
+        "description": "CreateSignalInterfaces() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalInterfaceConstructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Interfaces",
+          "Layer: Propagation"
+        ]
+      },
+      "put": {
+        "description": "UpdateSignalInterfaces() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalInterfaceUpdatesPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Interfaces",
+          "Layer: Propagation"
+        ]
+      },
+      "delete": {
+        "description": "DestroySignalInterfaces() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalInterfaceDestructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Interfaces",
+          "Layer: Propagation"
+        ]
+      }
+    },
+    "/t/{trunkKey}/sp": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pTrunkKey"
+        }
+      ],
+      "get": {
+        "description": "ReportSignalPorts() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalPortQueryKey"
+          },
+          {
+            "$ref": "#/parameters/pCommonQuerySections"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Ports",
+          "Layer: Propagation"
+        ]
+      },
+      "put": {
+        "description": "UpdateSignalPorts() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalPortUpdatesPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Ports",
+          "Layer: Propagation"
+        ]
+      },
+      "delete": {
+        "description": "DestroySignalPorts() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalPortDestructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Ports",
+          "Layer: Propagation"
+        ]
+      }
+    },
+    "/t/{trunkKey}/si/{signalInterfaceKey}/sp": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pTrunkKey"
+        },
+        {
+          "$ref": "#/parameters/pSignalInterfaceKey"
+        }
+      ],
+      "get": {
+        "description": "ReportSignalPortsOfInterface() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalPortQueryKey"
+          },
+          {
+            "$ref": "#/parameters/pCommonQuerySections"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Ports",
+          "Layer: Propagation"
+        ]
+      },
+      "post": {
+        "description": "CreateSignalPorts() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalPortConstructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Ports",
+          "Layer: Propagation"
+        ]
+      }
+    },
+    "/t/{trunkKey}/spa/{signalPortAlias}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pTrunkKey"
+        },
+        {
+          "$ref": "#/parameters/pSignalPortAlias"
+        }
+      ],
+      "get": {
+        "description": "LookupSignalPort() operation",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Ports",
+          "Layer: Propagation"
+        ]
+      }
+    },
+    "/t/{trunkKey}/ss": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pTrunkKey"
+        }
+      ],
+      "get": {
+        "description": "ReportSignalSources() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalSourceQueryKey"
+          },
+          {
+            "$ref": "#/parameters/pCommonQuerySections"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Sources",
+          "Layer: Propagation"
+        ]
+      },
+      "post": {
+        "description": "CreateSignalSources() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalSourceConstructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Sources",
+          "Layer: Propagation"
+        ]
+      },
+      "put": {
+        "description": "UpdateSignalSources() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalSourceUpdatesPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Sources",
+          "Layer: Propagation"
+        ]
+      },
+      "delete": {
+        "description": "DestroySignalSources() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalSourceDestructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Sources",
+          "Layer: Propagation"
+        ]
+      }
+    },
+    "/t/{trunkKey}/sk": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pTrunkKey"
+        }
+      ],
+      "get": {
+        "description": "ReportSignalSinks() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalSinkQueryKey"
+          },
+          {
+            "$ref": "#/parameters/pCommonQuerySections"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Sinks",
+          "Layer: Propagation"
+        ]
+      },
+      "post": {
+        "description": "CreateSignalSinks() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalSinkConstructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Sinks",
+          "Layer: Propagation"
+        ]
+      },
+      "put": {
+        "description": "UpdateSignalSinks() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalSinkUpdatesPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Sinks",
+          "Layer: Propagation"
+        ]
+      },
+      "delete": {
+        "description": "DestroySignalSinks() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalSinkDestructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Sinks",
+          "Layer: Propagation"
+        ]
+      }
+    },
+    "/t/{trunkKey}/sl": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pTrunkKey"
+        }
+      ],
+      "get": {
+        "description": "ReportSignalLinks() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalLinkQueryKey"
+          },
+          {
+            "$ref": "#/parameters/pCommonQuerySections"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Links",
+          "Layer: Propagation"
+        ]
+      },
+      "post": {
+        "description": "CreateSignalLinks() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalLinkConstructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Links",
+          "Layer: Propagation"
+        ]
+      },
+      "put": {
+        "description": "UpdateSignalLinks() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalLinkUpdatesPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Links",
+          "Layer: Propagation"
+        ]
+      },
+      "delete": {
+        "description": "DestroySignalLinks() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalLinkDestructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Links",
+          "Layer: Propagation"
+        ]
+      }
+    },
+    "/t/{trunkKey}/st": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/pTrunkKey"
+        }
+      ],
+      "get": {
+        "description": "ReportSignalTaps() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalTapQueryKey"
+          },
+          {
+            "$ref": "#/parameters/pCommonQuerySections"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Taps",
+          "Layer: Propagation"
+        ]
+      },
+      "post": {
+        "description": "CreateSignalTaps() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalTapConstructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Taps",
+          "Layer: Propagation"
+        ]
+      },
+      "put": {
+        "description": "UpdateSignalTaps() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalTapUpdatesPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Taps",
+          "Layer: Propagation"
+        ]
+      },
+      "delete": {
+        "description": "DestroySignalTaps() operation",
+        "parameters": [
+          {
+            "$ref": "#/parameters/pSignalTapDestructorsPayload"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/rSuccess"
+          }
+        },
+        "tags": [
+          "Elements: Signal Taps",
+          "Layer: Propagation"
+        ]
+      }
+    }
+  }
+}

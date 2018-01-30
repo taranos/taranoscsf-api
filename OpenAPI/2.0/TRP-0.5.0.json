@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Taranos Rendering Protocol",
-    "description": "Wavefield rendering API for Taranos Cloud Sonification Framework clients.",
+    "description": "Taranos Cloud Sonification Framework API for clients.",
     "contact": {
       "name": "dhinson@netrogenblue.com"
     },
@@ -3535,7 +3535,7 @@
         ]
       },
       "delete": {
-        "description": "DestroyProbesCollectors() operation",
+        "description": "DestroyProbeCollectors() operation",
         "parameters": [
           {
             "$ref": "#/parameters/pProbeCollectorDestructorsPayload"
