@@ -8,8 +8,6 @@ of [_Taranos:CSF_](https://github.com/taranos/taranoscsf).
 
 - Formal OpenAPI specifications are provided within the project repo.  Additional effort has been made to ensure that
 the source files are compatible with the [Amazon API Gateway](https://console.aws.amazon.com/apigateway) import tool.
-> Currently [January 2018], only the API for the Taranos Rendering Protocol is provided.  The API for the Taranos Signaling
-Protocol is coming soon.
 
 - If you're familiar with Python you may wish to check out the
 [tutorials](https://github.com/taranos/taranoscsf/wiki/PAPI-Tutorials) along with the internals of the
