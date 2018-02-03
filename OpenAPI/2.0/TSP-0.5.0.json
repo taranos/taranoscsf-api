@@ -1253,7 +1253,7 @@
         }
       },
       "required": [
-        "sm"
+        "st"
       ]
     },
     "mSignalTapConstructor": {

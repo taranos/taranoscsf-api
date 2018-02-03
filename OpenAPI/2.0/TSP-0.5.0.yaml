@@ -1085,7 +1085,7 @@ definitions:
       st:
         $ref: '#/definitions/mMetaKey'
     required:
-      - sm
+      - st
 
   mSignalTapConstructor:
     title: Signal Tap Constructor
